@@ -1,17 +1,12 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Linking, Text } from 'react-native'
+import { Button } from 'src/components/Button'
 import { SceneContainer } from 'src/components/sceneContainer'
-import { Routes } from 'src/navigation/routes'
+import { APP_PREFIX, Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-  },
-})
+import { styles } from './styles'
 
 export const Welcome: SceneProps<Routes.Welcome> = ({ navigation }) => {
   useLayoutEffect(() => {
@@ -25,6 +20,12 @@ export const Welcome: SceneProps<Routes.Welcome> = ({ navigation }) => {
   return (
     <SceneContainer style={styles.container}>
       <Text>Welcome to the new React Native project</Text>
+      <Button
+        title={'Open micelio 5'}
+        onPress={() => {
+          Linking.openURL(`${APP_PREFIX}micelio/${5}`)
+        }}
+      />
     </SceneContainer>
   )
 }
