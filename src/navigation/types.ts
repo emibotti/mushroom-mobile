@@ -11,6 +11,8 @@ import { Routes } from './routes'
 export interface ParamList extends ParamListBase {
   [Routes.Micelio]: { id: string }
   [Routes.Home]: undefined
+  [Routes.Ambientes]: undefined
+  [Routes.Ambiente]: { id: string; nombre: string }
 }
 
 export type SceneProps<T extends keyof ParamList> = React.FunctionComponent<

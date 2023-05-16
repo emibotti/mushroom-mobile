@@ -5,6 +5,8 @@ import { ParamList } from './types'
 export enum Routes {
   Home = 'Home',
   Micelio = 'Micelio',
+  Ambientes = 'Ambientes',
+  Ambiente = 'Ambiente',
 }
 
 export const APP_PREFIX = 'mushroom://'
