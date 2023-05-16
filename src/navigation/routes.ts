@@ -3,7 +3,7 @@ import { LinkingOptions } from '@react-navigation/native'
 import { ParamList } from './types'
 
 export enum Routes {
-  Welcome = 'Welcome',
+  Home = 'Home',
   Micelio = 'Micelio',
 }
 
@@ -15,10 +15,8 @@ export enum NavigationRoutes {
 
 export const linking: LinkingOptions<ParamList> = {
   config: {
-    // TODO: Is it necessary?
-    initialRouteName: Routes.Welcome,
     screens: {
-      Micelio: NavigationRoutes.Micelio,
+      [Routes.Micelio]: NavigationRoutes.Micelio,
     },
   },
   prefixes: [APP_PREFIX],

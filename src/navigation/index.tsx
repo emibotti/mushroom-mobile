@@ -7,7 +7,7 @@ import { Stack } from './types'
 
 export const AppContainer = () => (
   <Stack.Navigator>
-    <Stack.Screen name={Routes.Welcome} component={Welcome} />
+    <Stack.Screen name={Routes.Home} component={Welcome} />
     <Stack.Screen name={Routes.Micelio} component={Micelio} />
   </Stack.Navigator>
 )
