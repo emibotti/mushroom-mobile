@@ -24,7 +24,7 @@ export const SceneContainer: React.FunctionComponent<LayoutProps> = ({
   edges = ['left', 'right'],
   style,
   children,
-  barStyle,
+  barStyle = 'dark-content',
 }) => (
   <TouchableWithoutFeedback onPress={dismissKeyboard}>
     <SafeAreaView style={[styles.container, style]} edges={edges}>
