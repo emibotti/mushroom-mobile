@@ -11,6 +11,7 @@ import { SceneContainer } from 'src/components/sceneContainer'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 
+import { strings } from './strings'
 import { styles } from './styles'
 
 interface Room {
@@ -56,7 +57,7 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
         icon={'plus'}
         style={styles.agregarAmbienteButton}
         onPress={onPressAddRoom}>
-        <Text>Agregar Ambiente</Text>
+        <Text>{strings.addRoom}</Text>
       </Button>
       <FlatList data={mockedBackendResponse} renderItem={renderRooms} />
     </SceneContainer>

@@ -11,45 +11,49 @@ import { SceneContainer } from 'src/components/sceneContainer'
 import { Routes } from 'src/navigation/routes'
 import { RouteProp, SceneProps } from 'src/navigation/types'
 
+import { strings } from './strings'
 import { styles } from './styles'
 
-enum Etapa {
+enum Stage {
   Culture = 'culture',
   Spawn = 'spawn',
   Bulk = 'bulk',
   Fruit = 'fruit',
 }
 
-interface Micelio {
+interface Mycelium {
   nombre: string
   id: string
-  etapa: Etapa
-  cepa: string
+  stage: Stage
+  strain: string
 }
 
-const mockedBackendResponse: Micelio[] = [
+const mockedBackendResponse: Mycelium[] = [
   {
-    cepa: 'Pleorotus Ostreatus',
-    etapa: Etapa.Culture,
     id: '1',
     nombre: 'Cult-001',
+    stage: Stage.Culture,
+    strain: 'Pleorotus Ostreatus',
   },
   {
-    cepa: 'Pleorotus Ostreatus',
-    etapa: Etapa.Fruit,
     id: '2',
     nombre: 'Fruit-001',
+    stage: Stage.Fruit,
+    strain: 'Pleorotus Ostreatus',
   },
-  { cepa: 'Shiitake', etapa: Etapa.Fruit, id: '3', nombre: 'Fruit-002' },
+  { id: '3', nombre: 'Fruit-002', stage: Stage.Fruit, strain: 'Shiitake' },
 ]
 
-const renderMicelios: ListRenderItem<Micelio> = ({ item }) => (
-  <MyceliumCard key={item.id} title={item.nombre} subtitle={item.cepa} />
+const renderMyceliums: ListRenderItem<Mycelium> = ({ item }) => (
+  <MyceliumCard key={item.id} title={item.nombre} subtitle={item.strain} />
 )
 
 const buildHeader = (props: NativeStackHeaderProps) => (
   <Header
-    title={(props.route as RouteProp<Routes.Room>).params.name ?? 'Ambiente'}
+    title={
+      (props.route as RouteProp<Routes.Room>).params.name ??
+      strings.roomHeaderTitle
+    }
     onPress={props.navigation.goBack}
   />
 )
@@ -63,17 +67,17 @@ export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
     navigation.setOptions(options)
   }, [navigation])
 
-  const onPressAgregarMicelio = () => navigation.navigate(Routes.Home)
+  const onPressAddMycelium = () => navigation.navigate(Routes.Home)
 
   return (
     <SceneContainer style={styles.container}>
       <Button
         icon={'plus'}
         style={styles.agregarMicelioButton}
-        onPress={onPressAgregarMicelio}>
-        <Text>Agregar Micelio</Text>
+        onPress={onPressAddMycelium}>
+        <Text>{strings.addMycelium}</Text>
       </Button>
-      <FlatList data={mockedBackendResponse} renderItem={renderMicelios} />
+      <FlatList data={mockedBackendResponse} renderItem={renderMyceliums} />
     </SceneContainer>
   )
 }

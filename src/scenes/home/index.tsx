@@ -8,9 +8,10 @@ import { SceneContainer } from 'src/components/sceneContainer'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 
+import { strings } from './strings'
 import { styles } from './styles'
 
-const buildHomeHeader = () => <Header title="Mi Producción" />
+const buildHomeHeader = () => <Header title={strings.homeHeader} />
 
 export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
   useLayoutEffect(() => {
