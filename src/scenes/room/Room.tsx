@@ -6,7 +6,7 @@ import React, { useLayoutEffect } from 'react'
 import { FlatList, ListRenderItem, Text } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Header } from 'src/components/Header'
-import { MicelioCard } from 'src/components/MicelioCard'
+import { MyceliumCard } from 'src/components/MyceliumCard'
 import { SceneContainer } from 'src/components/sceneContainer'
 import { Routes } from 'src/navigation/routes'
 import { RouteProp, SceneProps } from 'src/navigation/types'
@@ -44,19 +44,17 @@ const mockedBackendResponse: Micelio[] = [
 ]
 
 const renderMicelios: ListRenderItem<Micelio> = ({ item }) => (
-  <MicelioCard key={item.id} title={item.nombre} subtitle={item.cepa} />
+  <MyceliumCard key={item.id} title={item.nombre} subtitle={item.cepa} />
 )
 
 const buildHeader = (props: NativeStackHeaderProps) => (
   <Header
-    title={
-      (props.route as RouteProp<Routes.Ambiente>).params.nombre ?? 'Ambiente'
-    }
+    title={(props.route as RouteProp<Routes.Room>).params.name ?? 'Ambiente'}
     onPress={props.navigation.goBack}
   />
 )
 
-export const Ambiente: SceneProps<Routes.Ambiente> = ({ navigation }) => {
+export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
   useLayoutEffect(() => {
     const options: NativeStackNavigationOptions = {
       header: buildHeader,

@@ -2,13 +2,13 @@ import React from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import Placeholder from 'src/assets/images/item-placeholder.png'
 
-interface MicelioCardProps {
+interface MyceliumCardProps {
   title: string
   subtitle: string
   onPress?: () => void
 }
 
-export const MicelioCard: React.FC<MicelioCardProps> = ({
+export const MyceliumCard: React.FC<MyceliumCardProps> = ({
   title,
   subtitle,
   onPress,

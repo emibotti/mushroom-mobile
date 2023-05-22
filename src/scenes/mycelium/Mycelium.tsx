@@ -7,10 +7,10 @@ import { ParamList } from 'src/navigation/types'
 
 import { styles } from './styles'
 
-interface MicelioProps {}
+interface MyceliumProps {}
 
-export const Micelio: React.FC<MicelioProps> = () => {
-  const route: RouteProp<ParamList, Routes.Micelio> = useRoute()
+export const Mycelium: React.FC<MyceliumProps> = () => {
+  const route: RouteProp<ParamList, Routes.Mycelium> = useRoute()
   const { id } = route.params
 
   return (

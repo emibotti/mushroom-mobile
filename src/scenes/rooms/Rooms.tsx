@@ -13,23 +13,23 @@ import { SceneProps } from 'src/navigation/types'
 
 import { styles } from './styles'
 
-interface Ambiente {
-  nombre: string
+interface Room {
+  name: string
   id: string
 }
 
-const mockedBackendResponse: Ambiente[] = [
-  { id: '1', nombre: 'Inoculación' },
-  { id: '2', nombre: 'Incubación' },
-  { id: '3', nombre: 'Fructificación' },
-  { id: '4', nombre: 'Heladera' },
+const mockedBackendResponse: Room[] = [
+  { id: '1', name: 'Inoculación' },
+  { id: '2', name: 'Incubación' },
+  { id: '3', name: 'Fructificación' },
+  { id: '4', name: 'Heladera' },
 ]
 
 const buildHeader = (props: NativeStackHeaderProps) => (
   <Header title="Ambientes" onPress={props.navigation.goBack} />
 )
 
-export const Ambientes: SceneProps<Routes.Ambientes> = ({ navigation }) => {
+export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
   useLayoutEffect(() => {
     const options: NativeStackNavigationOptions = {
       header: buildHeader,
@@ -38,15 +38,15 @@ export const Ambientes: SceneProps<Routes.Ambientes> = ({ navigation }) => {
     navigation.setOptions(options)
   }, [navigation])
 
-  const onPressAgregarAmbiente = () => navigation.navigate(Routes.Home)
-  const onPressCard = (id: string, nombre: string) => () =>
-    navigation.navigate(Routes.Ambiente, { id, nombre })
+  const onPressAddRoom = () => navigation.navigate(Routes.Home)
+  const onPressCard = (id: string, name: string) => () =>
+    navigation.navigate(Routes.Room, { id, name })
 
-  const renderAmbientes: ListRenderItem<Ambiente> = ({ item }) => (
+  const renderRooms: ListRenderItem<Room> = ({ item }) => (
     <Card
       key={item.id}
-      content={item.nombre}
-      onPress={onPressCard(item.id, item.nombre)}
+      content={item.name}
+      onPress={onPressCard(item.id, item.name)}
     />
   )
 
@@ -55,10 +55,10 @@ export const Ambientes: SceneProps<Routes.Ambientes> = ({ navigation }) => {
       <Button
         icon={'plus'}
         style={styles.agregarAmbienteButton}
-        onPress={onPressAgregarAmbiente}>
+        onPress={onPressAddRoom}>
         <Text>Agregar Ambiente</Text>
       </Button>
-      <FlatList data={mockedBackendResponse} renderItem={renderAmbientes} />
+      <FlatList data={mockedBackendResponse} renderItem={renderRooms} />
     </SceneContainer>
   )
 }

@@ -1,1 +1,0 @@
-export { MicelioCard } from './MicelioCard'

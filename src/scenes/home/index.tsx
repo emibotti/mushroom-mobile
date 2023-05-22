@@ -45,7 +45,7 @@ export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
           { icon: 'qrcode-scan', onPress: handleOpenModal },
           {
             icon: 'mushroom',
-            onPress: handleOnPressNavigate(Routes.Ambientes),
+            onPress: handleOnPressNavigate(Routes.Rooms),
           },
         ]}
       />

@@ -9,10 +9,10 @@ import React from 'react'
 import { Routes } from './routes'
 
 export interface ParamList extends ParamListBase {
-  [Routes.Micelio]: { id: string }
+  [Routes.Mycelium]: { id: string }
   [Routes.Home]: undefined
-  [Routes.Ambientes]: undefined
-  [Routes.Ambiente]: { id: string; nombre: string }
+  [Routes.Rooms]: undefined
+  [Routes.Room]: { id: string; name: string }
 }
 
 export type SceneProps<T extends keyof ParamList> = React.FunctionComponent<
