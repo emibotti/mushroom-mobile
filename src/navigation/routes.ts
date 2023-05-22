@@ -4,22 +4,24 @@ import { ParamList } from './types'
 
 export enum Routes {
   Home = 'Home',
-  Micelio = 'Micelio',
+  Mycelium = 'Mycelium',
+  Rooms = 'Rooms',
+  Room = 'Room',
 }
 
 export const APP_PREFIX = 'mushroom://'
 
 export enum NavigationRoutes {
-  Micelio = 'micelio/:id',
+  Mycelium = 'mycelium/:id',
 }
 
 export const linking: LinkingOptions<ParamList> = {
   config: {
     screens: {
-      [Routes.Micelio]: NavigationRoutes.Micelio,
+      [Routes.Mycelium]: NavigationRoutes.Mycelium,
     },
   },
   prefixes: [APP_PREFIX],
 }
 
-// mushroom://micelio/1
+// mushroom://mycelium/1
