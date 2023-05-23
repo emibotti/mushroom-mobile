@@ -10,8 +10,8 @@ import { Stack } from './types'
 export const AppContainer = () => (
   <Stack.Navigator>
     <Stack.Screen name={Routes.Home} component={Home} />
-    <Stack.Screen name={Routes.Mycelium} component={Mycelium} />
     <Stack.Screen name={Routes.Rooms} component={Rooms} />
     <Stack.Screen name={Routes.Room} component={Room} />
+    <Stack.Screen name={Routes.Mycelium} component={Mycelium} />
   </Stack.Navigator>
 )

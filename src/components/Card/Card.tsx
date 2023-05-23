@@ -1,5 +1,6 @@
 import React from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
+import { StyledText } from 'src/components/StyledText'
 
 interface CardProps {
   content: string
@@ -11,7 +12,7 @@ export const Card: React.FC<CardProps> = ({ content, onPress }) => {
     <Pressable onPress={onPress} style={styles.cardContainer}>
       {({ pressed }) => (
         <View style={[styles.card, pressed && styles.pressedBackground]}>
-          <Text style={styles.content}>{content}</Text>
+          <StyledText style={styles.content}>{content}</StyledText>
         </View>
       )}
     </Pressable>

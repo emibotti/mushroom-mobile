@@ -4,11 +4,11 @@ import {
   Linking,
   Modal,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native'
 import CloseIcon from 'src/assets/icons/closable.svg'
+import { StyledText } from 'src/components/StyledText'
 import { APP_PREFIX } from 'src/navigation/routes'
 
 export interface ScannerProps {
@@ -38,10 +38,10 @@ export const Scanner: React.FC<ScannerProps> = ({ isVisible, onClose }) => {
   }
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>
+    return <StyledText>Requesting for camera permission</StyledText>
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>
+    return <StyledText>No access to camera</StyledText>
   }
 
   return (

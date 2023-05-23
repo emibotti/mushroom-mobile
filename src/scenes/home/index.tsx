@@ -1,10 +1,10 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
-import { Text } from 'react-native'
 import { FabMenu } from 'src/components/FabMenu'
 import { Header } from 'src/components/Header'
 import { Scanner } from 'src/components/Scanner'
 import { SceneContainer } from 'src/components/sceneContainer'
+import { StyledText } from 'src/components/StyledText'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 
@@ -39,7 +39,7 @@ export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
   return (
     <SceneContainer style={styles.container}>
       <Scanner isVisible={isModalVisible} onClose={handleCloseModal} />
-      <Text>Welcome to the Mushroom app!</Text>
+      <StyledText>Welcome to the Mushroom app!</StyledText>
       <FabMenu
         fabs={[
           { icon: 'home', onPress: handleOnPressNavigate(Routes.Home) },

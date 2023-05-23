@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { StyledText } from 'src/components/StyledText'
 
 interface HeaderProps {
-  title: string
+  title?: string
   onPress?: () => void
 }
 
@@ -23,9 +24,12 @@ export const Header: React.FC<HeaderProps> = ({ title, onPress }) => {
             onPress={onPress}
           />
         )}
-        <Text style={[styles.title, !onPress && styles.titleWithoutArrow]}>
-          {title}
-        </Text>
+        {title && (
+          <StyledText
+            style={[styles.title, !onPress && styles.titleWithoutArrow]}>
+            {title}
+          </StyledText>
+        )}
       </View>
     </SafeAreaView>
   )
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
   },
   container: {
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 32,
