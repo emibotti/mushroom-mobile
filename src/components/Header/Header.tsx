@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StyledText } from 'src/components/StyledText'
+import { Palette } from 'src/styles/Palette'
 
 interface HeaderProps {
   title?: string
@@ -37,6 +38,8 @@ export const Header: React.FC<HeaderProps> = ({ title, onPress }) => {
 
 const styles = StyleSheet.create({
   backButton: {
+    borderColor: Palette.SURFACE_90,
+    borderWidth: 1,
     marginBottom: 20,
     marginLeft: 0,
   },
