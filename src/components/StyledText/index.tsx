@@ -17,7 +17,7 @@ export type TextCustomProps = {
 
 export const StyledText: React.FC<TextCustomProps> = props => {
   const {
-    color = ColorPalette.SECONDARY_50,
+    color = ColorPalette.SURFACE_90,
     children,
     typography = AppTypography.BODY_MEDIUM,
     style,

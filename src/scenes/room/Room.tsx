@@ -88,7 +88,11 @@ export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
         onPress={onPressAddMycelium}>
         <StyledText>{strings.addMycelium}</StyledText>
       </Button>
-      <FlatList data={mockedBackendResponse} renderItem={renderMyceliums} />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={mockedBackendResponse}
+        renderItem={renderMyceliums}
+      />
     </SceneContainer>
   )
 }

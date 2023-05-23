@@ -2,6 +2,7 @@ import React from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import Placeholder from 'src/assets/images/item-placeholder.png'
 import { StyledText } from 'src/components/StyledText'
+import { Palette } from 'src/styles/Palette'
 import { AppTypography } from 'src/styles/types'
 interface MyceliumCardProps {
   title: string
@@ -37,6 +38,7 @@ export const MyceliumCard: React.FC<MyceliumCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
+    backgroundColor: Palette.SURFACE_10,
     borderRadius: 30,
     borderWidth: 1,
     flexDirection: 'row',

@@ -28,7 +28,7 @@ const mockedBackendResponse: Room[] = [
 ]
 
 const buildHeader = (props: NativeStackHeaderProps) => (
-  <Header title="Ambientes" onPress={props.navigation.goBack} />
+  <Header title={strings.roomsHeaderTitle} onPress={props.navigation.goBack} />
 )
 
 export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
@@ -60,7 +60,11 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
         onPress={onPressAddRoom}>
         <StyledText>{strings.addRoom}</StyledText>
       </Button>
-      <FlatList data={mockedBackendResponse} renderItem={renderRooms} />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={mockedBackendResponse}
+        renderItem={renderRooms}
+      />
     </SceneContainer>
   )
 }

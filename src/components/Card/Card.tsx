@@ -1,6 +1,7 @@
 import React from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { StyledText } from 'src/components/StyledText'
+import { Palette } from 'src/styles/Palette'
 
 interface CardProps {
   content: string
@@ -22,6 +23,7 @@ export const Card: React.FC<CardProps> = ({ content, onPress }) => {
 const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
+    backgroundColor: Palette.SURFACE_10,
     borderRadius: 30,
     borderWidth: 1,
     height: 140,
