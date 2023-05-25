@@ -3,11 +3,12 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
-import { FlatList, ListRenderItem, Text } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Card } from 'src/components/Card'
 import { Header } from 'src/components/Header'
 import { SceneContainer } from 'src/components/sceneContainer'
+import { StyledText } from 'src/components/StyledText'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 
@@ -27,7 +28,7 @@ const mockedBackendResponse: Room[] = [
 ]
 
 const buildHeader = (props: NativeStackHeaderProps) => (
-  <Header title="Ambientes" onPress={props.navigation.goBack} />
+  <Header title={strings.roomsHeaderTitle} onPress={props.navigation.goBack} />
 )
 
 export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
@@ -57,9 +58,13 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
         icon={'plus'}
         style={styles.agregarAmbienteButton}
         onPress={onPressAddRoom}>
-        <Text>{strings.addRoom}</Text>
+        <StyledText>{strings.addRoom}</StyledText>
       </Button>
-      <FlatList data={mockedBackendResponse} renderItem={renderRooms} />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={mockedBackendResponse}
+        renderItem={renderRooms}
+      />
     </SceneContainer>
   )
 }

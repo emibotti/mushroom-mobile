@@ -1,5 +1,6 @@
 import React from 'react'
-import { Pressable, PressableProps, StyleSheet, Text } from 'react-native'
+import { Pressable, PressableProps, StyleSheet } from 'react-native'
+import { StyledText } from 'src/components/StyledText'
 
 interface ButtonProps {
   title: string
@@ -12,7 +13,7 @@ export const Button: React.FC<ButtonProps & PressableProps> = ({
   ...props
 }) => (
   <Pressable style={styles.button} onPress={onPress} {...props}>
-    <Text style={styles.buttonText}>{title}</Text>
+    <StyledText style={styles.buttonText}>{title}</StyledText>
   </Pressable>
 )
 

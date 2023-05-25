@@ -3,11 +3,12 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
-import { FlatList, ListRenderItem, Text } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Header } from 'src/components/Header'
 import { MyceliumCard } from 'src/components/MyceliumCard'
 import { SceneContainer } from 'src/components/sceneContainer'
+import { StyledText } from 'src/components/StyledText'
 import { Routes } from 'src/navigation/routes'
 import { RouteProp, SceneProps } from 'src/navigation/types'
 
@@ -22,7 +23,7 @@ enum Stage {
 }
 
 interface Mycelium {
-  nombre: string
+  name: string
   id: string
   stage: Stage
   strain: string
@@ -31,22 +32,18 @@ interface Mycelium {
 const mockedBackendResponse: Mycelium[] = [
   {
     id: '1',
-    nombre: 'Cult-001',
+    name: 'Cult-001',
     stage: Stage.Culture,
     strain: 'Pleorotus Ostreatus',
   },
   {
     id: '2',
-    nombre: 'Fruit-001',
+    name: 'Fruit-001',
     stage: Stage.Fruit,
     strain: 'Pleorotus Ostreatus',
   },
-  { id: '3', nombre: 'Fruit-002', stage: Stage.Fruit, strain: 'Shiitake' },
+  { id: '3', name: 'Fruit-002', stage: Stage.Fruit, strain: 'Shiitake' },
 ]
-
-const renderMyceliums: ListRenderItem<Mycelium> = ({ item }) => (
-  <MyceliumCard key={item.id} title={item.nombre} subtitle={item.strain} />
-)
 
 const buildHeader = (props: NativeStackHeaderProps) => (
   <Header
@@ -67,6 +64,20 @@ export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
     navigation.setOptions(options)
   }, [navigation])
 
+  const renderMyceliums: ListRenderItem<Mycelium> = ({ item }) => (
+    <MyceliumCard
+      key={item.id}
+      title={item.name}
+      subtitle={item.strain}
+      onPress={() => {
+        navigation.navigate(Routes.Mycelium, {
+          id: item.id,
+          name: item.name,
+        })
+      }}
+    />
+  )
+
   const onPressAddMycelium = () => navigation.navigate(Routes.Home)
 
   return (
@@ -75,9 +86,13 @@ export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
         icon={'plus'}
         style={styles.agregarMicelioButton}
         onPress={onPressAddMycelium}>
-        <Text>{strings.addMycelium}</Text>
+        <StyledText>{strings.addMycelium}</StyledText>
       </Button>
-      <FlatList data={mockedBackendResponse} renderItem={renderMyceliums} />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={mockedBackendResponse}
+        renderItem={renderMyceliums}
+      />
     </SceneContainer>
   )
 }
