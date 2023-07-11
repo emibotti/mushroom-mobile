@@ -1,17 +1,30 @@
 import React from 'react'
-import { Home } from 'src/scenes/home'
-import { Mycelium } from 'src/scenes/mycelium/Mycelium'
-import { Room } from 'src/scenes/room/Room'
-import { Rooms } from 'src/scenes/rooms/Rooms'
+import Animated from 'react-native-reanimated'
+import { useHandleCrossFade } from 'src/hooks/useHandleCrossFade'
 
 import { Routes } from './routes'
-import { Stack } from './types'
+import { AuthenticatedStack } from './stacks/AuthenticatedStack'
+import { UnauthenticatedStack } from './stacks/UnauthenticatedStack'
 
-export const AppContainer = () => (
-  <Stack.Navigator>
-    <Stack.Screen name={Routes.Home} component={Home} />
-    <Stack.Screen name={Routes.Rooms} component={Rooms} />
-    <Stack.Screen name={Routes.Room} component={Room} />
-    <Stack.Screen name={Routes.Mycelium} component={Mycelium} />
-  </Stack.Navigator>
-)
+export const AppContainer = () => {
+  // TODO: Emulate loading
+  const loading = false
+  // TODO: Change when networking is added
+  const activeSession = false
+
+  // TODO: Add splash?
+  const { stacksStyle } = useHandleCrossFade(loading)
+
+  // TODO: Check organization id to send the user to SelectOrganization screen or Home
+  const initialRoute = Routes.Home
+
+  return (
+    <Animated.View style={stacksStyle}>
+      {activeSession ? (
+        <AuthenticatedStack initialRoute={initialRoute} />
+      ) : (
+        <UnauthenticatedStack />
+      )}
+    </Animated.View>
+  )
+}
