@@ -1,6 +1,7 @@
 import React from 'react'
 import Animated from 'react-native-reanimated'
 import { useHandleCrossFade } from 'src/hooks/useHandleCrossFade'
+import { useHandleSession } from 'src/hooks/useHandleSession'
 
 import { Routes } from './routes'
 import { AuthenticatedStack } from './stacks/AuthenticatedStack'
@@ -10,7 +11,7 @@ export const AppContainer = () => {
   // TODO: Emulate loading
   const loading = false
   // TODO: Change when networking is added
-  const activeSession = false
+  const { activeSession } = useHandleSession()
 
   // TODO: Add splash?
   const { stacksStyle } = useHandleCrossFade(loading)
@@ -19,12 +20,14 @@ export const AppContainer = () => {
   const initialRoute = Routes.Home
 
   return (
-    <Animated.View style={stacksStyle}>
-      {activeSession ? (
-        <AuthenticatedStack initialRoute={initialRoute} />
-      ) : (
-        <UnauthenticatedStack />
-      )}
-    </Animated.View>
+    <>
+      <Animated.View style={stacksStyle}>
+        {activeSession ? (
+          <AuthenticatedStack initialRoute={initialRoute} />
+        ) : (
+          <UnauthenticatedStack />
+        )}
+      </Animated.View>
+    </>
   )
 }

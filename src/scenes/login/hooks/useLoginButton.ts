@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 import { useEmail } from 'src/hooks/useEmail'
+import { useLoginMutation } from 'src/store/APIs/auth'
 
 import { usePassword } from './usePassword'
 
@@ -23,13 +25,14 @@ export const useLoginButton = (
   password: OuterProps['password'],
 ) => {
   const [buttonEnable, setButtonEnable] = useState<Boolean>(false)
+  const [triggerLogin] = useLoginMutation()
 
   const onPressLogin = () => {
-    // const credentials: Login = {
-    //   email,
-    //   password,
-    // }
-    // loginHandler(credentials)
+    if (email && password) {
+      triggerLogin({ email, password })
+    } else {
+      Alert.alert('Email or password cannot be empty')
+    }
   }
 
   useEffect(() => {
