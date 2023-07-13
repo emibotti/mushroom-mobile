@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux'
-import { selectAuthSession } from 'src/store/storage/headers'
+import { useMMKVString } from 'react-native-mmkv'
+import { KeysPersisted } from 'src/common/persistance'
 
 export const useHandleSession = () => {
-  // TODO: Why not use cache????
-  const activeSession = useSelector(selectAuthSession)
+  // TODO: Is it the best or use cache instead?
+  const [activeSession] = useMMKVString(KeysPersisted.SESSION_KEY)
 
   return {
     activeSession,

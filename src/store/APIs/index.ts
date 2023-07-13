@@ -4,9 +4,8 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react'
-import { selectHeaders } from 'src/store/storage/headers'
+import { getPersistedObject, KeysPersisted } from 'src/common/persistance'
 
-import { ReduxState } from '../rootReducer'
 import { loginEndpointName } from './auth'
 import { ReducerPath } from './types'
 
@@ -22,15 +21,12 @@ export const prepareHeaders = (
   headers: Headers,
   {
     endpoint,
-    getState,
   }: Pick<BaseQueryApi, 'getState' | 'extra' | 'endpoint' | 'type' | 'forced'>,
 ) => {
   if (endpoint !== loginEndpointName) {
-    const selectedHeaders = selectHeaders(getState() as ReduxState)
-    if (selectedHeaders && selectedHeaders.session) {
-      // TODO: I think there's no need to use the state, we use the persisted session in the keychain
-      // TODO: Change to Authorization header (add Bearer?)
-      headers.set('Authorization', selectedHeaders.session)
+    const session = getPersistedObject(KeysPersisted.SESSION_KEY)
+    if (session) {
+      headers.set('Authorization', session)
     }
   }
 

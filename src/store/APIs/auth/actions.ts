@@ -1,5 +1,9 @@
+import {
+  clearPersistedObject,
+  KeysPersisted,
+  persistObject,
+} from 'src/common/persistance'
 import { baseApi, HttpMethod } from 'src/store/APIs'
-import { setSession } from 'src/store/storage/headers'
 
 import { PerformActionResponse } from '../types'
 import { Builder, Endpoints, Tags } from './types'
@@ -16,13 +20,6 @@ interface SerializedAuthUser {
 export const login = (builder: Builder) =>
   builder.mutation<SerializedAuthUser, AuthUser>({
     invalidatesTags: [Tags.Auth],
-    onQueryStarted(_, api) {
-      api.queryFulfilled.then(response => {
-        const authorizationHeader =
-          response.meta?.response?.headers.get('Authorization')
-        api.dispatch(setSession(authorizationHeader))
-      })
-    },
     query: ({ email, password }) => ({
       body: {
         user: { email, password },
@@ -30,10 +27,11 @@ export const login = (builder: Builder) =>
       method: HttpMethod.Post,
       url: Endpoints.Login,
     }),
-    // TODO: Si persisto la respuesta no necesito usar el `setSession`
-    // transformResponse: (data: AuthResponse) => {
-    //   return data
-    // },
+    transformResponse: (data: SerializedAuthUser, meta) => {
+      const authorizationHeader = meta?.response?.headers.get('Authorization')
+      persistObject(authorizationHeader, KeysPersisted.SESSION_KEY)
+      return data
+    },
   })
 
 export const logout = (builder: Builder) =>
@@ -48,8 +46,8 @@ export const logout = (builder: Builder) =>
       method: HttpMethod.Delete,
       url: Endpoints.Logout,
     }),
-    // transformResponse: (data: AuthResponse) => {
-    //  // remove persisted data
-    //   return data
-    // },
+    transformResponse: (data: PerformActionResponse) => {
+      clearPersistedObject(KeysPersisted.SESSION_KEY)
+      return data
+    },
   })
