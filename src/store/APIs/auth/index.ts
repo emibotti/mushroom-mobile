@@ -14,6 +14,7 @@ export const authApi = createApi({
     register: register(builder),
   }),
   reducerPath: 'authApi',
+  // TODO: Is it needed to have Tags.Auth??
   tagTypes: [Tags.Auth],
 })
 

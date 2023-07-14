@@ -4,7 +4,11 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react'
-import { getPersistedObject, KeysPersisted } from 'src/common/persistance'
+import {
+  getPersistedObject,
+  KeysPersisted,
+  PersistedUser,
+} from 'src/common/persistance'
 
 import { loginEndpointName } from './auth'
 import { ReducerPath } from './types'
@@ -24,9 +28,9 @@ export const prepareHeaders = (
   }: Pick<BaseQueryApi, 'getState' | 'extra' | 'endpoint' | 'type' | 'forced'>,
 ) => {
   if (endpoint !== loginEndpointName) {
-    const session = getPersistedObject(KeysPersisted.SESSION_KEY)
-    if (session) {
-      headers.set('Authorization', session)
+    const persistedUser = getPersistedObject<PersistedUser>(KeysPersisted.USER)
+    if (persistedUser.session) {
+      headers.set('Authorization', persistedUser.session)
     }
   }
 

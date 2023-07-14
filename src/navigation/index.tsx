@@ -10,20 +10,23 @@ import { UnauthenticatedStack } from './stacks/UnauthenticatedStack'
 export const AppContainer = () => {
   // TODO: Emulate loading
   const loading = false
-  // TODO: Change when networking is added
-  const { activeSession } = useHandleSession()
+
+  const { activeUser } = useHandleSession()
 
   // TODO: Add splash?
   const { stacksStyle } = useHandleCrossFade(loading)
 
-  // TODO: Check organization id to send the user to SelectOrganization screen or Home
-  const initialRoute = Routes.Home
-
   return (
     <>
       <Animated.View style={stacksStyle}>
-        {activeSession ? (
-          <AuthenticatedStack initialRoute={initialRoute} />
+        {activeUser ? (
+          <AuthenticatedStack
+            initialRoute={
+              activeUser.hasOrganization
+                ? Routes.Home
+                : Routes.CreateOrganization
+            }
+          />
         ) : (
           <UnauthenticatedStack />
         )}
