@@ -50,12 +50,6 @@ Add a description of the feature or bug you are tackling. First in high level pe
 
 ---
 
-#### :heavy_check_mark: Tasks:
-
-- Include a medium-level tasking that summarizes the changes in the code
-
----
-
 #### :warning: Warnings:
 
 - Include a list of considerations for reviewers or future developers. For example:
