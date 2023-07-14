@@ -9,6 +9,8 @@ export enum Routes {
   Room = 'Room',
   Login = 'Login',
   Register = 'Register',
+  CreateOrganization = 'CreateOrganization',
+  JoinOrganization = 'JoinOrganization',
 }
 
 export enum StackRoutes {
