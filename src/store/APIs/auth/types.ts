@@ -5,6 +5,7 @@ import { BaseQueryFnType } from '../types'
 export enum Endpoints {
   Login = '/login',
   Logout = '/logout',
+  Register = '/signup',
 }
 
 export enum Tags {

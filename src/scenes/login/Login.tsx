@@ -9,13 +9,13 @@ import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { StyledTextInput } from 'src/components/StyledTextInput'
 import { useEmail } from 'src/hooks/useEmail'
+import { useSetNavigationOptions } from 'src/hooks/useSetNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { useLoginButton } from './hooks/useLoginButton'
 import { usePassword } from './hooks/usePassword'
-import { useSetNavigationOptions } from './hooks/useSetNavigationOptions'
 import { strings } from './strings'
 import { styles } from './styles'
 
@@ -32,6 +32,8 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
     validPassword,
     password,
   )
+
+  const onPressRegister = () => navigation.navigate(Routes.Register)
 
   return (
     <KeyboardAwareScrollView
@@ -105,8 +107,7 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
             <View style={styles.center}>
               <Button
                 title={strings.registerButton}
-                // TODO: Move to register screen
-                // onPress={}
+                onPress={onPressRegister}
                 mode={ButtonMode.LINK}
                 style={styles.buttonForgot}
               />
