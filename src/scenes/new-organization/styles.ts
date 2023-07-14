@@ -25,6 +25,15 @@ export const styles = StyleSheet.create({
   flexible: {
     flex: 1,
   },
+  invitationCodeContainer: {
+    alignItems: 'center',
+    backgroundColor: Palette.SURFACE_30,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginHorizontal: 20,
+    padding: 40,
+  },
   linkButton: {
     marginTop: 10,
   },
@@ -35,6 +44,9 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 0,
+  },
+  subtitle: {
+    marginBottom: 10,
   },
   textInputsContainer: {
     justifyContent: 'center',

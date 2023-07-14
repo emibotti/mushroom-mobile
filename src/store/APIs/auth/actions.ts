@@ -96,10 +96,11 @@ export const register = (builder: Builder) =>
 
 const authenticateOrganization = (response: AuthResponse) => {
   // TODO: Review if it is needed to clear it
+  const persistedUser = getPersistedObject<PersistedUser>(KeysPersisted.USER)
   clearPersistedObject(KeysPersisted.USER)
   persistObject<PersistedUser>(
     {
-      ...getPersistedObject(KeysPersisted.USER),
+      ...persistedUser,
       hasOrganization: !!response.data.organization_id,
     },
     KeysPersisted.USER,
@@ -119,8 +120,15 @@ interface JoinOrganizationRequest {
   invitation_code: string
 }
 
+interface NewOrganizationResponse {
+  organization: {
+    id: string
+    code: string
+  }
+}
+
 export const createOrganization = (builder: Builder) =>
-  builder.mutation<AuthResponse, NewOrganization>({
+  builder.mutation<NewOrganizationResponse, NewOrganization>({
     query: ({ name }) => ({
       body: {
         organization: { name },
@@ -128,8 +136,13 @@ export const createOrganization = (builder: Builder) =>
       method: HttpMethod.Post,
       url: Endpoints.CreateOrganization,
     }),
-    // TODO: Is the response the same? Or should we shape it as the user?
-    transformResponse: authenticateOrganization,
+    // TODO: Deserialize it in a different way?
+    transformResponse: (response: NewOrganizationResponse) => ({
+      organization: {
+        code: response.organization.code,
+        id: response.organization.id,
+      },
+    }),
   })
 
 export const joinOrganization = (builder: Builder) =>
@@ -139,7 +152,7 @@ export const joinOrganization = (builder: Builder) =>
         invitation_code,
       } as JoinOrganizationRequest,
       method: HttpMethod.Post,
-      url: Endpoints.CreateOrganization,
+      url: Endpoints.JoinOrganization,
     }),
     // TODO: Is the response the same? Or should we shape it as the user?
     transformResponse: authenticateOrganization,

@@ -34,6 +34,12 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
   const onPressCreateOrganization = () => {
     if (organizationName) {
       triggerCreateOrganization({ name: organizationName })
+        .unwrap()
+        .then(({ organization }) => {
+          navigation.replace(Routes.OrganizationCreated, {
+            invitationCode: organization.code,
+          })
+        })
     }
   }
 
