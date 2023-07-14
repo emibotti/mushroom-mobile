@@ -11,6 +11,7 @@ import { useSetNavigationOptions } from 'src/hooks/useSetNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 import { styles } from 'src/scenes/new-organization/styles'
+import { useJoinOrganizationMutation } from 'src/store/APIs/auth'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { strings } from './strings'
@@ -25,6 +26,14 @@ export const JoinOrganization: SceneProps<Routes.JoinOrganization> = ({
   const onChangeOrganizationCode = (code: string) => setOrganizationCode(code)
   const onPressWantToCreate = () =>
     navigation.navigate(Routes.CreateOrganization)
+
+  const [triggerJoinOrganization] = useJoinOrganizationMutation()
+
+  const onPressJoinOrganization = () => {
+    if (organizationCode) {
+      triggerJoinOrganization({ invitation_code: organizationCode })
+    }
+  }
 
   return (
     <KeyboardAwareScrollView
@@ -56,7 +65,7 @@ export const JoinOrganization: SceneProps<Routes.JoinOrganization> = ({
                 <Button
                   title={strings.joinOrganizationButton}
                   disabled={!organizationCode}
-                  // onPress={onPressJoinOrganization}
+                  onPress={onPressJoinOrganization}
                   mode={ButtonMode.PRIMARY_SOLID}
                 />
                 <Button

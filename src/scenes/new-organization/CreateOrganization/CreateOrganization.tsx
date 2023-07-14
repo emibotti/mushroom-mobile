@@ -11,6 +11,10 @@ import { useSetNavigationOptions } from 'src/hooks/useSetNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 import { styles } from 'src/scenes/new-organization/styles'
+import {
+  useCreateOrganizationMutation,
+  useLogoutMutation,
+} from 'src/store/APIs/auth'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { strings } from './strings'
@@ -24,6 +28,16 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
   )
   const onChangeOrganizationName = (name: string) => setOrganizationName(name)
   const onPressWantToJoin = () => navigation.navigate(Routes.JoinOrganization)
+
+  const [triggerCreateOrganization] = useCreateOrganizationMutation()
+
+  const onPressCreateOrganization = () => {
+    if (organizationName) {
+      triggerCreateOrganization({ name: organizationName })
+    }
+  }
+
+  const [triggerLogout] = useLogoutMutation()
 
   return (
     <KeyboardAwareScrollView
@@ -55,7 +69,7 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
                 <Button
                   title={strings.createOrganizationButton}
                   disabled={!organizationName}
-                  // onPress={onPressCreateOrganization}
+                  onPress={onPressCreateOrganization}
                   mode={ButtonMode.PRIMARY_SOLID}
                 />
                 <Button
@@ -63,6 +77,13 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
                   onPress={onPressWantToJoin}
                   mode={ButtonMode.LINK}
                   style={styles.linkButton}
+                />
+              </Container>
+              <Container>
+                <Button
+                  title="Logout"
+                  mode={ButtonMode.LINK}
+                  onPress={() => triggerLogout()}
                 />
               </Container>
             </View>

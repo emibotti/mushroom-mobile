@@ -1,6 +1,7 @@
 import { FetchBaseQueryMeta } from '@reduxjs/toolkit/dist/query'
 import {
   clearPersistedObject,
+  getPersistedObject,
   KeysPersisted,
   PersistedUser,
   persistObject,
@@ -15,9 +16,10 @@ interface AuthUserRequest {
   password: string
 }
 
+// TODO: Check if it is the best option to generalize this..
 interface AuthUserResponse {
-  email: string
-  id: string
+  email?: string
+  id?: string
   // TODO: Remove optional when implemented
   organization_id?: string | null
 }
@@ -90,4 +92,55 @@ export const register = (builder: Builder) =>
       url: Endpoints.Register,
     }),
     transformResponse: authenticateUser,
+  })
+
+const authenticateOrganization = (response: AuthResponse) => {
+  // TODO: Review if it is needed to clear it
+  clearPersistedObject(KeysPersisted.USER)
+  persistObject<PersistedUser>(
+    {
+      ...getPersistedObject(KeysPersisted.USER),
+      hasOrganization: !!response.data.organization_id,
+    },
+    KeysPersisted.USER,
+  )
+  return response
+}
+
+interface NewOrganization {
+  name: string
+}
+
+interface NewOrganizationRequest {
+  organization: NewOrganization
+}
+
+interface JoinOrganizationRequest {
+  invitation_code: string
+}
+
+export const createOrganization = (builder: Builder) =>
+  builder.mutation<AuthResponse, NewOrganization>({
+    query: ({ name }) => ({
+      body: {
+        organization: { name },
+      } as NewOrganizationRequest,
+      method: HttpMethod.Post,
+      url: Endpoints.CreateOrganization,
+    }),
+    // TODO: Is the response the same? Or should we shape it as the user?
+    transformResponse: authenticateOrganization,
+  })
+
+export const joinOrganization = (builder: Builder) =>
+  builder.mutation<AuthResponse, JoinOrganizationRequest>({
+    query: ({ invitation_code }) => ({
+      body: {
+        invitation_code,
+      } as JoinOrganizationRequest,
+      method: HttpMethod.Post,
+      url: Endpoints.CreateOrganization,
+    }),
+    // TODO: Is the response the same? Or should we shape it as the user?
+    transformResponse: authenticateOrganization,
   })

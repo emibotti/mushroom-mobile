@@ -6,6 +6,8 @@ export enum Endpoints {
   Login = '/login',
   Logout = '/logout',
   Register = '/signup',
+  CreateOrganization = '/organizations',
+  JoinOrganization = '/join_organization',
 }
 
 export enum Tags {
