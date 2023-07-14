@@ -10,14 +10,15 @@ Leave one the following titles if applies
 
 # :star: Feature
 
-#### :link: Jira:
-- [Ticket title](<https://elemind-xl.atlassian.net/browse/ELE-(TICKET_ID)>) - Connect to preview)
+#### :link: Ticket:
+
+- [Ticket title](ticket_link)
 
 ---
 
 #### :art: Design to follow:
 
-- [Title of the collection](https://www.figma.com/file/HmERGhStDgn5fJDlFtL5By/Wireframes?node-id=403%3A22025 - Connect to preview)
+- [Title of the collection](https://www.figma.com/)
 
 ---
 
