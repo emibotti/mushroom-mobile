@@ -2,20 +2,17 @@ import React from 'react'
 import { Alert, ScrollView, Share, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { IconButton } from 'react-native-paper'
-import {
-  clearPersistedObject,
-  getPersistedObject,
-  KeysPersisted,
-  PersistedUser,
-  persistObject,
-} from 'src/common/persistance'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { useSetNavigationOptions } from 'src/hooks/useSetNavigationOptions'
-import { Routes } from 'src/navigation/routes'
+import {
+  APP_PREFIX,
+  JOIN_ORGANIZATION_ROUTE,
+  Routes,
+} from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 import { styles } from 'src/scenes/new-organization/styles'
 import { AppTypography, ColorPalette } from 'src/styles/types'
@@ -31,22 +28,13 @@ export const OrganizationCreated: SceneProps<Routes.OrganizationCreated> = ({
   const { invitationCode } = route.params
 
   const onPressImReady = () => {
-    const persistedUser = getPersistedObject<PersistedUser>(KeysPersisted.USER)
-    clearPersistedObject(KeysPersisted.USER)
-    persistObject<PersistedUser>(
-      {
-        ...persistedUser,
-        hasOrganization: true,
-      },
-      KeysPersisted.USER,
-    )
     navigation.replace(Routes.Home)
   }
 
   const onPressShare = async () => {
     try {
       await Share.share({
-        message: `mushroom://join_organization/${invitationCode}`,
+        message: `${APP_PREFIX}${JOIN_ORGANIZATION_ROUTE}/${invitationCode}`,
       })
     } catch (error: any) {
       Alert.alert(error.message)

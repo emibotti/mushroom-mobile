@@ -21,9 +21,11 @@ export enum StackRoutes {
 
 export const APP_PREFIX = 'mushroom://'
 
+export const JOIN_ORGANIZATION_ROUTE = 'join_organization'
+
 export enum NavigationRoutes {
   Mycelium = 'mycelium/:id',
-  JoinOrganization = 'join_organization/:invitationCode',
+  JoinOrganization = `${JOIN_ORGANIZATION_ROUTE}/:invitationCode`,
 }
 
 export const linking: LinkingOptions<ParamList> = {

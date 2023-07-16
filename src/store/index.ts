@@ -36,7 +36,10 @@ const rtkQueryErrorLogger: Middleware =
     if (isRejectedWithValue(action)) {
       if (action.payload) {
         // TODO: Be careful that 401 is used both to Signature expire and for "Invalid email" (maybe 422 is better?)
-        if (action.payload.originalStatus === ErrorStatus.Unauthorized) {
+        if (
+          action.payload.originalStatus === ErrorStatus.Unauthorized ||
+          action.payload.status === ErrorStatus.Unauthorized
+        ) {
           clearPersistedObject(KeysPersisted.USER)
           // TODO: Check and move to general strings
           Alert.alert(`You're being logged out`)

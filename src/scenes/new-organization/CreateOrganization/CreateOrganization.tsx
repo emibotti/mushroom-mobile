@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {
+  clearPersistedObject,
+  getPersistedObject,
+  KeysPersisted,
+  PersistedUser,
+  persistObject,
+} from 'src/common/persistance'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
@@ -27,7 +34,8 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
     undefined,
   )
   const onChangeOrganizationName = (name: string) => setOrganizationName(name)
-  const onPressWantToJoin = () => navigation.navigate(Routes.JoinOrganization)
+  const onPressWantToJoin = () =>
+    navigation.navigate(Routes.JoinOrganization, {})
 
   const [triggerCreateOrganization] = useCreateOrganizationMutation()
 
@@ -36,6 +44,17 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
       triggerCreateOrganization({ name: organizationName })
         .unwrap()
         .then(({ organization }) => {
+          const persistedUser = getPersistedObject<PersistedUser>(
+            KeysPersisted.USER,
+          )
+          clearPersistedObject(KeysPersisted.USER)
+          persistObject<PersistedUser>(
+            {
+              ...persistedUser,
+              hasOrganization: true,
+            },
+            KeysPersisted.USER,
+          )
           navigation.replace(Routes.OrganizationCreated, {
             invitationCode: organization.code,
           })
