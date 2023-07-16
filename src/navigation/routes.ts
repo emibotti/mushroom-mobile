@@ -7,6 +7,12 @@ export enum Routes {
   Mycelium = 'Mycelium',
   Rooms = 'Rooms',
   Room = 'Room',
+  Login = 'Login',
+}
+
+export enum StackRoutes {
+  Authenticated = 'Authenticated',
+  Unauthenticated = 'Unauthenticated',
 }
 
 export const APP_PREFIX = 'mushroom://'
