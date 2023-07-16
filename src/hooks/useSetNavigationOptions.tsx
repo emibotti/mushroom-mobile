@@ -4,9 +4,8 @@ import { Routes } from 'src/navigation/routes'
 import { NavigationProp } from 'src/navigation/types'
 import { Palette } from 'src/styles/Palette'
 
-export const useSetNavigationOptions = (
-  navigation: NavigationProp<Routes.Login>,
-) => {
+// TODO: Type as T or any?
+export const useSetNavigationOptions = (navigation: NavigationProp<Routes>) => {
   useLayoutEffect(() => {
     const options: NativeStackNavigationOptions = {
       headerBackTitleVisible: false,

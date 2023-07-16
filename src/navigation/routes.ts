@@ -8,6 +8,7 @@ export enum Routes {
   Rooms = 'Rooms',
   Room = 'Room',
   Login = 'Login',
+  Register = 'Register',
 }
 
 export enum StackRoutes {

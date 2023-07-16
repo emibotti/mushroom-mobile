@@ -51,3 +51,20 @@ export const logout = (builder: Builder) =>
       return data
     },
   })
+
+export const register = (builder: Builder) =>
+  builder.mutation<SerializedAuthUser, AuthUser>({
+    invalidatesTags: [Tags.Auth],
+    query: ({ email, password }) => ({
+      body: {
+        user: { email, password },
+      },
+      method: HttpMethod.Post,
+      url: Endpoints.Register,
+    }),
+    transformResponse: (data: SerializedAuthUser, meta) => {
+      const authorizationHeader = meta?.response?.headers.get('Authorization')
+      persistObject(authorizationHeader, KeysPersisted.SESSION_KEY)
+      return data
+    },
+  })
