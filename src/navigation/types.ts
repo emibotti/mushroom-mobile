@@ -13,6 +13,12 @@ export interface ParamList extends ParamListBase {
   [Routes.Home]: undefined
   [Routes.Rooms]: undefined
   [Routes.Room]: { id: string; name: string }
+  [Routes.OrganizationCreated]: {
+    invitationCode: string
+  }
+  [Routes.JoinOrganization]: {
+    invitationCode?: string
+  }
 }
 
 export type SceneProps<T extends keyof ParamList> = React.FunctionComponent<

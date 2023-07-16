@@ -31,6 +31,7 @@ export const Palette: PaletteStyle<string> = {
   PRIMARY_50: '#D1491F',
   PRIMARY_70: '#AF2E07',
   PRIMARY_90: '#6E1D04',
+  // TODO: Modify these colors to match app design
   SECONDARY_10: '#D5CDDD',
   SECONDARY_30: '#816998',
   SECONDARY_50: '#2D0554',

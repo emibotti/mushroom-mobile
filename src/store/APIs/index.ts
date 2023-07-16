@@ -4,9 +4,12 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react'
-import { getPersistedObject, KeysPersisted } from 'src/common/persistance'
+import {
+  getPersistedObject,
+  KeysPersisted,
+  PersistedUser,
+} from 'src/common/persistance'
 
-import { loginEndpointName } from './auth'
 import { ReducerPath } from './types'
 
 export enum HttpMethod {
@@ -17,16 +20,19 @@ export enum HttpMethod {
   Delete = 'DELETE',
 }
 
+export const loginEndpointName = 'login'
+export const registerEndpointName = 'register'
+
 export const prepareHeaders = (
   headers: Headers,
   {
     endpoint,
   }: Pick<BaseQueryApi, 'getState' | 'extra' | 'endpoint' | 'type' | 'forced'>,
 ) => {
-  if (endpoint !== loginEndpointName) {
-    const session = getPersistedObject(KeysPersisted.SESSION_KEY)
-    if (session) {
-      headers.set('Authorization', session)
+  if (endpoint !== loginEndpointName && endpoint !== registerEndpointName) {
+    const persistedUser = getPersistedObject<PersistedUser>(KeysPersisted.USER)
+    if (persistedUser.session) {
+      headers.set('Authorization', persistedUser.session)
     }
   }
 

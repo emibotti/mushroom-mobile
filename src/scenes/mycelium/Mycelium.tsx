@@ -1,14 +1,10 @@
 import { useRoute } from '@react-navigation/native'
-import {
-  NativeStackHeaderProps,
-  NativeStackNavigationOptions,
-} from '@react-navigation/native-stack'
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import FruitImage from 'src/assets/images/fruit-example.jpeg'
-import { Header } from 'src/components/Header'
 import { ScrollableScreen } from 'src/components/ScrollableScreen/ScrollableScreen'
 import { StyledText } from 'src/components/StyledText'
+import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { RouteProp, SceneProps } from 'src/navigation/types'
 import { Spacing } from 'src/styles/Spacing'
@@ -16,21 +12,11 @@ import { AppTypography, SpacingScale } from 'src/styles/types'
 
 import { styles } from './styles'
 
-const buildHeader = (props: NativeStackHeaderProps) => (
-  <Header onPress={props.navigation.goBack} />
-)
-
 export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
   const route: RouteProp<Routes.Mycelium> = useRoute()
   const { id, name } = route.params
 
-  useLayoutEffect(() => {
-    const options: NativeStackNavigationOptions = {
-      header: buildHeader,
-      headerTransparent: true,
-    }
-    navigation.setOptions(options)
-  }, [navigation, name])
+  useGoBackNavigationOptions(navigation)
 
   return (
     <View style={styles.container}>

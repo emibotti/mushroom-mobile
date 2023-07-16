@@ -31,7 +31,7 @@ export const Typography: TypographyStyle<TypographyTextStyles> = {
     lineHeight: 25,
   },
   [AppTypography.BODY_EXTRA_LARGE]: {
-    fontSize: 18,
+    fontSize: 24,
     fontStyle: 'normal',
   },
   [AppTypography.BODY_LARGE]: {

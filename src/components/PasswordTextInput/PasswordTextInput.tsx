@@ -19,7 +19,7 @@ export const PasswordTextInput: React.FC<PasswordTextInput> = ({
   toggleShowPassword,
   showPassword,
   accessibilityHint,
-  placeholder,
+  placeholder = '',
 }) => {
   return (
     <View>

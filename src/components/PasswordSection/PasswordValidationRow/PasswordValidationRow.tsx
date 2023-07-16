@@ -47,7 +47,7 @@ export const PasswordValidationRow: React.FC<PasswordValidationRow> = ({
           ? strings.passwordsMatch
           : passwordsDontMatch
           ? strings.passwordsDontMatch
-          : strings.passwordsNeutral}
+          : strings.passwordNeutral}
       </StyledText>
     </Container>
   )

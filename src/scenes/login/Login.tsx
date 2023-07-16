@@ -5,6 +5,7 @@ import LoginImage from 'src/assets/images/login-hero.png'
 import { Button } from 'src/components/Button'
 import { ButtonMode, ButtonSize } from 'src/components/Button/Button'
 import { Container } from 'src/components/Container'
+import { PasswordTextInput } from 'src/components/PasswordTextInput'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { StyledTextInput } from 'src/components/StyledTextInput'
@@ -23,8 +24,13 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
   useSetNavigationOptions(navigation)
 
   const { email, setEmail, validEmail, checkEmail } = useEmail()
-  const { password, onChangePassword, validPassword, showPassword } =
-    usePassword()
+  const {
+    password,
+    onChangePassword,
+    validPassword,
+    showPassword,
+    toggleShowPassword,
+  } = usePassword()
 
   const { buttonEnable, onPressLogin } = useLoginButton(
     validEmail,
@@ -78,14 +84,13 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
               returnKeyType={'done'}
             />
             <View>
-              <StyledTextInput
-                textContentType={'password'}
+              <PasswordTextInput
                 label={strings.passwordLabel}
                 value={password}
                 onChangeText={onChangePassword}
-                keyboardType={'default'}
-                returnKeyType={'done'}
                 secureTextEntry={!showPassword}
+                showPassword={showPassword}
+                toggleShowPassword={toggleShowPassword}
               />
               <Button
                 title={strings.forgotPasswordButton}

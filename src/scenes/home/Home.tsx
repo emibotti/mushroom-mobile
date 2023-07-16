@@ -1,25 +1,49 @@
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
+import {
+  NativeStackNavigationOptions,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
+import { View } from 'react-native'
+import { IconButton } from 'react-native-paper'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { FabMenu } from 'src/components/FabMenu'
-import { Header } from 'src/components/Header'
 import { Scanner } from 'src/components/Scanner'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { Routes } from 'src/navigation/routes'
-import { SceneProps } from 'src/navigation/types'
+import { ParamList, SceneProps } from 'src/navigation/types'
 import { useLogoutMutation } from 'src/store/APIs/auth'
+import { AppTypography } from 'src/styles/types'
 
 import { strings } from './strings'
 import { styles } from './styles'
 
-const buildHomeHeader = () => <Header title={strings.homeHeader} />
+const buildHeaderLeft = () => (
+  <View style={styles.headerLeft}>
+    <StyledText typography={AppTypography.H1}>{strings.homeHeader}</StyledText>
+  </View>
+)
+
+const buildHeaderRight =
+  (navigation: NativeStackNavigationProp<ParamList, Routes.Home, undefined>) =>
+  () =>
+    (
+      <IconButton
+        hitSlop={50}
+        icon={'account-circle'}
+        size={50}
+        style={styles.headerRight}
+        onPress={() => navigation.navigate(Routes.Profile)}
+      />
+    )
 
 export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
   useLayoutEffect(() => {
     const options: NativeStackNavigationOptions = {
-      header: buildHomeHeader,
+      headerLeft: buildHeaderLeft,
+      headerRight: buildHeaderRight(navigation),
+      headerTitle: '',
       headerTransparent: true,
     }
     navigation.setOptions(options)
