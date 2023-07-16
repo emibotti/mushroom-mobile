@@ -1,7 +1,6 @@
 import { FetchBaseQueryMeta } from '@reduxjs/toolkit/dist/query'
 import {
   clearPersistedObject,
-  getPersistedObject,
   KeysPersisted,
   PersistedUser,
   persistObject,
@@ -9,40 +8,24 @@ import {
 import { baseApi, HttpMethod } from 'src/store/APIs'
 
 import { PerformActionResponse } from '../types'
-import { Builder, Endpoints } from './types'
-
-interface AuthUserRequest {
-  email: string
-  password: string
-}
-
-// TODO: Check if it is the best option to generalize this..
-interface AuthUserResponse {
-  email?: string
-  id?: string
-  // TODO: Remove optional when implemented
-  organization_id?: string | null
-}
-
-interface AuthResponse {
-  message: string
-  data: AuthUserResponse
-}
-
-interface AuthRequest {
-  user: AuthUserRequest
-}
+import {
+  AuthRequest,
+  AuthResponse,
+  AuthUserRequest,
+  Builder,
+  Endpoints,
+} from './types'
 
 const authenticateUser = (
   response: AuthResponse,
   meta: FetchBaseQueryMeta | undefined,
 ) => {
   const authorizationHeader = meta?.response?.headers.get('Authorization')
-  // TODO: Check if this will work..
+
   if (!authorizationHeader) {
     throw new Error('Error getting authorization header')
   }
-  // // TODO: Test organization_id flow
+
   persistObject<PersistedUser>(
     {
       hasOrganization: !!response.data.organization_id,
@@ -92,68 +75,4 @@ export const register = (builder: Builder) =>
       url: Endpoints.Register,
     }),
     transformResponse: authenticateUser,
-  })
-
-const authenticateOrganization = (response: AuthResponse) => {
-  // TODO: Review if it is needed to clear it
-  const persistedUser = getPersistedObject<PersistedUser>(KeysPersisted.USER)
-  clearPersistedObject(KeysPersisted.USER)
-  persistObject<PersistedUser>(
-    {
-      ...persistedUser,
-      hasOrganization: !!response.data.organization_id,
-    },
-    KeysPersisted.USER,
-  )
-  return response
-}
-
-interface NewOrganization {
-  name: string
-}
-
-interface NewOrganizationRequest {
-  organization: NewOrganization
-}
-
-interface JoinOrganizationRequest {
-  invitation_code: string
-}
-
-interface NewOrganizationResponse {
-  organization: {
-    id: string
-    code: string
-  }
-}
-
-export const createOrganization = (builder: Builder) =>
-  builder.mutation<NewOrganizationResponse, NewOrganization>({
-    query: ({ name }) => ({
-      body: {
-        organization: { name },
-      } as NewOrganizationRequest,
-      method: HttpMethod.Post,
-      url: Endpoints.CreateOrganization,
-    }),
-    // TODO: Deserialize it in a different way?
-    transformResponse: (response: NewOrganizationResponse) => ({
-      organization: {
-        code: response.organization.code,
-        id: response.organization.id,
-      },
-    }),
-  })
-
-export const joinOrganization = (builder: Builder) =>
-  builder.mutation<AuthResponse, JoinOrganizationRequest>({
-    query: ({ invitation_code }) => ({
-      body: {
-        invitation_code,
-      } as JoinOrganizationRequest,
-      method: HttpMethod.Post,
-      url: Endpoints.JoinOrganization,
-    }),
-    // TODO: Is the response the same? Or should we shape it as the user?
-    transformResponse: authenticateOrganization,
   })

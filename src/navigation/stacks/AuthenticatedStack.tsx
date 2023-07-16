@@ -6,6 +6,7 @@ import { Mycelium } from 'src/scenes/mycelium/Mycelium'
 import { CreateOrganization } from 'src/scenes/new-organization/CreateOrganization'
 import { JoinOrganization } from 'src/scenes/new-organization/JoinOrganization'
 import { OrganizationCreated } from 'src/scenes/new-organization/OrganizationCreated'
+import { Profile } from 'src/scenes/profile/Profile'
 import { Room } from 'src/scenes/room/Room'
 import { Rooms } from 'src/scenes/rooms/Rooms'
 
@@ -30,6 +31,7 @@ export const AuthenticatedStack: React.FC<{
       <Stack.Screen name={Routes.Rooms} component={Rooms} />
       <Stack.Screen name={Routes.Room} component={Room} />
       <Stack.Screen name={Routes.Mycelium} component={Mycelium} />
+      <Stack.Screen name={Routes.Profile} component={Profile} />
     </Stack.Navigator>
   )
 }

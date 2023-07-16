@@ -6,4 +6,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  headerLeft: {
+    marginLeft: 15,
+    marginTop: 20,
+  },
+  headerRight: {
+    marginRight: 15,
+    marginTop: 20,
+  },
 })

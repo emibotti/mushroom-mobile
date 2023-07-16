@@ -12,6 +12,7 @@ export enum Routes {
   CreateOrganization = 'CreateOrganization',
   JoinOrganization = 'JoinOrganization',
   OrganizationCreated = 'OrganizationCreated',
+  Profile = 'Profile',
 }
 
 export enum StackRoutes {

@@ -11,7 +11,7 @@ import { useSetNavigationOptions } from 'src/hooks/useSetNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 import { styles } from 'src/scenes/new-organization/styles'
-import { useJoinOrganizationMutation } from 'src/store/APIs/auth'
+import { useJoinOrganizationMutation } from 'src/store/APIs/organization'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { strings } from './strings'

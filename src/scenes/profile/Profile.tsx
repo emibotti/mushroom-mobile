@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, ScrollView, Share, View } from 'react-native'
+import { ActivityIndicator, Alert, ScrollView, Share, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import { generalStrings } from 'src/common/generalStrings'
 import { Button } from 'src/components/Button'
@@ -7,7 +7,7 @@ import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
-import { useSetNavigationOptions } from 'src/hooks/useSetNavigationOptions'
+import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
 import {
   APP_PREFIX,
   JOIN_ORGANIZATION_ROUTE,
@@ -15,21 +15,18 @@ import {
 } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 import { styles } from 'src/scenes/new-organization/styles'
+import { useLogoutMutation } from 'src/store/APIs/auth'
+import { useGenerateOrgInvitationCodeQuery } from 'src/store/APIs/organization'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { strings } from './strings'
 
-export const OrganizationCreated: SceneProps<Routes.OrganizationCreated> = ({
-  navigation,
-  route,
-}) => {
-  useSetNavigationOptions(navigation)
+export const Profile: SceneProps<Routes.Profile> = ({ navigation }) => {
+  useGoBackNavigationOptions(navigation)
 
-  const { invitationCode } = route.params
-
-  const onPressImReady = () => {
-    navigation.replace(Routes.Home)
-  }
+  const { data: invitationCode, isFetching } =
+    useGenerateOrgInvitationCodeQuery()
+  const [triggerLogout] = useLogoutMutation()
 
   const onPressShare = async () => {
     try {
@@ -41,7 +38,20 @@ export const OrganizationCreated: SceneProps<Routes.OrganizationCreated> = ({
     }
   }
 
-  return (
+  const onPressLogout = () => {
+    Alert.alert(strings.logoutButton, strings.confirmLogoutTitle, [
+      { text: strings.confirmLogoutCancel },
+      {
+        onPress: () => triggerLogout(),
+        style: 'destructive',
+        text: strings.confirmLogoutYes,
+      },
+    ])
+  }
+
+  return isFetching ? (
+    <ActivityIndicator />
+  ) : (
     <SceneContainer style={styles.container} edges={['top']}>
       <View style={styles.flexible}>
         <ScrollView>
@@ -66,17 +76,17 @@ export const OrganizationCreated: SceneProps<Routes.OrganizationCreated> = ({
             </StyledText>
             <IconButton icon="export-variant" onPress={onPressShare} />
           </View>
-          <View style={styles.buttonContainer}>
-            <Container>
-              <Button
-                title={strings.ready}
-                onPress={onPressImReady}
-                mode={ButtonMode.LINK}
-                style={styles.linkButton}
-              />
-            </Container>
-          </View>
         </ScrollView>
+        <View style={styles.buttonContainer}>
+          <Container>
+            <Button
+              title={strings.logoutButton}
+              onPress={onPressLogout}
+              mode={ButtonMode.ERROR_SOLID}
+              style={styles.linkButton}
+            />
+          </Container>
+        </View>
       </View>
     </SceneContainer>
   )

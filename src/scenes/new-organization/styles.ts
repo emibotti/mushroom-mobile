@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
   titleContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 40,
+    marginBottom: 30,
+    marginTop: 80,
   },
 })
