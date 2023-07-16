@@ -21,7 +21,7 @@ export enum ErrorStatus {
 }
 
 export enum Tags {
-  Organizations = 'Organizations',
+  Rooms = 'Rooms',
 }
 
 export type Builder = EndpointBuilder<BaseQueryFnType, Tags, ReducerPath>

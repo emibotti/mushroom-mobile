@@ -4,46 +4,21 @@ import {
 } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
 import { FlatList, ListRenderItem } from 'react-native'
-import { Button } from 'react-native-paper'
+import { Button, IconButton } from 'react-native-paper'
+import { Container } from 'src/components/Container'
 import { Header } from 'src/components/Header'
 import { MyceliumCard } from 'src/components/MyceliumCard'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { Routes } from 'src/navigation/routes'
 import { RouteProp, SceneProps } from 'src/navigation/types'
+import { useGetRoomQuery } from 'src/store/APIs/rooms'
+import { Mycelium } from 'src/store/APIs/rooms/types'
+import { Palette } from 'src/styles/Palette'
+import { AppTypography } from 'src/styles/types'
 
 import { strings } from './strings'
 import { styles } from './styles'
-
-enum Stage {
-  Culture = 'culture',
-  Spawn = 'spawn',
-  Bulk = 'bulk',
-  Fruit = 'fruit',
-}
-
-interface Mycelium {
-  name: string
-  id: string
-  stage: Stage
-  strain: string
-}
-
-const mockedBackendResponse: Mycelium[] = [
-  {
-    id: '1',
-    name: 'Cult-001',
-    stage: Stage.Culture,
-    strain: 'Pleorotus Ostreatus',
-  },
-  {
-    id: '2',
-    name: 'Fruit-001',
-    stage: Stage.Fruit,
-    strain: 'Pleorotus Ostreatus',
-  },
-  { id: '3', name: 'Fruit-002', stage: Stage.Fruit, strain: 'Shiitake' },
-]
 
 const buildHeader = (props: NativeStackHeaderProps) => (
   <Header
@@ -51,11 +26,21 @@ const buildHeader = (props: NativeStackHeaderProps) => (
       (props.route as RouteProp<Routes.Room>).params.name ??
       strings.roomHeaderTitle
     }
+    rightElement={
+      <IconButton
+        icon={'trash-can-outline'}
+        iconColor={Palette.ERROR_50}
+        size={30}
+        // onPress={() => {
+        //   Alert.alert()
+        // }}
+      />
+    }
     onPress={props.navigation.goBack}
   />
 )
 
-export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
+export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
   useLayoutEffect(() => {
     const options: NativeStackNavigationOptions = {
       header: buildHeader,
@@ -63,6 +48,8 @@ export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
     }
     navigation.setOptions(options)
   }, [navigation])
+
+  const { data: room } = useGetRoomQuery({ id: route.params.id })
 
   const renderMyceliums: ListRenderItem<Mycelium> = ({ item }) => (
     <MyceliumCard
@@ -82,6 +69,17 @@ export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
 
   return (
     <SceneContainer style={styles.container}>
+      <Container>
+        <StyledText typography={AppTypography.BODY_LARGE}>
+          {`<b>${strings.temperature}:</b> ${room?.temperature}`}
+        </StyledText>
+        <StyledText typography={AppTypography.BODY_LARGE}>
+          {`<b>${strings.humidity}:</b> ${room?.humidity}`}
+        </StyledText>
+        <StyledText typography={AppTypography.BODY_LARGE}>
+          {`<b>${strings.co2}:</b> ${room?.co2}`}
+        </StyledText>
+      </Container>
       <Button
         icon={'plus'}
         style={styles.agregarMicelioButton}
@@ -90,7 +88,7 @@ export const Room: SceneProps<Routes.Room> = ({ navigation }) => {
       </Button>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={mockedBackendResponse}
+        data={room?.mycellia}
         renderItem={renderMyceliums}
       />
     </SceneContainer>

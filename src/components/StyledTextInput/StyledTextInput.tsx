@@ -24,7 +24,13 @@ export interface StyledTextProps extends TextInputProps {
 export const StyledTextInput: React.FunctionComponent<
   StyledTextProps
 > = props => {
-  const { validValue = true, style, disabled, validated = false } = props
+  const {
+    validValue = true,
+    style,
+    disabled,
+    validated = false,
+    autoCorrect = false,
+  } = props
 
   const { inputTheme } = useInputColor(validated)
 
@@ -70,9 +76,11 @@ export const StyledTextInput: React.FunctionComponent<
         onPressOut={undefined}
         autoComplete={undefined}
         maxFontSizeMultiplier={MAX_FONT_MULTIPLIER}
+        autoCorrect={autoCorrect}
         accessible={true}
         autoCapitalize={'none'}
         mode={'outlined'}
+        returnKeyType={'done'}
         underlineColor={inputTheme.restingColor}
         error={!validValue}
         right={renderError(!validValue)}
