@@ -32,7 +32,7 @@ export const AddRoom: SceneProps<Routes.AddRoom> = ({ navigation }) => {
       triggerCreateRoom({ co_2: co2, humidity, name, notes, temperature })
         .unwrap()
         .then(room => {
-          navigation.navigate(Routes.Room, { id: room.id, name: room.name })
+          navigation.replace(Routes.Room, { id: room.id, name: room.name })
         })
     }
   }
