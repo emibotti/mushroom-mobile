@@ -1,6 +1,6 @@
-// import { useRoute } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import React from 'react'
-import { View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import FruitImage from 'src/assets/images/fruit-example.jpeg'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
@@ -9,8 +9,8 @@ import { ScrollableScreen } from 'src/components/ScrollableScreen/ScrollableScre
 import { StyledText } from 'src/components/StyledText'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
 import { Routes } from 'src/navigation/routes'
-// import { RouteProp, SceneProps } from 'src/navigation/types'
-import { SceneProps } from 'src/navigation/types'
+import { RouteProp, SceneProps } from 'src/navigation/types'
+import { useGetMyceliumQuery } from 'src/store/APIs/mycellium'
 import { mockedMycelium } from 'src/store/APIs/mycellium/types'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
@@ -45,19 +45,25 @@ const Row: React.FC<RowProps> = ({ attributeName, value, onPress }) => (
 )
 
 export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
-  // const route: RouteProp<Routes.Mycelium> = useRoute()
-  // const { id } = route.params
+  const route: RouteProp<Routes.Mycelium> = useRoute()
+  const { id } = route.params
 
-  const mycellium = mockedMycelium
+  const { data, isFetching } = useGetMyceliumQuery({ id })
 
-  useGoBackNavigationOptions(navigation)
+  // TODO: If that mycellium doesn't exist we should show the option to create
+  // a new mycellium with `id` = `id` (validate with backend if it is possible)
+  const mycellium = data ?? mockedMycelium
 
-  const navigateToMycellium = (id: string) => () =>
+  useGoBackNavigationOptions(navigation, true)
+
+  const navigateToMycellium = (myceliumToNavigate: string) => () =>
     navigation.navigate(Routes.Mycelium, {
-      id,
+      id: myceliumToNavigate,
     })
 
-  return (
+  return isFetching ? (
+    <ActivityIndicator />
+  ) : (
     <View style={styles.container}>
       <ScrollableScreen
         image={FruitImage}

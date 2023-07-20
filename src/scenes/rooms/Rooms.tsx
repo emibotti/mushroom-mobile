@@ -1,14 +1,10 @@
-import {
-  NativeStackHeaderProps,
-  NativeStackNavigationOptions,
-} from '@react-navigation/native-stack'
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { FlatList, ListRenderItem } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Card } from 'src/components/Card'
-import { Header } from 'src/components/Header'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
+import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 import { useGetRoomsQuery } from 'src/store/APIs/rooms'
@@ -21,18 +17,8 @@ interface Room {
   id: string
 }
 
-const buildHeader = (props: NativeStackHeaderProps) => (
-  <Header title={strings.roomsHeaderTitle} onPress={props.navigation.goBack} />
-)
-
 export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
-  useLayoutEffect(() => {
-    const options: NativeStackNavigationOptions = {
-      header: buildHeader,
-      headerTransparent: true,
-    }
-    navigation.setOptions(options)
-  }, [navigation])
+  useGoBackNavigationOptions(navigation, false, strings.roomsHeaderTitle)
 
   const { data: rooms } = useGetRoomsQuery()
 
@@ -50,13 +36,15 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
 
   return (
     <SceneContainer style={styles.container}>
-      <Button
-        icon={'plus'}
-        style={styles.addRoomButton}
-        onPress={onPressAddRoom}>
-        <StyledText>{strings.addRoom}</StyledText>
-      </Button>
       <FlatList
+        ListHeaderComponent={
+          <Button
+            icon={'plus'}
+            style={styles.addRoomButton}
+            onPress={onPressAddRoom}>
+            <StyledText>{strings.addRoom}</StyledText>
+          </Button>
+        }
         showsVerticalScrollIndicator={false}
         data={rooms}
         renderItem={renderRooms}

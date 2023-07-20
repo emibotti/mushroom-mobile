@@ -17,7 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   rightElement,
 }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.headerFirstRow}>
           {onPress && (
@@ -33,7 +33,6 @@ export const Header: React.FC<HeaderProps> = ({
           )}
           {rightElement}
         </View>
-
         {title && (
           <StyledText
             style={[styles.title, !onPress && styles.titleWithoutArrow]}>
@@ -53,12 +52,14 @@ const styles = StyleSheet.create({
     marginLeft: 0,
   },
   container: {
-    paddingHorizontal: 20,
+    padding: 20,
+    paddingBottom: 5,
   },
   headerFirstRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  safeArea: {},
   title: {
     fontSize: 32,
   },

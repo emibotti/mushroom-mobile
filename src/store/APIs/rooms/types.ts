@@ -37,7 +37,7 @@ export interface Room {
   temperature: number
   co2: number
   notes?: string
-  mycellia: Mycelium[]
+  mycellia: RoomMycelium[]
 }
 
 export const roomCardDeserializer = (room: RoomCard): RoomCard => room
@@ -53,14 +53,14 @@ export enum Stage {
   Fruit = 'fruit',
 }
 
-export interface Mycelium {
+export interface RoomMycelium {
   name: string
   id: string
   stage: Stage
   strain: string
 }
 
-export const mockedBackendResponse: Mycelium[] = [
+export const mockedBackendResponse: RoomMycelium[] = [
   {
     id: '1',
     name: 'Cult-001',
