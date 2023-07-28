@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon'
+import { generalStrings } from 'src/common/generalStrings'
 
 type CustomDate = DateTime
 
@@ -33,7 +34,7 @@ export interface MyceliumResponse {
   external_provider: string | null
   // TODO: Does it come directly from the backend?
   substrate: string
-  container: number
+  container: string
   strain_description: string
   shelf_time: number
   image_url: string
@@ -57,7 +58,7 @@ export interface MyceliumModel {
   externalProvider?: string
   // TODO: Is it a number? Should be a string. Backend will convert this to the substrate name instead of enum
   substrate: string
-  container: number
+  container: string
   strainDescription: string
   shelfTime: number
   imageUrl: string
@@ -70,25 +71,32 @@ export interface MyceliumModel {
 export const buildGeneration = (generationNumber: number): string => {
   switch (generationNumber) {
     case GenerationResponse.Mother:
-      return 'Madre'
+      return generalStrings.generationMother
     case GenerationResponse.Master:
-      return 'Master'
+      return generalStrings.generationMaster
     default:
-      return `Reproducción ${generationNumber}`
+      return `${generalStrings.generationRP} ${generationNumber}`
   }
 }
 
 export const buildStage = (stageResponse: StageResponse) => {
   switch (stageResponse) {
     case StageResponse.Culture:
-      return 'Culture'
+      return generalStrings.stageCulture // cultura
     case StageResponse.Spawn:
-      return 'Spawn'
+      return generalStrings.stageSpawn // semilla
     case StageResponse.Bulk:
-      return 'Bulk'
+      return generalStrings.stageBulk // bloque voluminoso
     case StageResponse.Fruit:
-      return 'Fruit'
+      return generalStrings.stageFruit // fructificación
   }
+}
+
+export const stage = {
+  [StageResponse.Culture]: generalStrings.stageCulture,
+  [StageResponse.Spawn]: generalStrings.stageSpawn,
+  [StageResponse.Bulk]: generalStrings.stageBulk,
+  [StageResponse.Fruit]: generalStrings.stageFruit,
 }
 
 export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
@@ -104,8 +112,8 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
     prefix: data.prefix,
     shelfTime: data.shelf_time,
     species: data.species,
-    // TODO: Check
-    stage: buildStage(data.type),
+    // TODO: Check if it comes a string instead of a number
+    stage: data.type ? stage[data.type] : 'Unknown',
     strainDescription: data.strain_description,
     strainSource: data.strain_source ?? undefined,
     substrate: data.substrate,
@@ -115,7 +123,7 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
 }
 
 export const mockedMyceliumBackendResponse: MyceliumResponse = {
-  container: 2,
+  container: 'Cardboard',
   created_at: '2023-07-18T10:00:00.000Z',
   external_provider: 'Provider XYZ',
   generation: 3,

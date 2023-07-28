@@ -46,7 +46,7 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
     />
   )
 
-  const onPressAddMycelium = () => navigation.navigate(Routes.Home)
+  const onPressAddMycelium = () => navigation.navigate(Routes.AddMycelium)
 
   return (
     <SceneContainer style={styles.container}>

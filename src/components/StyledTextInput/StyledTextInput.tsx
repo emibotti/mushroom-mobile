@@ -4,7 +4,6 @@ import { TextInput as PaperTextInput } from 'react-native-paper'
 import { TextInputProps as TextInputPaperProps } from 'react-native-paper'
 import { SharedValue } from 'react-native-reanimated'
 import { MAX_FONT_MULTIPLIER } from 'src/common/accessibility/fontEnlargement'
-import { Container } from 'src/components/Container'
 import { StyledText } from 'src/components/StyledText'
 import { useInputColor } from 'src/hooks/useInputColor'
 import { Palette } from 'src/styles/Palette'
@@ -17,7 +16,7 @@ export interface StyledTextProps extends TextInputProps {
   disabled?: TextInputPaperProps['disabled']
   validValue?: boolean
   validated?: boolean
-  isRequired?: boolean
+  required?: boolean
   isFocused?: SharedValue<boolean>
 }
 
@@ -44,7 +43,7 @@ export const StyledTextInput: React.FunctionComponent<
 
   const labelColor = disabled ? ColorPalette.SURFACE_50 : ColorPalette.INFO_50
 
-  const labelToShow = props.isRequired ? props.label + ' *' : props.label
+  const labelToShow = props.required ? props.label + ' *' : props.label
 
   const onFocus: TextInputProps['onFocus'] = event => {
     if (props.isFocused !== undefined) {
@@ -65,7 +64,7 @@ export const StyledTextInput: React.FunctionComponent<
   }
 
   return (
-    <Container>
+    <View style={styles.container}>
       {props.label && (
         <StyledText color={labelColor} typography={AppTypography.BUTTON_MEDIUM}>
           {labelToShow}
@@ -85,6 +84,7 @@ export const StyledTextInput: React.FunctionComponent<
         error={!validValue}
         right={renderError(!validValue)}
         theme={inputTheme.theme}
+        textContentType={'name'}
         {...props}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -101,6 +101,6 @@ export const StyledTextInput: React.FunctionComponent<
           />
         )}
       />
-    </Container>
+    </View>
   )
 }
