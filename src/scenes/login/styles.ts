@@ -22,7 +22,6 @@ export const styles = StyleSheet.create({
   },
   buttonForgot: {
     alignItems: 'flex-start',
-    marginLeft: 20,
   },
   center: {
     alignItems: 'center',

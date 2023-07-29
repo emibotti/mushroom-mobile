@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   },
   dropdown: {
     borderColor: Palette.SURFACE_70,
+    borderRadius: 5,
     marginBottom: 10,
   },
   outsideLabel: {

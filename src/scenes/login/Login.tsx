@@ -71,7 +71,7 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
               {strings.loginHeaderSubtitle}
             </StyledText>
           </Container>
-          <View style={styles.textInputsContainer}>
+          <Container style={styles.textInputsContainer}>
             <StyledTextInput
               label={strings.emailLabel}
               onBlur={checkEmail}
@@ -101,7 +101,7 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
                 size={ButtonSize.SMALL}
               />
             </View>
-          </View>
+          </Container>
           <View style={styles.buttonContainer}>
             <Button
               title={strings.loginButton}

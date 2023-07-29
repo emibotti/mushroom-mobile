@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import DropDownPicker, {
   DropDownPickerProps,
+  ItemType,
 } from 'react-native-dropdown-picker'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
@@ -8,10 +9,26 @@ import { StyledText } from '../StyledText'
 import { strings } from './strings'
 import { styles } from './styles'
 
-type Props = Omit<DropDownPickerProps<string>, 'open' & 'setOpen'> & {
+type Props = {
   outsideLabel?: string
   required?: boolean
-}
+  items: ItemType<string>[]
+  multiple?: false
+  onChangeValue?: (value: string | null) => void
+  onSelectItem?: (item: ItemType<string>) => void
+  setValue: React.Dispatch<React.SetStateAction<string | null>>
+  value: string | null
+} & Omit<
+  DropDownPickerProps<string>,
+  | 'open'
+  | 'setOpen'
+  | 'onChangeValue'
+  | 'onSelectItem'
+  | 'setValue'
+  | 'value'
+  | 'items'
+  | 'multiple'
+>
 
 export const DropdownPicker = ({
   outsideLabel,
