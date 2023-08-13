@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "mushroom-app",
+    "scheme": "mushroom",
     "slug": "mushroom-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,12 +12,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tesis.mushroomapp"
+      "bundleIdentifier": "com.tesis.mushroomapp",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -27,6 +29,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": ["expo-localization"]
   }
 }

@@ -15,8 +15,7 @@ export interface AuthUserRequest {
   password: string
 }
 
-// TODO: Check if it is the best option to generalize this..
-export interface AuthUserResponse {
+interface AuthUserResponse {
   email?: string
   id?: string
   organization_id: string | null

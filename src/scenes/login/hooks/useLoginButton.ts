@@ -4,6 +4,7 @@ import { useEmail } from 'src/hooks/useEmail'
 import { useLoginMutation } from 'src/store/APIs/auth'
 
 import { usePassword } from './usePassword'
+import { usePersistedUser } from 'src/hooks/useSecureStore'
 
 interface OuterProps {
   validEmail: ReturnType<typeof useEmail>['validEmail']

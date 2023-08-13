@@ -24,6 +24,7 @@ export const JoinOrganization: SceneProps<Routes.JoinOrganization> = ({
   const [organizationCode, setOrganizationCode] = useState<string | undefined>(
     route?.params?.invitationCode,
   )
+  console.log('route?.params?.invitationCode', route?.params?.invitationCode)
   const onChangeOrganizationCode = (code: string) => setOrganizationCode(code)
   const onPressWantToCreate = () =>
     navigation.navigate(Routes.CreateOrganization)

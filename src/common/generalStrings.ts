@@ -1,6 +1,6 @@
-import LocalizedStrings from 'react-native-localization'
+import { createLocalizedStrings } from 'src/common/createLocalizedStrings'
 
-export const generalStrings = new LocalizedStrings({
+export const generalStrings = createLocalizedStrings({
   en: {
     generationMaster: 'Máster',
     generationMother: 'Madre',

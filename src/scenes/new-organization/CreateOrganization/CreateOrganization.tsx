@@ -41,12 +41,12 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
     if (organizationName) {
       triggerCreateOrganization({ name: organizationName })
         .unwrap()
-        .then(({ organization }) => {
-          const persistedUser = getPersistedObject<PersistedUser>(
+        .then(async ({ organization }) => {
+          const persistedUser = await getPersistedObject<PersistedUser>(
             KeysPersisted.USER,
           )
-          clearPersistedObject(KeysPersisted.USER)
-          persistObject<PersistedUser>(
+          await clearPersistedObject(KeysPersisted.USER)
+          await persistObject<PersistedUser>(
             {
               ...persistedUser,
               hasOrganization: true,

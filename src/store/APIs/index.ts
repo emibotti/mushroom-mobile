@@ -23,14 +23,16 @@ export enum HttpMethod {
 export const loginEndpointName = 'login'
 export const registerEndpointName = 'register'
 
-export const prepareHeaders = (
+export const prepareHeaders = async (
   headers: Headers,
   {
     endpoint,
   }: Pick<BaseQueryApi, 'getState' | 'extra' | 'endpoint' | 'type' | 'forced'>,
 ) => {
   if (endpoint !== loginEndpointName && endpoint !== registerEndpointName) {
-    const persistedUser = getPersistedObject<PersistedUser>(KeysPersisted.USER)
+    const persistedUser = await getPersistedObject<PersistedUser>(
+      KeysPersisted.USER,
+    )
     if (persistedUser.session) {
       headers.set('Authorization', persistedUser.session)
     }

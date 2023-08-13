@@ -1,6 +1,6 @@
-import { MMKV } from 'react-native-mmkv'
+import * as SecureStore from 'expo-secure-store'
 
-export const storage = new MMKV()
+export const storage = SecureStore
 
 export interface PersistedUser {
   hasOrganization: boolean
@@ -11,17 +11,19 @@ export enum KeysPersisted {
   USER = 'USER',
 }
 
-export const persistObject = <T>(
+export const persistObject = async <T>(
   objectToPersist: T,
   keyToPersist: KeysPersisted,
 ) => {
-  storage.set(keyToPersist, JSON.stringify(objectToPersist))
+  await storage.setItemAsync(keyToPersist, JSON.stringify(objectToPersist))
 }
 
-export const getPersistedObject = <T>(keyOfObject: KeysPersisted): T => {
-  const encodedObject = storage.getString(keyOfObject)
+export const getPersistedObject = async <T>(
+  keyOfObject: KeysPersisted,
+): Promise<T> => {
+  const encodedObject = await storage.getItemAsync(keyOfObject)
   return encodedObject ? JSON.parse(encodedObject) : undefined
 }
-export function clearPersistedObject(keyOfObject: KeysPersisted) {
-  storage.delete(keyOfObject)
+export const clearPersistedObject = async (keyOfObject: KeysPersisted) => {
+  await storage.deleteItemAsync(keyOfObject)
 }

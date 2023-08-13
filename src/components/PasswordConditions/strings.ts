@@ -1,6 +1,6 @@
-import LocalizedStrings from 'react-native-localization'
+import { createLocalizedStrings } from 'src/common/createLocalizedStrings'
 
-export const strings = new LocalizedStrings({
+export const strings = createLocalizedStrings({
   en: {
     capitalsRequirement: 'Contain uppercase & lowercase letters',
     minimumCharactersRequirement: 'Minimum 8 characters',

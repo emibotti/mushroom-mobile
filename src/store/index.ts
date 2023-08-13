@@ -34,18 +34,22 @@ const generateErrorMessage = (payloadData: any): string => {
 const rtkQueryErrorLogger: Middleware =
   (_api: MiddlewareAPI) => next => action => {
     if (isRejectedWithValue(action)) {
+      console.log('action', action)
       if (action.payload) {
         // TODO: Be careful that 401 is used both to Signature expire and for "Invalid email" (maybe 422 is better?)
         if (
           action.payload.originalStatus === ErrorStatus.Unauthorized ||
           action.payload.status === ErrorStatus.Unauthorized
         ) {
+          // TODO: This won't work here, we should move it to custom baseQuery
           clearPersistedObject(KeysPersisted.USER)
           // TODO: Check and move to general strings
           Alert.alert(`You're being logged out`)
         } else {
           // TODO: Maybe in the future we can display localized custom messages depending on the response, instead of showing directly what the backend sends
-          const errorMessage = generateErrorMessage(action.payload.data)
+          const errorMessage = generateErrorMessage(
+            action.payload.data ?? action.payload.error,
+          )
           Alert.alert(errorMessage)
           // TODO: Combining error action with ErrorModal we can display errors all over the app nicely
           // api.dispatch(setErrorAction(errorMessage))
