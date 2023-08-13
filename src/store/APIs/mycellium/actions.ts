@@ -7,7 +7,7 @@ import {
   deserializeMyceliumOptions,
   MyceliumModel,
   MyceliumOptions,
-  MyceliumResponse,
+  MyceliumRequest,
 } from './types'
 
 export enum Endpoints {
@@ -24,10 +24,7 @@ export const getMycelium = (builder: Builder) =>
   })
 
 export const createMycelium = (builder: Builder) =>
-  // TODO: Add what needs to be sent intiially (optional and mandatory)
-  // also check return
-  builder.mutation<MyceliumModel, Partial<MyceliumResponse>>({
-    // TODO: What should we invalidate?
+  builder.mutation<MyceliumModel, MyceliumRequest>({
     invalidatesTags: () => [{ id: 'LIST', type: Tags.Mycelium }],
     query: mycelium => ({
       body: mycelium,

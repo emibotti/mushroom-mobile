@@ -66,7 +66,6 @@ export interface MyceliumResponse {
   shelf_time: number
   image_url: string
   weight: number
-  prefix: string
   created_at?: string
   updated_at?: string
 }
@@ -86,7 +85,8 @@ export interface MyceliumModel {
   shelfTime: number
   imageUrl: string
   weight: number
-  prefix: string
+  // TODO: Is it needed?
+  // prefix: string
   createdAt?: CustomDate
   updatedAt?: CustomDate
 }
@@ -105,13 +105,13 @@ export const buildGeneration = (generationNumber: number): string => {
 export const buildStage = (stageResponse: StageResponse) => {
   switch (stageResponse) {
     case StageResponse.Culture:
-      return generalStrings.stageCulture // cultura
+      return generalStrings.stageCulture
     case StageResponse.Spawn:
-      return generalStrings.stageSpawn // semilla
+      return generalStrings.stageSpawn
     case StageResponse.Bulk:
-      return generalStrings.stageBulk // bloque voluminoso
+      return generalStrings.stageBulk
     case StageResponse.Fruit:
-      return generalStrings.stageFruit // fructificación
+      return generalStrings.stageFruit
   }
 }
 
@@ -134,7 +134,6 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
       ? DateTime.fromISO(data.inoculation_date)
       : undefined,
     name: data.name,
-    prefix: data.prefix,
     shelfTime: data.shelf_time,
     species: data.species,
     // TODO: Check if it comes a string instead of a number
@@ -147,75 +146,25 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
   }
 }
 
-export const mockedMyceliumBackendResponse: MyceliumResponse = {
-  container: 'Cardboard',
-  created_at: '2023-07-18T10:00:00.000Z',
-  external_provider: 'Provider XYZ',
-  generation: 3,
-  id: 1,
-  image_url: 'https://example.com/image.jpg',
-  inoculation_date: '2023-07-18T08:00:00.000Z',
-  name: 'Mycelium 1',
-  prefix: 'ABC',
-  shelf_time: 5,
-  species: 'Example Species',
-  strain_description: `La gírgola, seta de ostra, champiñón ostra o pleuroto ostra es una especie de hongo basidiomiceto del orden Agaricales, comestible.​
-
-Este hongo crece en ambientes con temperaturas de 23 a 32°C con una óptima de 28°C para crecimiento micelial y de 18 a 20°C para formación de primordios, pH de 4.5 a 7 con un óptimo de 5.5, humedad de sustrato entre 60 y 70%, y una humedad relativa de 80 a 90% `,
-  strain_source: null,
-  substrate: 'Agar agar',
-  type: StageResponse.Culture,
-  updated_at: '2023-07-18T12:00:00.000Z',
-  weight: 0.5,
-}
-
-export const mockedMycelium: MyceliumModel = deserializeMycelium(
-  mockedMyceliumBackendResponse,
-)
-
 export interface MyceliumRequest {
-  id: number
-  name: string
   type: StageResponse
   species: string
-  inoculation_date: string
+  // TODO: We need to validate with the users if this will be valuable to have in the creation too
+  // inoculation_date: string
   strain_source_id: string | null
-  // TODO: Rename to `generation_number`?
   generation: GenerationResponse | number
   external_provider: string | null
-  // TODO: Does it come directly from the backend?
   substrate: string
   container: string
-  strain_description: string
-  shelf_time: number
-  image_url: string
-  weight: number
+  strain_description: string | null
+  shelf_time: number | null
+  image_url: string | null
+  weight: number | null
   prefix: string
-  created_at?: string
-  updated_at?: string
+  quantity: number
+  room_id: string
 }
 
-export const mockedMyceliumBackendRequest: MyceliumRequest = {
-  container: 'Cardboard',
-  created_at: '2023-07-18T10:00:00.000Z',
-  external_provider: 'Provider XYZ',
-  generation: 3,
-  id: 1,
-  image_url: 'https://example.com/image.jpg',
-  inoculation_date: '2023-07-18T08:00:00.000Z',
-  name: 'Mycelium 1',
-  prefix: 'ABC',
-  shelf_time: 5,
-  species: 'Example Species',
-  strain_description: `La gírgola, seta de ostra, champiñón ostra o pleuroto ostra es una especie de hongo basidiomiceto del orden Agaricales, comestible.​
-
-Este hongo crece en ambientes con temperaturas de 23 a 32°C con una óptima de 28°C para crecimiento micelial y de 18 a 20°C para formación de primordios, pH de 4.5 a 7 con un óptimo de 5.5, humedad de sustrato entre 60 y 70%, y una humedad relativa de 80 a 90% `,
-  strain_source_id: null,
-  substrate: 'Agar agar',
-  type: StageResponse.Culture,
-  updated_at: '2023-07-18T12:00:00.000Z',
-  weight: 0.5,
-}
 export interface MyceliumOptionItemResponse {
   translated_label: string
   value: string

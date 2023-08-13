@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { ActivityIndicator, ScrollView, View } from 'react-native'
 import { ItemType } from 'react-native-dropdown-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -19,6 +19,7 @@ import {
   stage as stageTypes,
   StageResponse,
 } from 'src/store/APIs/mycellium/types'
+import { useGetRoomsQuery } from 'src/store/APIs/rooms'
 
 import { strings } from './strings'
 import { styles } from './styles'
@@ -46,25 +47,36 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
   const [weight, setWeight] = useState('')
   const [shelfTime, setShelfTime] = useState('')
   const [notes, setNotes] = useState('')
+  const [quantity, setQuantity] = useState('1')
 
   const [triggerCreateMycelium] = useCreateMyceliumMutation()
   const { data: myceliumOptions } = useGetMyceliumOptionsQuery()
+  const { data: roomsAvailableSerialized } = useGetRoomsQuery()
+
+  const roomsAvailable: Option[] = useMemo(() => {
+    return roomsAvailableSerialized
+      ? roomsAvailableSerialized.map(
+          (item): Option => ({ label: item.name, value: item.id }),
+        )
+      : []
+  }, [roomsAvailableSerialized])
 
   const [type, setType] = useState<string | null>(null)
   const [species, setSpecies] = useState<string | null>(null)
   const [generation, setGeneration] = useState<string | null>(null)
   const [substrate, setSubstrate] = useState<string | null>(null)
   const [container, setContainer] = useState<string | null>(null)
-  const [quantity, setQuantity] = useState<string | undefined>('1')
+  const [room, setRoom] = useState<string | null>(null)
 
   const validValues =
     prefix &&
     type &&
     species &&
-    provider &&
     generation &&
     substrate &&
-    container
+    container &&
+    room &&
+    quantity
 
   const onPressCreateRoom = () => {
     if (validValues) {
@@ -72,11 +84,19 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
         container,
         external_provider: provider,
         generation: Number(generation),
+        // TODO:
+        image_url: null,
         prefix,
+        quantity: Number(quantity),
+        room_id: room,
         shelf_time: Number(shelfTime),
         species,
+        strain_description: description,
+        // TODO:
+        strain_source_id: null,
         substrate,
         type: type as StageResponse,
+        weight: Number(weight),
       })
       // TODO: Navigate to "Print screen"
       // .unwrap()
@@ -113,7 +133,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             />
 
             <DropdownPicker
-              outsideLabel={'Especie'}
+              outsideLabel={strings.speciesLabel}
               value={species}
               items={myceliumOptions.speciesOptions}
               setValue={setSpecies}
@@ -121,7 +141,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             />
 
             <StyledTextInput
-              label={'Proveedor'}
+              label={strings.providerLabel}
               onChangeText={setProvider}
               value={provider}
               textContentType={'name'}
@@ -129,7 +149,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             />
 
             <DropdownPicker
-              outsideLabel={'Generación'}
+              outsideLabel={strings.generationLabel}
               value={generation}
               items={generationOptions}
               setValue={setGeneration}
@@ -137,7 +157,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             />
 
             <DropdownPicker
-              outsideLabel={'Sustrato (medio de cultivo)'}
+              outsideLabel={strings.substrateLabel}
               value={substrate}
               items={myceliumOptions.substrateOptions}
               setValue={setSubstrate}
@@ -145,7 +165,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             />
 
             <DropdownPicker
-              outsideLabel={'Contenedor'}
+              outsideLabel={strings.containerLabel}
               value={container}
               items={myceliumOptions.containerOptions}
               setValue={setContainer}
@@ -153,28 +173,28 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             />
 
             <StyledTextInput
-              label={'Peso (g)'}
+              label={strings.weightLabel}
               value={weight}
               onChangeText={setWeight}
               keyboardType="numeric"
             />
 
             <StyledTextInput
-              label={'Shelf time (days)'}
+              label={strings.shelfTimeLabel}
               value={shelfTime}
               onChangeText={setShelfTime}
               keyboardType="numeric"
             />
 
             <StyledTextInput
-              label={'Quantity'}
+              label={strings.quantityLabel}
               value={quantity}
               onChangeText={setQuantity}
               keyboardType="numeric"
             />
 
             <StyledTextInput
-              label={'Características (opcional)'}
+              label={strings.descriptionLabel}
               value={description}
               onChangeText={setDescription}
               multiline={true}
@@ -182,11 +202,19 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             />
 
             <StyledTextInput
-              label={'Observaciones (opcional)'}
+              label={strings.notesLabel}
               value={notes}
               onChangeText={setNotes}
               multiline={true}
               numberOfLines={4}
+            />
+
+            <DropdownPicker
+              outsideLabel={strings.roomLabel}
+              value={room}
+              items={roomsAvailable}
+              setValue={setRoom}
+              required
             />
           </Container>
           <View style={styles.buttonContainer}>
