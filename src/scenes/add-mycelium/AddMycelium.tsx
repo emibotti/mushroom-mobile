@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { ActivityIndicator, ScrollView, View } from 'react-native'
 import { ItemType } from 'react-native-dropdown-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Button } from 'src/components/Button'
@@ -10,10 +10,14 @@ import { StyledTextInput } from 'src/components/StyledTextInput'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
-import { useCreateMyceliumMutation } from 'src/store/APIs/mycellium'
+import {
+  useCreateMyceliumMutation,
+  useGetMyceliumOptionsQuery,
+} from 'src/store/APIs/mycellium'
 import {
   buildGeneration,
   stage as stageTypes,
+  StageResponse,
 } from 'src/store/APIs/mycellium/types'
 
 import { strings } from './strings'
@@ -33,59 +37,6 @@ const generationOptions: Option[] = [...Array(5).keys()].map(index => ({
   value: `${index - 1}`,
 }))
 
-const speciesOptions: Option[] = [
-  {
-    label: 'Shiitake',
-    value: 'Shiitake',
-  },
-  {
-    label: 'Pleoreotus',
-    value: 'Pleoreotus',
-  },
-  {
-    label: 'Porcini',
-    value: 'Porcini',
-  },
-  {
-    label: 'Portobello',
-    value: 'Portobello',
-  },
-]
-
-const substrateOptions: Option[] = [
-  {
-    label: 'Trigo de centerno',
-    value: 'Trigo de centerno',
-  },
-  {
-    label: 'Maíz',
-    value: 'Maíz',
-  },
-  {
-    label: 'Pulpa de café',
-    value: 'Pulpa de café',
-  },
-  {
-    label: 'Papa Dextrosa Agar',
-    value: 'Papa Dextrosa Agar',
-  },
-]
-
-const containerOptions: Option[] = [
-  {
-    label: 'Tuvo de Agar inclinado',
-    value: 'Tuvo de Agar inclinado',
-  },
-  {
-    label: 'Frasco de grano',
-    value: 'Frasco de grano',
-  },
-  {
-    label: 'Bolsa vertical',
-    value: 'Bolsa vertical',
-  },
-]
-
 export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
   useGoBackNavigationOptions(navigation, false, strings.screenHeader)
 
@@ -97,16 +48,18 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
   const [notes, setNotes] = useState('')
 
   const [triggerCreateMycelium] = useCreateMyceliumMutation()
+  const { data: myceliumOptions } = useGetMyceliumOptionsQuery()
 
-  const [stage, setStage] = useState<string | null>(null)
+  const [type, setType] = useState<string | null>(null)
   const [species, setSpecies] = useState<string | null>(null)
   const [generation, setGeneration] = useState<string | null>(null)
   const [substrate, setSubstrate] = useState<string | null>(null)
   const [container, setContainer] = useState<string | null>(null)
+  const [quantity, setQuantity] = useState<string | undefined>('1')
 
   const validValues =
     prefix &&
-    stage &&
+    type &&
     species &&
     provider &&
     generation &&
@@ -123,7 +76,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
         shelf_time: Number(shelfTime),
         species,
         substrate,
-        type: Number(stage),
+        type: type as StageResponse,
       })
       // TODO: Navigate to "Print screen"
       // .unwrap()
@@ -135,7 +88,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
 
   const disabledButton = !validValues
 
-  return (
+  return myceliumOptions ? (
     <KeyboardAwareScrollView
       accessible={false}
       contentContainerStyle={styles.flexible}
@@ -153,16 +106,16 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             />
             <DropdownPicker
               outsideLabel={strings.stageLabel}
-              value={stage}
+              value={type}
               items={stagesOptions}
-              setValue={setStage}
+              setValue={setType}
               required
             />
 
             <DropdownPicker
               outsideLabel={'Especie'}
               value={species}
-              items={speciesOptions}
+              items={myceliumOptions.speciesOptions}
               setValue={setSpecies}
               required
             />
@@ -186,7 +139,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             <DropdownPicker
               outsideLabel={'Sustrato (medio de cultivo)'}
               value={substrate}
-              items={substrateOptions}
+              items={myceliumOptions.substrateOptions}
               setValue={setSubstrate}
               required
             />
@@ -194,7 +147,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             <DropdownPicker
               outsideLabel={'Contenedor'}
               value={container}
-              items={containerOptions}
+              items={myceliumOptions.containerOptions}
               setValue={setContainer}
               required
             />
@@ -210,6 +163,13 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
               label={'Shelf time (days)'}
               value={shelfTime}
               onChangeText={setShelfTime}
+              keyboardType="numeric"
+            />
+
+            <StyledTextInput
+              label={'Quantity'}
+              value={quantity}
+              onChangeText={setQuantity}
               keyboardType="numeric"
             />
 
@@ -242,5 +202,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
         </ScrollView>
       </View>
     </KeyboardAwareScrollView>
+  ) : (
+    <ActivityIndicator />
   )
 }

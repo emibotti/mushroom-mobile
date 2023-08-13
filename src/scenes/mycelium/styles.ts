@@ -27,7 +27,10 @@ export const styles = StyleSheet.create({
   rowComponent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 15,
+    paddingVertical: 10,
+  },
+  rowText: {
+    marginRight: 10,
   },
   screen: {
     padding: Spacing[SpacingScale.HORIZONTAL_SCREEN_PADDING],

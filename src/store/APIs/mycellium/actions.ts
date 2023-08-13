@@ -2,11 +2,18 @@ import { Builder, Tags } from 'src/store/APIs/types'
 import { format } from 'util'
 
 import { HttpMethod } from '..'
-import { deserializeMycelium, MyceliumModel, MyceliumResponse } from './types'
+import {
+  deserializeMycelium,
+  deserializeMyceliumOptions,
+  MyceliumModel,
+  MyceliumOptions,
+  MyceliumResponse,
+} from './types'
 
 export enum Endpoints {
   GetMycelium = '/mycelia/%s',
   CreateMycelium = '/mycelia',
+  GetMyceliumOptions = '/mycelia/options',
 }
 
 export const getMycelium = (builder: Builder) =>
@@ -28,4 +35,11 @@ export const createMycelium = (builder: Builder) =>
       url: Endpoints.CreateMycelium,
     }),
     transformResponse: deserializeMycelium,
+  })
+
+export const getMyceliumOptions = (builder: Builder) =>
+  builder.query<MyceliumOptions, void>({
+    providesTags: () => [{ type: Tags.MyceliumOptions }],
+    query: () => Endpoints.GetMyceliumOptions,
+    transformResponse: deserializeMyceliumOptions,
   })

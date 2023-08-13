@@ -15,24 +15,51 @@ export enum GenerationResponse {
 }
 
 export enum StageResponse {
-  Culture = 0,
-  Spawn = 1,
-  Bulk = 2,
-  Fruit = 3,
+  Culture = 'Culture',
+  Spawn = 'Spawn',
+  Bulk = 'Bulk',
+  Fruit = 'Fruit',
 }
+
+export interface MyceliumCardResponse {
+  id: string
+  image_url: string | null
+  name: string
+  species: string
+  type: StageResponse
+}
+
+export interface MyceliumCard {
+  id: string
+  image_url: string | undefined
+  name: string
+  species: string
+  type: string
+}
+
+export const myceliumCardDeserializer = (
+  data: MyceliumCardResponse,
+): MyceliumCard => ({
+  id: data.id,
+  image_url: data.image_url ?? undefined,
+  name: data.name,
+  species: data.species,
+  type: buildStage(data.type),
+})
+
+export const myceliaCardDeserializer = (
+  data: MyceliumCardResponse[],
+): MyceliumCard[] => data.map(myceliumCardDeserializer)
 
 export interface MyceliumResponse {
   id: number
   name: string
   type: StageResponse
   species: string
-  inoculation_date: string
-  // strain_source_id: number
+  inoculation_date: string | null
   strain_source: StrainLink | null
-  // TODO: Rename to `generation_number`?
   generation: GenerationResponse | number
   external_provider: string | null
-  // TODO: Does it come directly from the backend?
   substrate: string
   container: string
   strain_description: string
@@ -49,14 +76,10 @@ export interface MyceliumModel {
   name: string
   stage: string
   species: string
-  inoculationDate: CustomDate
-  // TODO: Return the entity instead or directly the string (strain_source_name)
-  // strainSourceId: number
+  inoculationDate: CustomDate | undefined
   strainSource?: StrainLink
-  // TODO: Convert to "enum" -> -1: Madre, 0: Master, 1: RP 1, 2: RP 2, ....
   generation: string
   externalProvider?: string
-  // TODO: Is it a number? Should be a string. Backend will convert this to the substrate name instead of enum
   substrate: string
   container: string
   strainDescription: string
@@ -107,7 +130,9 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
     generation: buildGeneration(data.generation),
     id: data.id,
     imageUrl: data.image_url,
-    inoculationDate: DateTime.fromISO(data.inoculation_date),
+    inoculationDate: data.inoculation_date
+      ? DateTime.fromISO(data.inoculation_date)
+      : undefined,
     name: data.name,
     prefix: data.prefix,
     shelfTime: data.shelf_time,
@@ -139,7 +164,7 @@ export const mockedMyceliumBackendResponse: MyceliumResponse = {
 Este hongo crece en ambientes con temperaturas de 23 a 32°C con una óptima de 28°C para crecimiento micelial y de 18 a 20°C para formación de primordios, pH de 4.5 a 7 con un óptimo de 5.5, humedad de sustrato entre 60 y 70%, y una humedad relativa de 80 a 90% `,
   strain_source: null,
   substrate: 'Agar agar',
-  type: 0,
+  type: StageResponse.Culture,
   updated_at: '2023-07-18T12:00:00.000Z',
   weight: 0.5,
 }
@@ -147,3 +172,84 @@ Este hongo crece en ambientes con temperaturas de 23 a 32°C con una óptima de 
 export const mockedMycelium: MyceliumModel = deserializeMycelium(
   mockedMyceliumBackendResponse,
 )
+
+export interface MyceliumRequest {
+  id: number
+  name: string
+  type: StageResponse
+  species: string
+  inoculation_date: string
+  strain_source_id: string | null
+  // TODO: Rename to `generation_number`?
+  generation: GenerationResponse | number
+  external_provider: string | null
+  // TODO: Does it come directly from the backend?
+  substrate: string
+  container: string
+  strain_description: string
+  shelf_time: number
+  image_url: string
+  weight: number
+  prefix: string
+  created_at?: string
+  updated_at?: string
+}
+
+export const mockedMyceliumBackendRequest: MyceliumRequest = {
+  container: 'Cardboard',
+  created_at: '2023-07-18T10:00:00.000Z',
+  external_provider: 'Provider XYZ',
+  generation: 3,
+  id: 1,
+  image_url: 'https://example.com/image.jpg',
+  inoculation_date: '2023-07-18T08:00:00.000Z',
+  name: 'Mycelium 1',
+  prefix: 'ABC',
+  shelf_time: 5,
+  species: 'Example Species',
+  strain_description: `La gírgola, seta de ostra, champiñón ostra o pleuroto ostra es una especie de hongo basidiomiceto del orden Agaricales, comestible.​
+
+Este hongo crece en ambientes con temperaturas de 23 a 32°C con una óptima de 28°C para crecimiento micelial y de 18 a 20°C para formación de primordios, pH de 4.5 a 7 con un óptimo de 5.5, humedad de sustrato entre 60 y 70%, y una humedad relativa de 80 a 90% `,
+  strain_source_id: null,
+  substrate: 'Agar agar',
+  type: StageResponse.Culture,
+  updated_at: '2023-07-18T12:00:00.000Z',
+  weight: 0.5,
+}
+export interface MyceliumOptionItemResponse {
+  translated_label: string
+  value: string
+}
+
+export interface MyceliumOptionItem {
+  label: string
+  value: string
+}
+
+export interface MyceliumOptionsResponse {
+  species: MyceliumOptionItemResponse[]
+  substrates: MyceliumOptionItemResponse[]
+  containers: MyceliumOptionItemResponse[]
+}
+
+export interface MyceliumOptions {
+  speciesOptions: MyceliumOptionItem[]
+  substrateOptions: MyceliumOptionItem[]
+  containerOptions: MyceliumOptionItem[]
+}
+
+export const deserializeMyceliumOptionItem = (
+  data: MyceliumOptionItemResponse,
+): MyceliumOptionItem => ({ label: data.translated_label, value: data.value })
+
+export const deserializeMyceliumOptionItems = (
+  data: MyceliumOptionItemResponse[],
+): MyceliumOptionItem[] => data.map(deserializeMyceliumOptionItem)
+
+export const deserializeMyceliumOptions = (
+  data: MyceliumOptionsResponse,
+): MyceliumOptions => ({
+  containerOptions: deserializeMyceliumOptionItems(data.containers),
+  speciesOptions: deserializeMyceliumOptionItems(data.species),
+  substrateOptions: deserializeMyceliumOptionItems(data.substrates),
+})

@@ -11,7 +11,6 @@ import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions
 import { Routes } from 'src/navigation/routes'
 import { RouteProp, SceneProps } from 'src/navigation/types'
 import { useGetMyceliumQuery } from 'src/store/APIs/mycellium'
-import { mockedMycelium } from 'src/store/APIs/mycellium/types'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { strings } from './strings'
@@ -25,7 +24,9 @@ interface RowProps {
 
 const Row: React.FC<RowProps> = ({ attributeName, value, onPress }) => (
   <View style={styles.rowComponent}>
-    <StyledText typography={AppTypography.BODY_LARGE_BOLD}>
+    <StyledText
+      typography={AppTypography.BODY_LARGE_BOLD}
+      style={styles.rowText}>
       {attributeName}
     </StyledText>
     {onPress ? (
@@ -48,22 +49,18 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
   const route: RouteProp<Routes.Mycelium> = useRoute()
   const { id } = route.params
 
-  const { data, isFetching } = useGetMyceliumQuery({ id })
-
-  // TODO: If that mycellium doesn't exist we should show the option to create
-  // a new mycellium with `id` = `id` (validate with backend if it is possible)
-  const mycellium = data ?? mockedMycelium
+  const { data: mycelium, isFetching } = useGetMyceliumQuery({ id })
 
   useGoBackNavigationOptions(navigation, true)
 
   const navigateToMycellium = (myceliumToNavigate: string) => () =>
-    navigation.navigate(Routes.Mycelium, {
+    navigation.push(Routes.Mycelium, {
       id: myceliumToNavigate,
     })
 
   return isFetching ? (
     <ActivityIndicator />
-  ) : (
+  ) : mycelium ? (
     <View style={styles.container}>
       <ScrollableScreen
         image={FruitImage}
@@ -72,44 +69,43 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
           <View style={styles.header}>
             <View>
               <StyledText typography={AppTypography.H1}>
-                {mycellium.name}
+                {mycelium.name}
               </StyledText>
               <View style={styles.stageTag}>
-                <StyledText style={styles.stage}>{mycellium.stage}</StyledText>
+                <StyledText style={styles.stage}>{mycelium.stage}</StyledText>
               </View>
             </View>
           </View>
-          <View>
-            <Row attributeName={strings.species} value={mycellium.species} />
-            <Row
-              attributeName={strings.inoculationDate}
-              value={mycellium.inoculationDate.toLocaleString({
-                day: 'numeric',
-                month: 'long',
-              })}
-            />
+          <Container>
+            <Row attributeName={strings.species} value={mycelium.species} />
+            {mycelium.inoculationDate && (
+              <Row
+                attributeName={strings.inoculationDate}
+                value={mycelium.inoculationDate.toLocaleString({
+                  day: 'numeric',
+                  month: 'long',
+                })}
+              />
+            )}
             <Row
               attributeName={strings.strainSource}
               value={
-                mycellium.strainSource
-                  ? mycellium.strainSource.name
-                  : mycellium.externalProvider ?? ''
+                mycelium.strainSource
+                  ? mycelium.strainSource.name
+                  : mycelium.externalProvider ?? ''
               }
               onPress={
-                mycellium.strainSource
-                  ? navigateToMycellium(mycellium.strainSource.id)
+                mycelium.strainSource
+                  ? navigateToMycellium(mycelium.strainSource.id)
                   : undefined
               }
             />
-            <Row
-              attributeName={strings.substrate}
-              value={mycellium.substrate}
-            />
+            <Row attributeName={strings.substrate} value={mycelium.substrate} />
             <Row
               attributeName={strings.generation}
-              value={mycellium.generation}
+              value={mycelium.generation}
             />
-          </View>
+          </Container>
           <Container style={styles.strainDescriptionContainer}>
             <StyledText typography={AppTypography.H1}>
               {strings.strainDescription}
@@ -118,7 +114,7 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               style={styles.strainDescription}
               typography={AppTypography.BODY_MEDIUM}
               color={ColorPalette.SURFACE_70}>
-              {mycellium.strainDescription}
+              {mycelium.strainDescription}
             </StyledText>
           </Container>
           <Container style={styles.historyContainer}>
@@ -128,6 +124,12 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
           </Container>
         </View>
       </ScrollableScreen>
+    </View>
+  ) : (
+    <View>
+      <StyledText>
+        {`This QR doesn't have an associated mycelium yet, do you want to create it?`}
+      </StyledText>
     </View>
   )
 }

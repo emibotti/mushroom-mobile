@@ -49,7 +49,7 @@ export const JoinOrganization: SceneProps<Routes.JoinOrganization> = ({
       contentContainerStyle={styles.flexible}
       bounces={false}>
       <SceneContainer style={styles.container} edges={['top']}>
-        <View style={styles.flexible}>
+        <Container style={styles.flexible}>
           <ScrollView>
             <View style={styles.titleContainer}>
               <StyledText
@@ -85,7 +85,7 @@ export const JoinOrganization: SceneProps<Routes.JoinOrganization> = ({
               </Container>
             </View>
           </ScrollView>
-        </View>
+        </Container>
       </SceneContainer>
     </KeyboardAwareScrollView>
   )

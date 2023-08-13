@@ -1,3 +1,9 @@
+import {
+  myceliaCardDeserializer,
+  MyceliumCard,
+  MyceliumCardResponse,
+} from '../mycellium/types'
+
 export enum Endpoints {
   GetRooms = '/rooms',
   CreateRoom = '/rooms',
@@ -10,16 +16,23 @@ export interface RoomCard {
   name: string
 }
 
+export interface RoomCardResponse {
+  id: string
+  name: string
+}
+
 export interface RoomResponse {
   id: string
   name: string
   created_at: string
   updated_at: string
-  humidity: number
-  temperature: number
-  co_2: number
+  room_current_measure: {
+    humidity: number
+    temperature: number
+    co_2: number
+  }
   notes?: string
-  // mycellia: Mycelium[]
+  mycelia: MyceliumCardResponse[]
 }
 
 export interface RoomRequest {
@@ -37,51 +50,22 @@ export interface Room {
   temperature: number
   co2: number
   notes?: string
-  mycellia: RoomMycelium[]
+  mycelia: MyceliumCard[]
 }
 
-export const roomCardDeserializer = (room: RoomCard): RoomCard => room
+export const roomCardDeserializer = (data: RoomCardResponse): RoomCard => ({
+  id: data.id,
+  name: data.name,
+})
 export const roomCardsDeserializer = (rooms: RoomCard[]): RoomCard[] =>
   rooms.map(roomCardDeserializer)
 
-// TODO: Move all this to Mycellium types
-
-export enum Stage {
-  Culture = 'culture',
-  Spawn = 'spawn',
-  Bulk = 'bulk',
-  Fruit = 'fruit',
-}
-
-export interface RoomMycelium {
-  name: string
-  id: string
-  stage: Stage
-  strain: string
-}
-
-export const mockedBackendResponse: RoomMycelium[] = [
-  {
-    id: '1',
-    name: 'Cult-001',
-    stage: Stage.Culture,
-    strain: 'Pleorotus Ostreatus',
-  },
-  {
-    id: '2',
-    name: 'Fruit-001',
-    stage: Stage.Fruit,
-    strain: 'Pleorotus Ostreatus',
-  },
-  { id: '3', name: 'Fruit-002', stage: Stage.Fruit, strain: 'Shiitake' },
-]
-
-export const roomDeserializer = (data: RoomResponse) => ({
-  co2: data.co_2,
-  humidity: data.humidity,
+export const roomDeserializer = (data: RoomResponse): Room => ({
+  co2: data.room_current_measure.co_2,
+  humidity: data.room_current_measure.humidity,
   id: data.id,
-  mycellia: mockedBackendResponse,
+  mycelia: myceliaCardDeserializer(data.mycelia),
   name: data.name,
   notes: data.notes,
-  temperature: data.temperature,
+  temperature: data.room_current_measure.temperature,
 })

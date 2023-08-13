@@ -23,6 +23,7 @@ export enum ErrorStatus {
 export enum Tags {
   Rooms = 'Rooms',
   Mycelium = 'Mycelium',
+  MyceliumOptions = 'MyceliumOptions',
 }
 
 export type Builder = EndpointBuilder<BaseQueryFnType, Tags, ReducerPath>

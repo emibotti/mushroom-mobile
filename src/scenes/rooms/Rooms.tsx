@@ -48,6 +48,12 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         data={rooms}
         renderItem={renderRooms}
+        // TODO: Define empty component
+        // ListEmptyComponent={() => (
+        //   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        //     <StyledText>{'No rooms yet'}</StyledText>
+        //   </View>
+        // )}
       />
     </SceneContainer>
   )
