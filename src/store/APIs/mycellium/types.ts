@@ -1,9 +1,7 @@
-import { DateTime } from 'luxon'
 import { generalStrings } from 'src/common/generalStrings'
+import { optionalDateConverter } from 'src/common/helpers'
 
-type CustomDate = DateTime
-
-interface StrainLink {
+export interface EntityLink {
   id: string
   name: string
 }
@@ -57,7 +55,7 @@ export interface MyceliumResponse {
   type: StageResponse
   species: string
   inoculation_date: string | null
-  strain_source: StrainLink | null
+  strain_source: EntityLink | null
   generation: GenerationResponse | number
   external_provider: string | null
   substrate: string
@@ -66,8 +64,8 @@ export interface MyceliumResponse {
   shelf_time: number
   image_url: string
   weight: number
-  created_at?: string
-  updated_at?: string
+  created_at: string | null
+  updated_at: string | null
 }
 
 export interface MyceliumModel {
@@ -75,8 +73,9 @@ export interface MyceliumModel {
   name: string
   stage: string
   species: string
-  inoculationDate: CustomDate | undefined
-  strainSource?: StrainLink
+  // TODO: to string
+  inoculationDate: string | undefined
+  strainSource?: EntityLink
   generation: string
   externalProvider?: string
   substrate: string
@@ -87,8 +86,13 @@ export interface MyceliumModel {
   weight: number
   // TODO: Is it needed?
   // prefix: string
-  createdAt?: CustomDate
-  updatedAt?: CustomDate
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface CreateMyceliumResponse {
+  mycelia: EntityLink[]
+  message: string
 }
 
 export const buildGeneration = (generationNumber: number): string => {
@@ -125,14 +129,12 @@ export const stage = {
 export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
   return {
     container: data.container,
-    createdAt: data.created_at ? DateTime.fromISO(data.created_at) : undefined,
+    createdAt: optionalDateConverter(data.created_at),
     externalProvider: data.external_provider ?? undefined,
     generation: buildGeneration(data.generation),
     id: data.id,
     imageUrl: data.image_url,
-    inoculationDate: data.inoculation_date
-      ? DateTime.fromISO(data.inoculation_date)
-      : undefined,
+    inoculationDate: optionalDateConverter(data.inoculation_date),
     name: data.name,
     shelfTime: data.shelf_time,
     species: data.species,
@@ -141,7 +143,7 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
     strainDescription: data.strain_description,
     strainSource: data.strain_source ?? undefined,
     substrate: data.substrate,
-    updatedAt: data.updated_at ? DateTime.fromISO(data.updated_at) : undefined,
+    updatedAt: optionalDateConverter(data.updated_at),
     weight: data.weight,
   }
 }

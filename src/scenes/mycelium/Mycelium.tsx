@@ -1,16 +1,21 @@
 import { useRoute } from '@react-navigation/native'
 import React from 'react'
 import { ActivityIndicator, View } from 'react-native'
-import FruitImage from 'src/assets/images/fruit-example.jpeg'
+import BulkImagePlaceholder from 'src/assets/images/bulk_example.png'
+import CultureImagePlaceholder from 'src/assets/images/culture_example.png'
+import FruitImagePlaceholder from 'src/assets/images/fruit_example.jpeg'
+import SpawnImagePlaceholder from 'src/assets/images/spawn_example.png'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
+import { SceneContainer } from 'src/components/SceneContainer'
 import { ScrollableScreen } from 'src/components/ScrollableScreen/ScrollableScreen'
 import { StyledText } from 'src/components/StyledText'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { RouteProp, SceneProps } from 'src/navigation/types'
 import { useGetMyceliumQuery } from 'src/store/APIs/mycellium'
+import { StageResponse } from 'src/store/APIs/mycellium/types'
 import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { strings } from './strings'
@@ -20,6 +25,19 @@ interface RowProps {
   attributeName: string
   value: string | number
   onPress?: () => void
+}
+
+const stageImagePlaceholder = (stage: StageResponse) => {
+  switch (stage) {
+    case StageResponse.Culture:
+      return CultureImagePlaceholder
+    case StageResponse.Spawn:
+      return SpawnImagePlaceholder
+    case StageResponse.Bulk:
+      return BulkImagePlaceholder
+    case StageResponse.Fruit:
+      return FruitImagePlaceholder
+  }
 }
 
 const Row: React.FC<RowProps> = ({ attributeName, value, onPress }) => (
@@ -63,7 +81,12 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
   ) : mycelium ? (
     <View style={styles.container}>
       <ScrollableScreen
-        image={FruitImage}
+        image={
+          mycelium.imageUrl
+            ? { uri: mycelium.imageUrl }
+            : stageImagePlaceholder(mycelium.stage as StageResponse)
+          // TODO: Fix typings
+        }
         buttonProps={{ title: strings.inspectButtonLabel }}>
         <View style={styles.screen}>
           <View style={styles.header}>
@@ -81,10 +104,7 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
             {mycelium.inoculationDate && (
               <Row
                 attributeName={strings.inoculationDate}
-                value={mycelium.inoculationDate.toLocaleString({
-                  day: 'numeric',
-                  month: 'long',
-                })}
+                value={mycelium?.inoculationDate}
               />
             )}
             <Row
@@ -126,10 +146,14 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
       </ScrollableScreen>
     </View>
   ) : (
-    <View>
-      <StyledText>
-        {`This QR doesn't have an associated mycelium yet, do you want to create it?`}
-      </StyledText>
-    </View>
+    <SceneContainer style={styles.centeredContent}>
+      <Container>
+        <StyledText
+          style={styles.textCenter}
+          typography={AppTypography.BODY_LARGE}>
+          {strings.myceliumNotFound}
+        </StyledText>
+      </Container>
+    </SceneContainer>
   )
 }

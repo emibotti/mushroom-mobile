@@ -4,7 +4,11 @@ import { Spacing } from 'src/styles/Spacing'
 import { SpacingScale } from 'src/styles/types'
 
 export const styles = StyleSheet.create({
-  centeredContent: { alignItems: 'center', flex: 1, justifyContent: 'center' },
+  centeredContent: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
   },
@@ -51,5 +55,8 @@ export const styles = StyleSheet.create({
   },
   strainDescriptionContainer: {
     marginVertical: 10,
+  },
+  textCenter: {
+    textAlign: 'center',
   },
 })

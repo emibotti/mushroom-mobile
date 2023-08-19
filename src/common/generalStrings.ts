@@ -23,3 +23,5 @@ export const generalStrings = new LocalizedStrings({
     stageSpawn: 'Spawn',
   },
 })
+
+export const currentLanguage = generalStrings.getLanguage()
