@@ -54,6 +54,7 @@ export const DropdownPicker = ({
         </StyledText>
       )}
       <DropDownPicker
+        listMode="SCROLLVIEW"
         disabledStyle={styles.disabledStyle}
         placeholder={strings.dropdownPlaceholder}
         showArrowIcon={!props.disabled}
