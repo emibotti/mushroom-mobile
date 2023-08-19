@@ -13,9 +13,6 @@ export const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
   },
-  container: {
-    height: 56,
-  },
   flexible: {
     flex: 1,
   },

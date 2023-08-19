@@ -4,6 +4,9 @@ import { Spacing } from 'src/styles/Spacing'
 import { SpacingScale } from 'src/styles/types'
 
 export const styles = StyleSheet.create({
+  attributesContainer: {
+    marginVertical: 20,
+  },
   centeredContent: {
     alignItems: 'center',
     flex: 1,
@@ -29,8 +32,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   rowComponent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingVertical: 10,
   },
   rowText: {
