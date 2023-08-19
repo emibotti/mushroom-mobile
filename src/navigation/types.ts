@@ -5,6 +5,7 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack'
 import React from 'react'
+import { EntityLink } from 'src/store/APIs/mycellium/types'
 
 import { Routes } from './routes'
 
@@ -12,12 +13,20 @@ export interface ParamList extends ParamListBase {
   [Routes.Mycelium]: { id: string }
   [Routes.Home]: undefined
   [Routes.Rooms]: undefined
-  [Routes.Room]: { id: string; name: string }
+  [Routes.Room]: EntityLink
   [Routes.OrganizationCreated]: {
     invitationCode: string
   }
   [Routes.JoinOrganization]: {
     invitationCode?: string
+  }
+  [Routes.AddMycelium]?: {
+    roomId?: string
+    strainSourceId?: string
+  }
+  [Routes.AddMyceliumSuccess]: {
+    createdMycelia: EntityLink[]
+    type: string
   }
 }
 

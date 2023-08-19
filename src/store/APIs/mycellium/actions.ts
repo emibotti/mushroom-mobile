@@ -3,6 +3,7 @@ import { format } from 'util'
 
 import { HttpMethod } from '..'
 import {
+  CreateMyceliumResponse,
   deserializeMycelium,
   deserializeMyceliumOptions,
   MyceliumModel,
@@ -24,14 +25,20 @@ export const getMycelium = (builder: Builder) =>
   })
 
 export const createMycelium = (builder: Builder) =>
-  builder.mutation<MyceliumModel, MyceliumRequest>({
-    invalidatesTags: () => [{ id: 'LIST', type: Tags.Mycelium }],
+  builder.mutation<CreateMyceliumResponse, MyceliumRequest>({
+    invalidatesTags: (_, __, { room_id }) => [
+      { id: room_id, type: Tags.Rooms },
+    ],
     query: mycelium => ({
       body: mycelium,
       method: HttpMethod.Post,
       url: Endpoints.CreateMycelium,
     }),
-    transformResponse: deserializeMycelium,
+    // TODO: Check this transformer
+    transformResponse: (response: CreateMyceliumResponse) => ({
+      message: response.message,
+      mycelia: response.mycelia,
+    }),
   })
 
 export const getMyceliumOptions = (builder: Builder) =>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, FlatList, ListRenderItem } from 'react-native'
-import { Button, IconButton } from 'react-native-paper'
+import { ActivityIndicator, Button, IconButton } from 'react-native-paper'
 import { Container } from 'src/components/Container'
 import { MyceliumCard } from 'src/components/MyceliumCard'
 import { SceneContainer } from 'src/components/SceneContainer'
@@ -31,7 +31,8 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
     />,
   )
 
-  const { data: room } = useGetRoomQuery({ id: route.params.id })
+  const roomId = route.params.id
+  const { data: room, isLoading } = useGetRoomQuery({ id: roomId })
 
   const renderMyceliums: ListRenderItem<MyceliumCardType> = ({ item }) => (
     <MyceliumCard
@@ -46,36 +47,43 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
     />
   )
 
-  const onPressAddMycelium = () => navigation.navigate(Routes.AddMycelium)
+  const onPressAddMycelium = () =>
+    navigation.navigate(Routes.AddMycelium, {
+      roomId,
+    })
 
   return (
     <SceneContainer style={styles.container}>
-      <FlatList
-        ListHeaderComponent={
-          <>
-            <Container>
-              <StyledText typography={AppTypography.BODY_LARGE}>
-                {`<b>${strings.temperature}:</b> ${room?.temperature}`}
-              </StyledText>
-              <StyledText typography={AppTypography.BODY_LARGE}>
-                {`<b>${strings.humidity}:</b> ${room?.humidity}`}
-              </StyledText>
-              <StyledText typography={AppTypography.BODY_LARGE}>
-                {`<b>${strings.co2}:</b> ${room?.co2}`}
-              </StyledText>
-            </Container>
-            <Button
-              icon={'plus'}
-              style={styles.agregarMicelioButton}
-              onPress={onPressAddMycelium}>
-              <StyledText>{strings.addMycelium}</StyledText>
-            </Button>
-          </>
-        }
-        showsVerticalScrollIndicator={false}
-        data={room?.mycelia}
-        renderItem={renderMyceliums}
-      />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <FlatList
+          ListHeaderComponent={
+            <>
+              <Container>
+                <StyledText typography={AppTypography.BODY_LARGE}>
+                  {`<b>${strings.temperature}:</b> ${room?.temperature}`}
+                </StyledText>
+                <StyledText typography={AppTypography.BODY_LARGE}>
+                  {`<b>${strings.humidity}:</b> ${room?.humidity}`}
+                </StyledText>
+                <StyledText typography={AppTypography.BODY_LARGE}>
+                  {`<b>${strings.co2}:</b> ${room?.co2}`}
+                </StyledText>
+              </Container>
+              <Button
+                icon={'plus'}
+                style={styles.agregarMicelioButton}
+                onPress={onPressAddMycelium}>
+                <StyledText>{strings.addMycelium}</StyledText>
+              </Button>
+            </>
+          }
+          showsVerticalScrollIndicator={false}
+          data={room?.mycelia}
+          renderItem={renderMyceliums}
+        />
+      )}
     </SceneContainer>
   )
 }

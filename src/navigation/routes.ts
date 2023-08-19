@@ -15,6 +15,7 @@ export enum Routes {
   Profile = 'Profile',
   AddRoom = 'AddRoom',
   AddMycelium = 'AddMycelium',
+  AddMyceliumSuccess = 'AddMyceliumSuccess',
 }
 
 export enum StackRoutes {

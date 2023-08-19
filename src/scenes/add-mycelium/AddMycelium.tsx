@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, ScrollView, View } from 'react-native'
 import { ItemType } from 'react-native-dropdown-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -38,8 +38,12 @@ const generationOptions: Option[] = [...Array(5).keys()].map(index => ({
   value: `${index - 1}`,
 }))
 
-export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
+export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
+  navigation,
+  route,
+}) => {
   useGoBackNavigationOptions(navigation, false, strings.screenHeader)
+  const roomId = route.params?.roomId ?? null
 
   const [prefix, setPrefix] = useState('')
   const [provider, setProvider] = useState('')
@@ -49,7 +53,8 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
   const [notes, setNotes] = useState('')
   const [quantity, setQuantity] = useState('1')
 
-  const [triggerCreateMycelium] = useCreateMyceliumMutation()
+  const [triggerCreateMycelium, { isLoading, data: myceliumCreated }] =
+    useCreateMyceliumMutation()
   const { data: myceliumOptions } = useGetMyceliumOptionsQuery()
   const { data: roomsAvailableSerialized } = useGetRoomsQuery()
 
@@ -66,7 +71,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
   const [generation, setGeneration] = useState<string | null>(null)
   const [substrate, setSubstrate] = useState<string | null>(null)
   const [container, setContainer] = useState<string | null>(null)
-  const [room, setRoom] = useState<string | null>(null)
+  const [room, setRoom] = useState<string | null>(roomId)
 
   const validValues =
     prefix &&
@@ -98,13 +103,24 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
         type: type as StageResponse,
         weight: Number(weight),
       })
-      // TODO: Navigate to "Print screen"
-      // .unwrap()
-      // .then(room => {
-      //   navigation.replace(Routes.Room, { id: room.id, name: room.name })
-      // })
     }
   }
+
+  useEffect(() => {
+    // TODO: Check if this is the best place or use `unwrap()`
+    if (myceliumCreated && type) {
+      const createdMycelia =
+        typeof myceliumCreated.mycelia === 'string'
+          ? JSON.parse(myceliumCreated.mycelia)
+          : myceliumCreated.mycelia
+
+      navigation.replace(Routes.AddMyceliumSuccess, {
+        createdMycelia,
+        type,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myceliumCreated])
 
   const disabledButton = !validValues
 
@@ -221,7 +237,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({ navigation }) => {
             <Container>
               <Button
                 title={strings.createMyceliumButton}
-                disabled={disabledButton}
+                disabled={disabledButton || isLoading}
                 onPress={onPressCreateRoom}
                 mode={ButtonMode.PRIMARY_SOLID}
               />
