@@ -7,11 +7,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
-  container: {
-    backgroundColor: Palette.SURFACE_10,
-    flex: 1,
-  },
   flexible: {
+    backgroundColor: Palette.SURFACE_10,
     flex: 1,
   },
   subtitle: {
@@ -19,10 +16,5 @@ export const styles = StyleSheet.create({
   },
   textInputsContainer: {
     justifyContent: 'center',
-  },
-  titleContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 30,
   },
 })

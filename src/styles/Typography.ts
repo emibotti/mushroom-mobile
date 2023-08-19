@@ -35,20 +35,22 @@ export const Typography: TypographyStyle<TypographyTextStyles> = {
     fontStyle: 'normal',
   },
   [AppTypography.BODY_LARGE]: {
-    fontSize: 16,
+    fontSize: 21,
     fontStyle: 'normal',
   },
   [AppTypography.BODY_MEDIUM]: {
-    fontSize: 14,
+    fontSize: 16,
     fontStyle: 'normal',
   },
   [AppTypography.BODY_MEDIUM_BOLD]: {
-    fontSize: 14,
-    fontStyle: 'normal',
-  },
-  [AppTypography.BODY_LARGE_BOLD]: {
     fontSize: 16,
     fontStyle: 'normal',
+    fontWeight: 'bold',
+  },
+  [AppTypography.BODY_LARGE_BOLD]: {
+    fontSize: 21,
+    fontStyle: 'normal',
+    fontWeight: 'bold',
     lineHeight: 21,
   },
   [AppTypography.LABEL_LARGE]: {

@@ -5,18 +5,36 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
+  withTiming,
 } from 'react-native-reanimated'
 import { Palette } from 'src/styles/Palette'
+
+import { Button } from '../Button'
+import { ButtonProps } from '../Button/types'
+
+export interface ScrollableScreenProps {
+  image: ImageSourcePropType
+  buttonProps?: ButtonProps
+}
 
 const SCROLL_HEIGHT = 300
 
 export const ScrollableScreen: React.FC<
-  PropsWithChildren<{ image: ImageSourcePropType }>
-> = ({ image, children }) => {
+  PropsWithChildren<ScrollableScreenProps>
+> = ({ image, children, buttonProps }) => {
   const scrollY = useSharedValue(0)
+  const isScrolling = useSharedValue(false)
 
-  const handleScroll = useAnimatedScrollHandler(event => {
-    scrollY.value = event.contentOffset.y
+  const handleScroll = useAnimatedScrollHandler({
+    onBeginDrag: () => {
+      isScrolling.value = true
+    },
+    onEndDrag: () => {
+      isScrolling.value = false
+    },
+    onScroll: event => {
+      scrollY.value = event.contentOffset.y
+    },
   })
 
   const imageStyle = useAnimatedStyle(() => {
@@ -45,6 +63,14 @@ export const ScrollableScreen: React.FC<
     }
   })
 
+  const buttonStyle = useAnimatedStyle(() => {
+    const opacity = withTiming(isScrolling.value ? 0 : 1)
+
+    return {
+      opacity,
+    }
+  })
+
   return (
     <View style={styles.container}>
       <Animated.Image
@@ -58,11 +84,21 @@ export const ScrollableScreen: React.FC<
           {children}
         </Animated.View>
       </Animated.ScrollView>
+      {buttonProps && (
+        <Animated.View style={[styles.floatingButton, buttonStyle]}>
+          <Button style={styles.buttonContainer} {...buttonProps} />
+        </Animated.View>
+      )}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  },
   container: {
     backgroundColor: Palette.SURFACE_10,
     flex: 1,
@@ -73,6 +109,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     flexGrow: 1,
     paddingBottom: 20,
+  },
+  floatingButton: {
+    alignItems: 'center',
+    bottom: 30,
+    justifyContent: 'center',
+    left: 50,
+    position: 'absolute',
+    right: 50,
   },
   image: {
     height: 500,

@@ -25,7 +25,7 @@ interface ExtraProps {
   onPressDisabled?: () => void
 }
 
-export type LayoutProps = PressableProps & ExtraProps
+export type ButtonProps = PressableProps & ExtraProps
 
 export type ButtonSizeSettings = {
   height: number

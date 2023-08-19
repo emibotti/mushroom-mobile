@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { Palette } from 'src/styles/Palette'
 
 export const styles = StyleSheet.create({
   addRoomButton: {
@@ -6,10 +7,10 @@ export const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
+    backgroundColor: Palette.SURFACE_10,
     flex: 1,
     justifyContent: 'center',
     marginHorizontal: 0,
-    marginTop: 210,
     paddingHorizontal: 0,
   },
 })

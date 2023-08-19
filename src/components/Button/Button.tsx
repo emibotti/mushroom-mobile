@@ -8,9 +8,9 @@ import { AppTypography, ColorPalette } from 'src/styles/types'
 import { styles } from './styles'
 import {
   ButtonMode,
+  ButtonProps,
   ButtonSize,
   ButtonSizeSettings,
-  LayoutProps,
 } from './types'
 
 export { ButtonMode, ButtonSize }
@@ -131,7 +131,7 @@ export const buttonSizeCalculation = (size: ButtonSize): ButtonSizeSettings => {
   }
 }
 
-export const Button: React.FC<LayoutProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   title,
   onPress,
   children,
