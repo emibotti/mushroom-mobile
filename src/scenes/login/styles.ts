@@ -23,6 +23,9 @@ export const styles = StyleSheet.create({
   buttonForgot: {
     alignItems: 'flex-start',
   },
+  buttonRegister: {
+    marginTop: 10,
+  },
   center: {
     alignItems: 'center',
   },

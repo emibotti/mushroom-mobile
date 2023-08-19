@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { ActivityIndicator, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { ItemType } from 'react-native-dropdown-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
 import { DropdownPicker } from 'src/components/DropdownPicker'
+import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
 import { StyledText } from 'src/components/StyledText'
 import { StyledTextInput } from 'src/components/StyledTextInput'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
@@ -261,6 +262,6 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
       </View>
     </KeyboardAwareScrollView>
   ) : (
-    <ActivityIndicator />
+    <LoadingActivityIndicator />
   )
 }

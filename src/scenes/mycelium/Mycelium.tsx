@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native'
 import React from 'react'
-import { ActivityIndicator, View } from 'react-native'
+import { View } from 'react-native'
 import BulkImagePlaceholder from 'src/assets/images/bulk_example.png'
 import CultureImagePlaceholder from 'src/assets/images/culture_example.png'
 import FruitImagePlaceholder from 'src/assets/images/fruit_example.jpeg'
@@ -8,6 +8,7 @@ import SpawnImagePlaceholder from 'src/assets/images/spawn_example.png'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
+import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { ScrollableScreen } from 'src/components/ScrollableScreen/ScrollableScreen'
 import { StyledText } from 'src/components/StyledText'
@@ -96,7 +97,7 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
     })
 
   return isFetching ? (
-    <ActivityIndicator />
+    <LoadingActivityIndicator />
   ) : mycelium ? (
     <View style={styles.container}>
       <ScrollableScreen

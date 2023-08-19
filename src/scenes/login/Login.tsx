@@ -32,12 +32,11 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
     toggleShowPassword,
   } = usePassword()
 
-  const { buttonEnable, onPressLogin } = useLoginButton(
-    validEmail,
-    email,
-    validPassword,
-    password,
-  )
+  const {
+    buttonEnable,
+    onPressLogin,
+    isLoading: isLoadingLogin,
+  } = useLoginButton(validEmail, email, validPassword, password)
 
   const onPressRegister = () => navigation.navigate(Routes.Register)
 
@@ -105,7 +104,7 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
           <View style={styles.buttonContainer}>
             <Button
               title={strings.loginButton}
-              disabled={!buttonEnable}
+              disabled={!buttonEnable || isLoadingLogin}
               onPress={onPressLogin}
               mode={ButtonMode.PRIMARY_GRADIENT}
             />
@@ -114,7 +113,7 @@ export const Login: SceneProps<Routes.Login> = ({ navigation }) => {
                 title={strings.registerButton}
                 onPress={onPressRegister}
                 mode={ButtonMode.LINK}
-                style={styles.buttonForgot}
+                style={styles.buttonRegister}
               />
             </View>
           </View>

@@ -1,7 +1,8 @@
 import React from 'react'
 import { Alert, FlatList, ListRenderItem } from 'react-native'
-import { ActivityIndicator, Button, IconButton } from 'react-native-paper'
+import { Button, IconButton } from 'react-native-paper'
 import { Container } from 'src/components/Container'
+import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
 import { MyceliumCard } from 'src/components/MyceliumCard'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
@@ -59,7 +60,7 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
   return (
     <SceneContainer style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator />
+        <LoadingActivityIndicator />
       ) : (
         <FlatList
           ListHeaderComponent={
