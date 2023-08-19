@@ -150,7 +150,7 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
       onPress={disabled ? onPressDisabled : onPress}
       style={({ pressed }) => [
-        styles.button,
+        mode !== ButtonMode.LINK && styles.button,
         {
           backgroundColor: disabled
             ? buttonStyles.disabledBackgroundColor
@@ -161,7 +161,6 @@ export const Button: React.FC<ButtonProps> = ({
             ? buttonStyles.disabledBorderColor
             : buttonStyles.borderColor,
           borderWidth: buttonStyles.borderColor ? 1 : 0,
-          height: buttonSize.height,
         },
       ]}
       disabled={onPressDisabled ? false : disabled}>
@@ -172,7 +171,7 @@ export const Button: React.FC<ButtonProps> = ({
             typography={buttonSize.typography}
             allowFontScaling={false}
             style={[
-              styles.buttonText,
+              mode !== ButtonMode.LINK && styles.buttonText,
               // eslint-disable-next-line react-native/no-inline-styles
               {
                 color: disabled
@@ -194,8 +193,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <View
       style={[
-        styles.container,
-        { height: buttonSize.height },
+        mode !== ButtonMode.LINK && { height: buttonSize.height },
         style as StyleProp<ViewStyle>,
       ]}>
       {buttonStyles.gradientColors && !disabled ? (

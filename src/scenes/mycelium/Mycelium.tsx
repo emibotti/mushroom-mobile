@@ -99,7 +99,7 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               </View>
             </View>
           </View>
-          <Container>
+          <View style={styles.attributesContainer}>
             <Row attributeName={strings.species} value={mycelium.species} />
             {mycelium.inoculationDate && (
               <Row
@@ -125,8 +125,8 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               attributeName={strings.generation}
               value={mycelium.generation}
             />
-          </Container>
-          <Container style={styles.strainDescriptionContainer}>
+          </View>
+          <View style={styles.strainDescriptionContainer}>
             <StyledText typography={AppTypography.H1}>
               {strings.strainDescription}
             </StyledText>
@@ -136,12 +136,12 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               color={ColorPalette.SURFACE_70}>
               {mycelium.strainDescription}
             </StyledText>
-          </Container>
-          <Container style={styles.historyContainer}>
+          </View>
+          <View style={styles.historyContainer}>
             <StyledText typography={AppTypography.H1}>
               {strings.history}
             </StyledText>
-          </Container>
+          </View>
         </View>
       </ScrollableScreen>
     </View>
