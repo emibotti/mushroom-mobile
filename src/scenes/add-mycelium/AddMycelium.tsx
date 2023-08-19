@@ -6,6 +6,7 @@ import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
 import { DropdownPicker } from 'src/components/DropdownPicker'
+import { StyledText } from 'src/components/StyledText'
 import { StyledTextInput } from 'src/components/StyledTextInput'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
 import { Routes } from 'src/navigation/routes'
@@ -20,6 +21,7 @@ import {
   StageResponse,
 } from 'src/store/APIs/mycellium/types'
 import { useGetRoomsQuery } from 'src/store/APIs/rooms'
+import { AppTypography } from 'src/styles/types'
 
 import { strings } from './strings'
 import { styles } from './styles'
@@ -42,8 +44,13 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
   navigation,
   route,
 }) => {
-  useGoBackNavigationOptions(navigation, false, strings.screenHeader)
   const roomId = route.params?.roomId ?? null
+  const strainSource = route.params?.strainSource ?? null
+
+  useGoBackNavigationOptions({
+    navigation,
+    title: strainSource ? strings.inoculationHeader : strings.newMyceliumHeader,
+  })
 
   const [prefix, setPrefix] = useState('')
   const [provider, setProvider] = useState('')
@@ -73,35 +80,30 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
   const [container, setContainer] = useState<string | null>(null)
   const [room, setRoom] = useState<string | null>(roomId)
 
+  const mandatoryFields =
+    prefix && type && substrate && container && room && quantity
+  const validValuesInoculation = strainSource && mandatoryFields
+
   const validValues =
-    prefix &&
-    type &&
-    species &&
-    generation &&
-    substrate &&
-    container &&
-    room &&
-    quantity
+    validValuesInoculation || (mandatoryFields && species && generation)
 
   const onPressCreateRoom = () => {
     if (validValues) {
       triggerCreateMycelium({
         container,
         external_provider: provider,
-        generation: Number(generation),
-        // TODO:
+        generation: generation ? Number(generation) : null,
         image_url: null,
         prefix,
         quantity: Number(quantity),
         room_id: room,
-        shelf_time: Number(shelfTime),
+        shelf_time: shelfTime ? Number(shelfTime) : null,
         species,
         strain_description: description,
-        // TODO:
-        strain_source_id: null,
+        strain_source_id: strainSource?.id ?? null,
         substrate,
         type: type as StageResponse,
-        weight: Number(weight),
+        weight: weight ? Number(weight) : null,
       })
     }
   }
@@ -132,12 +134,17 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
       <View style={styles.flexible}>
         <ScrollView>
           <Container style={styles.textInputsContainer}>
+            {strainSource && (
+              <StyledText
+                style={styles.strainSourceInformation}
+                typography={
+                  AppTypography.LABEL_MEDIUM
+                }>{`${strings.strainSourceInformation} ${strainSource?.name}.`}</StyledText>
+            )}
             <StyledTextInput
               label={strings.prefixLabel}
               onChangeText={setPrefix}
               value={prefix}
-              // TODO: creeeo que es tipo "Mr.", si es así no tiene sentido
-              textContentType={'namePrefix'}
               required
             />
             <DropdownPicker
@@ -148,29 +155,34 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
               required
             />
 
-            <DropdownPicker
-              outsideLabel={strings.speciesLabel}
-              value={species}
-              items={myceliumOptions.speciesOptions}
-              setValue={setSpecies}
-              required
-            />
+            {!strainSource && (
+              <DropdownPicker
+                outsideLabel={strings.speciesLabel}
+                value={species}
+                items={myceliumOptions.speciesOptions}
+                setValue={setSpecies}
+                required
+              />
+            )}
 
-            <StyledTextInput
-              label={strings.providerLabel}
-              onChangeText={setProvider}
-              value={provider}
-              textContentType={'name'}
-              required
-            />
+            {!strainSource && (
+              <StyledTextInput
+                label={strings.providerLabel}
+                onChangeText={setProvider}
+                value={provider}
+                textContentType={'name'}
+              />
+            )}
 
-            <DropdownPicker
-              outsideLabel={strings.generationLabel}
-              value={generation}
-              items={generationOptions}
-              setValue={setGeneration}
-              required
-            />
+            {!strainSource && (
+              <DropdownPicker
+                outsideLabel={strings.generationLabel}
+                value={generation}
+                items={generationOptions}
+                setValue={setGeneration}
+                required
+              />
+            )}
 
             <DropdownPicker
               outsideLabel={strings.substrateLabel}
@@ -209,13 +221,15 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
               keyboardType="numeric"
             />
 
-            <StyledTextInput
-              label={strings.descriptionLabel}
-              value={description}
-              onChangeText={setDescription}
-              multiline={true}
-              numberOfLines={4}
-            />
+            {!strainSource && (
+              <StyledTextInput
+                label={strings.descriptionLabel}
+                value={description}
+                onChangeText={setDescription}
+                multiline={true}
+                numberOfLines={4}
+              />
+            )}
 
             <StyledTextInput
               label={strings.notesLabel}

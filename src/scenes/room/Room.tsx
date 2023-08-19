@@ -17,19 +17,23 @@ import { strings } from './strings'
 import { styles } from './styles'
 
 export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
-  useGoBackNavigationOptions(
+  useGoBackNavigationOptions({
     navigation,
-    false,
-    (route as RouteProp<Routes.Room>).params.name ?? strings.roomHeaderTitle,
-    <IconButton
-      icon={'trash-can-outline'}
-      iconColor={Palette.ERROR_50}
-      size={30}
-      onPress={() => {
-        Alert.alert('No puede borrar el ambiente si tiene micelios existentes')
-      }}
-    />,
-  )
+    rightElement: (
+      <IconButton
+        icon={'trash-can-outline'}
+        iconColor={Palette.ERROR_50}
+        size={30}
+        onPress={() => {
+          Alert.alert(
+            'No puede borrar el ambiente si tiene micelios existentes',
+          )
+        }}
+      />
+    ),
+    title:
+      (route as RouteProp<Routes.Room>).params.name ?? strings.roomHeaderTitle,
+  })
 
   const roomId = route.params.id
   const { data: room, isLoading } = useGetRoomQuery({ id: roomId })

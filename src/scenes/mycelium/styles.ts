@@ -28,6 +28,9 @@ export const styles = StyleSheet.create({
   historyContainer: {
     marginVertical: 10,
   },
+  inoculationButton: {
+    width: 100,
+  },
   row: {
     flexDirection: 'row',
   },

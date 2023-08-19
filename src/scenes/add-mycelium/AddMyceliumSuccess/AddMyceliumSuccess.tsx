@@ -52,7 +52,7 @@ export const AddMyceliumSuccess: SceneProps<Routes.AddMyceliumSuccess> = ({
               {createdMycelia.map(mycelium => (
                 <Button
                   onPress={() =>
-                    navigation.navigate(Routes.Mycelium, {
+                    navigation.push(Routes.Mycelium, {
                       id: mycelium.id,
                     })
                   }

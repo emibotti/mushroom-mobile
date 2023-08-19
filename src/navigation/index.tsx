@@ -2,6 +2,7 @@ import React from 'react'
 import Animated from 'react-native-reanimated'
 import { useHandleCrossFade } from 'src/hooks/useHandleCrossFade'
 import { useHandleSession } from 'src/hooks/useHandleSession'
+import { Palette } from 'src/styles/Palette'
 
 import { Routes } from './routes'
 import { AuthenticatedStack } from './stacks/AuthenticatedStack'
@@ -18,7 +19,8 @@ export const AppContainer = () => {
 
   return (
     <>
-      <Animated.View style={stacksStyle}>
+      <Animated.View
+        style={[stacksStyle, { backgroundColor: Palette.SURFACE_10 }]}>
         {activeUser ? (
           <AuthenticatedStack
             initialRoute={

@@ -22,7 +22,7 @@ import { AppTypography, ColorPalette } from 'src/styles/types'
 import { strings } from './strings'
 
 export const Profile: SceneProps<Routes.Profile> = ({ navigation }) => {
-  useGoBackNavigationOptions(navigation)
+  useGoBackNavigationOptions({ navigation })
 
   const { data: invitationCode, isFetching } =
     useGenerateOrgInvitationCodeQuery()

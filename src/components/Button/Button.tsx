@@ -26,6 +26,7 @@ interface ButtonStyles {
   borderColor?: string
   disabledBorderColor?: string
   underlined?: boolean
+  borderRadius?: number
 }
 
 const buttonSelector = (mode: ButtonMode): ButtonStyles => {
@@ -108,6 +109,26 @@ const buttonSelector = (mode: ButtonMode): ButtonStyles => {
         textColor: Palette.INFO_50,
         underlined: true,
       }
+    case ButtonMode.PRIMARY_RECTANGULAR_SOLID:
+      return {
+        backgroundColor: Palette.INFO_50,
+        borderRadius: 5,
+        disabledBackgroundColor: Palette.SURFACE_30,
+        disabledTextColor: Palette.SURFACE_50,
+        pressedColor: Palette.INFO_70,
+        textColor: Palette.SURFACE_10,
+      }
+    case ButtonMode.PRIMARY_RECTANGULAR_OUTLINE:
+      return {
+        backgroundColor: Palette.TRANSPARENT,
+        borderColor: Palette.INFO_50,
+        borderRadius: 5,
+        disabledBackgroundColor: Palette.TRANSPARENT,
+        disabledBorderColor: Palette.SURFACE_50,
+        disabledTextColor: Palette.SURFACE_50,
+        pressedColor: Palette.PRIMARY_10,
+        textColor: Palette.INFO_50,
+      }
   }
 }
 
@@ -160,6 +181,7 @@ export const Button: React.FC<ButtonProps> = ({
           borderColor: disabled
             ? buttonStyles.disabledBorderColor
             : buttonStyles.borderColor,
+          borderRadius: buttonStyles.borderRadius ?? 83,
           borderWidth: buttonStyles.borderColor ? 1 : 0,
         },
       ]}

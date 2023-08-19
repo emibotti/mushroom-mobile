@@ -18,7 +18,7 @@ interface Room {
 }
 
 export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
-  useGoBackNavigationOptions(navigation, false, strings.roomsHeaderTitle)
+  useGoBackNavigationOptions({ navigation, title: strings.roomsHeaderTitle })
 
   const { data: rooms } = useGetRoomsQuery()
 

@@ -11,6 +11,9 @@ export const styles = StyleSheet.create({
     backgroundColor: Palette.SURFACE_10,
     flex: 1,
   },
+  strainSourceInformation: {
+    marginBottom: 10,
+  },
   subtitle: {
     marginBottom: 10,
   },

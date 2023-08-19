@@ -12,6 +12,7 @@ export const organizationsApi = baseApi.injectEndpoints({
     generateOrgInvitationCode: generateOrganizationCode(builder),
     joinOrganization: joinOrganization(builder),
   }),
+  overrideExisting: true,
 })
 
 export const {

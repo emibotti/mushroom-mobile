@@ -69,7 +69,26 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
 
   const { data: mycelium, isFetching } = useGetMyceliumQuery({ id })
 
-  useGoBackNavigationOptions(navigation, true)
+  useGoBackNavigationOptions({
+    headerTransparent: true,
+    navigation,
+    rightElement: mycelium && (
+      <Button
+        title={strings.inoculationButton}
+        onPress={() => {
+          navigation.push(Routes.AddMycelium, {
+            roomId: mycelium?.room?.id,
+            strainSource: {
+              id,
+              name: mycelium.name,
+            },
+          })
+        }}
+        style={styles.inoculationButton}
+        mode={ButtonMode.PRIMARY_RECTANGULAR_SOLID}
+      />
+    ),
+  })
 
   const navigateToMycellium = (myceliumToNavigate: string) => () =>
     navigation.push(Routes.Mycelium, {
@@ -125,6 +144,9 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               attributeName={strings.generation}
               value={mycelium.generation}
             />
+            {mycelium.room && (
+              <Row attributeName={strings.room} value={mycelium.room.name} />
+            )}
           </View>
           <View style={styles.strainDescriptionContainer}>
             <StyledText typography={AppTypography.H1}>

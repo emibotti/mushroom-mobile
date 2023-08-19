@@ -22,7 +22,7 @@ export interface ParamList extends ParamListBase {
   }
   [Routes.AddMycelium]?: {
     roomId?: string
-    strainSourceId?: string
+    strainSource?: EntityLink
   }
   [Routes.AddMyceliumSuccess]: {
     createdMycelia: EntityLink[]

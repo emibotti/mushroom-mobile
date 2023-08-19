@@ -8,30 +8,46 @@ import { Header } from 'src/components/Header'
 import { Routes } from 'src/navigation/routes'
 import { NavigationProp } from 'src/navigation/types'
 
+interface GoBackNavigationOptionsHook {
+  navigation: NavigationProp<Routes>
+  headerTransparent?: boolean
+  title?: string
+  rightElement?: React.ReactElement
+}
+
+interface BuildHeaderParams {
+  navigation: NativeStackHeaderProps['navigation']
+  title?: string
+  rightElement?: React.ReactElement
+  headerTransparent: boolean
+}
+
 const buildHeader =
-  (
-    navigation: NativeStackHeaderProps['navigation'],
-    title?: string,
-    rightElement?: React.ReactElement,
-  ) =>
+  ({ navigation, title, rightElement, headerTransparent }: BuildHeaderParams) =>
   () =>
     (
       <Header
         onPress={navigation.goBack}
         title={title}
         rightElement={rightElement}
+        transparent={headerTransparent}
       />
     )
 
-export const useGoBackNavigationOptions = (
-  navigation: NavigationProp<Routes>,
+export const useGoBackNavigationOptions = ({
+  navigation,
   headerTransparent = false,
-  title?: string,
-  rightElement?: React.ReactElement,
-) => {
+  title,
+  rightElement,
+}: GoBackNavigationOptionsHook) => {
   useLayoutEffect(() => {
     const options: NativeStackNavigationOptions = {
-      header: buildHeader(navigation, title, rightElement),
+      header: buildHeader({
+        headerTransparent,
+        navigation,
+        rightElement,
+        title,
+      }),
       headerTransparent,
     }
     navigation.setOptions(options)

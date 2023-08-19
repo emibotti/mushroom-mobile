@@ -66,6 +66,7 @@ export interface MyceliumResponse {
   weight: number
   created_at: string | null
   updated_at: string | null
+  room: EntityLink | null
 }
 
 export interface MyceliumModel {
@@ -88,6 +89,7 @@ export interface MyceliumModel {
   // prefix: string
   createdAt?: string
   updatedAt?: string
+  room?: EntityLink
 }
 
 export interface CreateMyceliumResponse {
@@ -136,6 +138,8 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
     imageUrl: data.image_url,
     inoculationDate: optionalDateConverter(data.inoculation_date),
     name: data.name,
+    // TODO: Create an Entity deserializer for `room` and `strainSource`?
+    room: data.room ?? undefined,
     shelfTime: data.shelf_time,
     species: data.species,
     // TODO: Check if it comes a string instead of a number
@@ -150,11 +154,11 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
 
 export interface MyceliumRequest {
   type: StageResponse
-  species: string
+  species: string | null
   // TODO: We need to validate with the users if this will be valuable to have in the creation too
   // inoculation_date: string
   strain_source_id: string | null
-  generation: GenerationResponse | number
+  generation: GenerationResponse | number | null
   external_provider: string | null
   substrate: string
   container: string
