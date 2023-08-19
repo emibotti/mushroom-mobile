@@ -61,6 +61,7 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
   }
 
   const [triggerLogout] = useLogoutMutation()
+  const onPressLogout = () => triggerLogout()
 
   return (
     <KeyboardAwareScrollView
@@ -68,7 +69,7 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
       contentContainerStyle={styles.flexible}
       bounces={false}>
       <SceneContainer style={styles.container} edges={['top']}>
-        <View style={styles.flexible}>
+        <Container style={styles.flexible}>
           <ScrollView>
             <View style={styles.titleContainer}>
               <StyledText
@@ -104,14 +105,14 @@ export const CreateOrganization: SceneProps<Routes.CreateOrganization> = ({
               </Container>
               <Container>
                 <Button
-                  title="Logout"
+                  title={strings.logoutButton}
                   mode={ButtonMode.LINK}
-                  onPress={() => triggerLogout()}
+                  onPress={onPressLogout}
                 />
               </Container>
             </View>
           </ScrollView>
-        </View>
+        </Container>
       </SceneContainer>
     </KeyboardAwareScrollView>
   )

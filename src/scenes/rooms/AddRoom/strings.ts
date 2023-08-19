@@ -7,7 +7,7 @@ export const strings = new LocalizedStrings({
     humidityLabel: 'Humidity',
     notesLabel: 'Notes',
     roomNameLabel: 'Name',
-    screenHeader: 'Create your Organization',
+    screenHeader: 'New room',
     screenSubtitle: `Enter the initial values for the new room. In the future you can make measurements. The notes are the only optional value.`,
     temperatureLabel: 'Temperature',
   },

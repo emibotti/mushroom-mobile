@@ -65,7 +65,7 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
       contentContainerStyle={styles.flexible}
       bounces={false}>
       <SceneContainer style={styles.container} edges={['top']}>
-        <View style={styles.flexible}>
+        <Container style={styles.flexible}>
           <ScrollView>
             <View style={styles.titleContainer}>
               <StyledText
@@ -124,7 +124,7 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
               </Container>
             </View>
           </ScrollView>
-        </View>
+        </Container>
       </SceneContainer>
     </KeyboardAwareScrollView>
   )

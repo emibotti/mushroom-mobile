@@ -43,7 +43,7 @@ const rtkQueryErrorLogger: Middleware =
           clearPersistedObject(KeysPersisted.USER)
           // TODO: Check and move to general strings
           Alert.alert(`You're being logged out`)
-        } else {
+        } else if (action.payload.status !== ErrorStatus.NotFound) {
           // TODO: Maybe in the future we can display localized custom messages depending on the response, instead of showing directly what the backend sends
           const errorMessage = generateErrorMessage(action.payload.data)
           Alert.alert(errorMessage)

@@ -48,5 +48,5 @@ export const baseApi = createApi({
   baseQuery,
   endpoints: () => ({}),
   reducerPath: ReducerPath.root,
-  tagTypes: [Tags.Rooms, Tags.Mycelium],
+  tagTypes: [Tags.Rooms, Tags.Mycelium, Tags.MyceliumOptions],
 })

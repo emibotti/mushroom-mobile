@@ -43,7 +43,7 @@ export const AddRoom: SceneProps<Routes.AddRoom> = ({ navigation }) => {
       bounces={false}>
       <View style={styles.flexible}>
         <ScrollView>
-          <View style={styles.textInputsContainer}>
+          <Container style={styles.textInputsContainer}>
             <StyledTextInput
               label={strings.roomNameLabel}
               onChangeText={setName}
@@ -79,7 +79,7 @@ export const AddRoom: SceneProps<Routes.AddRoom> = ({ navigation }) => {
               multiline={true}
               numberOfLines={4}
             />
-          </View>
+          </Container>
           <View style={styles.buttonContainer}>
             <Container>
               <Button

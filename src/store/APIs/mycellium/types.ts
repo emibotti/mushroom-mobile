@@ -1,8 +1,7 @@
-import { DateTime } from 'luxon'
+import { generalStrings } from 'src/common/generalStrings'
+import { optionalDateConverter } from 'src/common/helpers'
 
-type CustomDate = DateTime
-
-interface StrainLink {
+export interface EntityLink {
   id: string
   name: string
 }
@@ -14,33 +13,59 @@ export enum GenerationResponse {
 }
 
 export enum StageResponse {
-  Culture = 0,
-  Spawn = 1,
-  Bulk = 2,
-  Fruit = 3,
+  Culture = 'Culture',
+  Spawn = 'Spawn',
+  Bulk = 'Bulk',
+  Fruit = 'Fruit',
 }
+
+export interface MyceliumCardResponse {
+  id: string
+  image_url: string | null
+  name: string
+  species: string
+  type: StageResponse
+}
+
+export interface MyceliumCard {
+  id: string
+  image_url: string | undefined
+  name: string
+  species: string
+  type: string
+}
+
+export const myceliumCardDeserializer = (
+  data: MyceliumCardResponse,
+): MyceliumCard => ({
+  id: data.id,
+  image_url: data.image_url ?? undefined,
+  name: data.name,
+  species: data.species,
+  type: buildStage(data.type),
+})
+
+export const myceliaCardDeserializer = (
+  data: MyceliumCardResponse[],
+): MyceliumCard[] => data.map(myceliumCardDeserializer)
 
 export interface MyceliumResponse {
   id: number
   name: string
   type: StageResponse
   species: string
-  inoculation_date: string
-  // strain_source_id: number
-  strain_source: StrainLink | null
-  // TODO: Rename to `generation_number`?
+  inoculation_date: string | null
+  strain_source: EntityLink | null
   generation: GenerationResponse | number
   external_provider: string | null
-  // TODO: Does it come directly from the backend?
   substrate: string
-  container: number
+  container: string
   strain_description: string
   shelf_time: number
   image_url: string
   weight: number
-  prefix: string
-  created_at?: string
-  updated_at?: string
+  created_at: string | null
+  updated_at: string | null
 }
 
 export interface MyceliumModel {
@@ -48,94 +73,134 @@ export interface MyceliumModel {
   name: string
   stage: string
   species: string
-  inoculationDate: CustomDate
-  // TODO: Return the entity instead or directly the string (strain_source_name)
-  // strainSourceId: number
-  strainSource?: StrainLink
-  // TODO: Convert to "enum" -> -1: Madre, 0: Master, 1: RP 1, 2: RP 2, ....
+  // TODO: to string
+  inoculationDate: string | undefined
+  strainSource?: EntityLink
   generation: string
   externalProvider?: string
-  // TODO: Is it a number? Should be a string. Backend will convert this to the substrate name instead of enum
   substrate: string
-  container: number
+  container: string
   strainDescription: string
   shelfTime: number
   imageUrl: string
   weight: number
-  prefix: string
-  createdAt?: CustomDate
-  updatedAt?: CustomDate
+  // TODO: Is it needed?
+  // prefix: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface CreateMyceliumResponse {
+  mycelia: EntityLink[]
+  message: string
 }
 
 export const buildGeneration = (generationNumber: number): string => {
   switch (generationNumber) {
     case GenerationResponse.Mother:
-      return 'Madre'
+      return generalStrings.generationMother
     case GenerationResponse.Master:
-      return 'Master'
+      return generalStrings.generationMaster
     default:
-      return `Reproducción ${generationNumber}`
+      return `${generalStrings.generationRP} ${generationNumber}`
   }
 }
 
 export const buildStage = (stageResponse: StageResponse) => {
   switch (stageResponse) {
     case StageResponse.Culture:
-      return 'Culture'
+      return generalStrings.stageCulture
     case StageResponse.Spawn:
-      return 'Spawn'
+      return generalStrings.stageSpawn
     case StageResponse.Bulk:
-      return 'Bulk'
+      return generalStrings.stageBulk
     case StageResponse.Fruit:
-      return 'Fruit'
+      return generalStrings.stageFruit
   }
+}
+
+export const stage = {
+  [StageResponse.Culture]: generalStrings.stageCulture,
+  [StageResponse.Spawn]: generalStrings.stageSpawn,
+  [StageResponse.Bulk]: generalStrings.stageBulk,
+  [StageResponse.Fruit]: generalStrings.stageFruit,
 }
 
 export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
   return {
     container: data.container,
-    createdAt: data.created_at ? DateTime.fromISO(data.created_at) : undefined,
+    createdAt: optionalDateConverter(data.created_at),
     externalProvider: data.external_provider ?? undefined,
     generation: buildGeneration(data.generation),
     id: data.id,
     imageUrl: data.image_url,
-    inoculationDate: DateTime.fromISO(data.inoculation_date),
+    inoculationDate: optionalDateConverter(data.inoculation_date),
     name: data.name,
-    prefix: data.prefix,
     shelfTime: data.shelf_time,
     species: data.species,
-    // TODO: Check
-    stage: buildStage(data.type),
+    // TODO: Check if it comes a string instead of a number
+    stage: data.type ? stage[data.type] : 'Unknown',
     strainDescription: data.strain_description,
     strainSource: data.strain_source ?? undefined,
     substrate: data.substrate,
-    updatedAt: data.updated_at ? DateTime.fromISO(data.updated_at) : undefined,
+    updatedAt: optionalDateConverter(data.updated_at),
     weight: data.weight,
   }
 }
 
-export const mockedMyceliumBackendResponse: MyceliumResponse = {
-  container: 2,
-  created_at: '2023-07-18T10:00:00.000Z',
-  external_provider: 'Provider XYZ',
-  generation: 3,
-  id: 1,
-  image_url: 'https://example.com/image.jpg',
-  inoculation_date: '2023-07-18T08:00:00.000Z',
-  name: 'Mycelium 1',
-  prefix: 'ABC',
-  shelf_time: 5,
-  species: 'Example Species',
-  strain_description: `La gírgola, seta de ostra, champiñón ostra o pleuroto ostra es una especie de hongo basidiomiceto del orden Agaricales, comestible.​
-
-Este hongo crece en ambientes con temperaturas de 23 a 32°C con una óptima de 28°C para crecimiento micelial y de 18 a 20°C para formación de primordios, pH de 4.5 a 7 con un óptimo de 5.5, humedad de sustrato entre 60 y 70%, y una humedad relativa de 80 a 90% `,
-  strain_source: null,
-  substrate: 'Agar agar',
-  type: 0,
-  updated_at: '2023-07-18T12:00:00.000Z',
-  weight: 0.5,
+export interface MyceliumRequest {
+  type: StageResponse
+  species: string
+  // TODO: We need to validate with the users if this will be valuable to have in the creation too
+  // inoculation_date: string
+  strain_source_id: string | null
+  generation: GenerationResponse | number
+  external_provider: string | null
+  substrate: string
+  container: string
+  strain_description: string | null
+  shelf_time: number | null
+  image_url: string | null
+  weight: number | null
+  prefix: string
+  quantity: number
+  room_id: string
 }
 
-export const mockedMycelium: MyceliumModel = deserializeMycelium(
-  mockedMyceliumBackendResponse,
-)
+export interface MyceliumOptionItemResponse {
+  translated_label: string
+  value: string
+}
+
+export interface MyceliumOptionItem {
+  label: string
+  value: string
+}
+
+export interface MyceliumOptionsResponse {
+  species: MyceliumOptionItemResponse[]
+  substrates: MyceliumOptionItemResponse[]
+  containers: MyceliumOptionItemResponse[]
+}
+
+export interface MyceliumOptions {
+  speciesOptions: MyceliumOptionItem[]
+  substrateOptions: MyceliumOptionItem[]
+  containerOptions: MyceliumOptionItem[]
+}
+
+export const deserializeMyceliumOptionItem = (
+  data: MyceliumOptionItemResponse,
+): MyceliumOptionItem => ({ label: data.translated_label, value: data.value })
+
+export const deserializeMyceliumOptionItems = (
+  data: MyceliumOptionItemResponse[],
+): MyceliumOptionItem[] => data.map(deserializeMyceliumOptionItem)
+
+export const deserializeMyceliumOptions = (
+  data: MyceliumOptionsResponse,
+): MyceliumOptions => ({
+  containerOptions: deserializeMyceliumOptionItems(data.containers),
+  speciesOptions: deserializeMyceliumOptionItems(data.species),
+  substrateOptions: deserializeMyceliumOptionItems(data.substrates),
+})
