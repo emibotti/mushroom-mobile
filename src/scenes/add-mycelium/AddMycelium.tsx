@@ -112,13 +112,8 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
   useEffect(() => {
     // TODO: Check if this is the best place or use `unwrap()`
     if (myceliumCreated && type) {
-      const createdMycelia =
-        typeof myceliumCreated.mycelia === 'string'
-          ? JSON.parse(myceliumCreated.mycelia)
-          : myceliumCreated.mycelia
-
       navigation.replace(Routes.AddMyceliumSuccess, {
-        createdMycelia,
+        createdMycelia: myceliumCreated.mycelia,
         type,
       })
     }
