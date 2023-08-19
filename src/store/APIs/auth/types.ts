@@ -19,8 +19,7 @@ export interface AuthUserRequest {
 export interface AuthUserResponse {
   email?: string
   id?: string
-  // TODO: Remove optional when implemented
-  organization_id?: string | null
+  organization_id: string | null
 }
 
 export interface AuthResponse {

@@ -8,23 +8,32 @@ import { Palette } from 'src/styles/Palette'
 interface HeaderProps {
   title?: string
   onPress?: () => void
+  rightElement?: React.ReactElement
 }
 
-export const Header: React.FC<HeaderProps> = ({ title, onPress }) => {
+export const Header: React.FC<HeaderProps> = ({
+  title,
+  onPress,
+  rightElement,
+}) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        {onPress && (
-          <IconButton
-            size={30}
-            icon="keyboard-backspace"
-            mode="contained"
-            iconColor="black"
-            containerColor="white"
-            style={styles.backButton}
-            onPress={onPress}
-          />
-        )}
+        <View style={styles.headerFirstRow}>
+          {onPress && (
+            <IconButton
+              size={30}
+              icon="keyboard-backspace"
+              mode="contained"
+              iconColor="black"
+              containerColor="white"
+              style={styles.backButton}
+              onPress={onPress}
+            />
+          )}
+          {rightElement}
+        </View>
+
         {title && (
           <StyledText
             style={[styles.title, !onPress && styles.titleWithoutArrow]}>
@@ -45,6 +54,10 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 20,
+  },
+  headerFirstRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 32,

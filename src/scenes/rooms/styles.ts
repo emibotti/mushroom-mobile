@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
-  agregarAmbienteButton: {
+  addRoomButton: {
     marginBottom: 20,
   },
   container: {

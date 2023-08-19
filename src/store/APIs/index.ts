@@ -10,7 +10,7 @@ import {
   PersistedUser,
 } from 'src/common/persistance'
 
-import { ReducerPath } from './types'
+import { ReducerPath, Tags } from './types'
 
 export enum HttpMethod {
   Get = 'GET',
@@ -48,5 +48,5 @@ export const baseApi = createApi({
   baseQuery,
   endpoints: () => ({}),
   reducerPath: ReducerPath.root,
-  tagTypes: [],
+  tagTypes: [Tags.Rooms],
 })

@@ -13,6 +13,7 @@ export enum Routes {
   JoinOrganization = 'JoinOrganization',
   OrganizationCreated = 'OrganizationCreated',
   Profile = 'Profile',
+  AddRoom = 'AddRoom',
 }
 
 export enum StackRoutes {

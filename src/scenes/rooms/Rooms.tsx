@@ -11,6 +11,7 @@ import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
+import { useGetRoomsQuery } from 'src/store/APIs/rooms'
 
 import { strings } from './strings'
 import { styles } from './styles'
@@ -19,13 +20,6 @@ interface Room {
   name: string
   id: string
 }
-
-const mockedBackendResponse: Room[] = [
-  { id: '1', name: 'Inoculación' },
-  { id: '2', name: 'Incubación' },
-  { id: '3', name: 'Fructificación' },
-  { id: '4', name: 'Heladera' },
-]
 
 const buildHeader = (props: NativeStackHeaderProps) => (
   <Header title={strings.roomsHeaderTitle} onPress={props.navigation.goBack} />
@@ -40,7 +34,9 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
     navigation.setOptions(options)
   }, [navigation])
 
-  const onPressAddRoom = () => navigation.navigate(Routes.Home)
+  const { data: rooms } = useGetRoomsQuery()
+
+  const onPressAddRoom = () => navigation.navigate(Routes.AddRoom)
   const onPressCard = (id: string, name: string) => () =>
     navigation.navigate(Routes.Room, { id, name })
 
@@ -56,13 +52,13 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
     <SceneContainer style={styles.container}>
       <Button
         icon={'plus'}
-        style={styles.agregarAmbienteButton}
+        style={styles.addRoomButton}
         onPress={onPressAddRoom}>
         <StyledText>{strings.addRoom}</StyledText>
       </Button>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={mockedBackendResponse}
+        data={rooms}
         renderItem={renderRooms}
       />
     </SceneContainer>
