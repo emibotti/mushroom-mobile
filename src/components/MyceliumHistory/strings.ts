@@ -2,9 +2,9 @@ import LocalizedStrings from 'react-native-localization'
 
 export const strings = new LocalizedStrings({
   en: {
-    noHistory: 'No hay historia',
+    noHistory: 'No history yet',
   },
   es: {
-    noHistory: 'No history yet',
+    noHistory: 'No hay historia',
   },
 })

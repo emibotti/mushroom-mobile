@@ -4,7 +4,7 @@ export const strings = new LocalizedStrings({
   en: {
     generation: 'Generation',
     history: 'History',
-    inoculationButton: 'Inocular',
+    inoculationButton: 'Inoculate',
     inoculationDate: 'Inoculation date',
     inspectButtonLabel: 'Inspect',
     myceliumNotFound: `This QR doesn't have an associated mycelium.`,
@@ -17,7 +17,7 @@ export const strings = new LocalizedStrings({
   es: {
     generation: 'Generación',
     history: 'Historial',
-    inoculationButton: 'Inoculate',
+    inoculationButton: 'Inocular',
     inoculationDate: 'Fecha de inoculación',
     inspectButtonLabel: 'Inspeccionar',
     myceliumNotFound: `Este QR no tiene un micelio asociado.`,
