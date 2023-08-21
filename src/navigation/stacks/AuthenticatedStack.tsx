@@ -4,6 +4,7 @@ import { Stack } from 'src/navigation/types'
 import { AddMycelium } from 'src/scenes/add-mycelium'
 import { AddMyceliumSuccess } from 'src/scenes/add-mycelium/AddMyceliumSuccess'
 import { Home } from 'src/scenes/home'
+import { Inspect } from 'src/scenes/inspect/Inspect'
 import { Mycelium } from 'src/scenes/mycelium/Mycelium'
 import { CreateOrganization } from 'src/scenes/new-organization/CreateOrganization'
 import { JoinOrganization } from 'src/scenes/new-organization/JoinOrganization'
@@ -33,7 +34,6 @@ export const AuthenticatedStack: React.FC<{
       <Stack.Screen name={Routes.Home} component={Home} />
       <Stack.Screen name={Routes.Rooms} component={Rooms} />
       <Stack.Screen name={Routes.Room} component={Room} />
-      <Stack.Screen name={Routes.Mycelium} component={Mycelium} />
       <Stack.Screen name={Routes.Profile} component={Profile} />
       <Stack.Screen name={Routes.AddRoom} component={AddRoom} />
       <Stack.Screen name={Routes.AddMycelium} component={AddMycelium} />
@@ -41,6 +41,19 @@ export const AuthenticatedStack: React.FC<{
         name={Routes.AddMyceliumSuccess}
         component={AddMyceliumSuccess}
       />
+      <Stack.Screen
+        name={Routes.Mycelium}
+        component={Mycelium}
+        options={{
+          animation: 'slide_from_bottom',
+        }}
+      />
+      <Stack.Group
+        screenOptions={{
+          presentation: 'modal',
+        }}>
+        <Stack.Screen name={Routes.Inspect} component={Inspect} />
+      </Stack.Group>
     </Stack.Navigator>
   )
 }
