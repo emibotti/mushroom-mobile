@@ -1,10 +1,11 @@
 import React from 'react'
-import { ActivityIndicator, Alert, ScrollView, Share, View } from 'react-native'
+import { Alert, ScrollView, Share, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import { generalStrings } from 'src/common/generalStrings'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
+import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
@@ -22,7 +23,7 @@ import { AppTypography, ColorPalette } from 'src/styles/types'
 import { strings } from './strings'
 
 export const Profile: SceneProps<Routes.Profile> = ({ navigation }) => {
-  useGoBackNavigationOptions(navigation)
+  useGoBackNavigationOptions({ navigation })
 
   const { data: invitationCode, isFetching } =
     useGenerateOrgInvitationCodeQuery()
@@ -50,7 +51,7 @@ export const Profile: SceneProps<Routes.Profile> = ({ navigation }) => {
   }
 
   return isFetching ? (
-    <ActivityIndicator />
+    <LoadingActivityIndicator />
   ) : (
     <SceneContainer style={styles.container} edges={['top']}>
       <View style={styles.flexible}>

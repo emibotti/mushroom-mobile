@@ -9,6 +9,7 @@ export const roomsApi = baseApi.injectEndpoints({
     getRoom: getRoom(builder),
     getRooms: getRooms(builder),
   }),
+  overrideExisting: true,
 })
 
 export const { useGetRoomsQuery, useCreateRoomMutation, useGetRoomQuery } =

@@ -14,7 +14,7 @@ import { strings } from './strings'
 import { styles } from './styles'
 
 export const AddRoom: SceneProps<Routes.AddRoom> = ({ navigation }) => {
-  useGoBackNavigationOptions(navigation, false, strings.screenHeader)
+  useGoBackNavigationOptions({ navigation, title: strings.screenHeader })
 
   const [name, setName] = useState('')
   const [humidity, setHumidity] = useState('')

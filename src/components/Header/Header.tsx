@@ -9,15 +9,17 @@ interface HeaderProps {
   title?: string
   onPress?: () => void
   rightElement?: React.ReactElement
+  transparent?: boolean
 }
 
 export const Header: React.FC<HeaderProps> = ({
   title,
   onPress,
   rightElement,
+  transparent = false,
 }) => {
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={!transparent && styles.safeAreaWithBackground}>
       <View style={styles.container}>
         <View style={styles.headerFirstRow}>
           {onPress && (
@@ -31,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({
               onPress={onPress}
             />
           )}
-          {rightElement}
+          <View style={styles.rightElement}>{rightElement}</View>
         </View>
         {title && (
           <StyledText
@@ -59,7 +61,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  safeArea: {},
+  rightElement: {
+    alignItems: 'flex-end',
+    flex: 1,
+  },
+  safeAreaWithBackground: {
+    backgroundColor: Palette.SURFACE_10,
+  },
   title: {
     fontSize: 32,
   },

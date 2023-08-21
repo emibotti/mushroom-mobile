@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native'
 import React from 'react'
-import { ActivityIndicator, View } from 'react-native'
+import { View } from 'react-native'
 import BulkImagePlaceholder from 'src/assets/images/bulk_example.png'
 import CultureImagePlaceholder from 'src/assets/images/culture_example.png'
 import FruitImagePlaceholder from 'src/assets/images/fruit_example.jpeg'
@@ -8,6 +8,7 @@ import SpawnImagePlaceholder from 'src/assets/images/spawn_example.png'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
+import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { ScrollableScreen } from 'src/components/ScrollableScreen/ScrollableScreen'
 import { StyledText } from 'src/components/StyledText'
@@ -69,7 +70,26 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
 
   const { data: mycelium, isFetching } = useGetMyceliumQuery({ id })
 
-  useGoBackNavigationOptions(navigation, true)
+  useGoBackNavigationOptions({
+    headerTransparent: true,
+    navigation,
+    rightElement: mycelium && (
+      <Button
+        title={strings.inoculationButton}
+        onPress={() => {
+          navigation.push(Routes.AddMycelium, {
+            roomId: mycelium?.room?.id,
+            strainSource: {
+              id,
+              name: mycelium.name,
+            },
+          })
+        }}
+        style={styles.inoculationButton}
+        mode={ButtonMode.PRIMARY_RECTANGULAR_SOLID}
+      />
+    ),
+  })
 
   const navigateToMycellium = (myceliumToNavigate: string) => () =>
     navigation.push(Routes.Mycelium, {
@@ -77,7 +97,7 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
     })
 
   return isFetching ? (
-    <ActivityIndicator />
+    <LoadingActivityIndicator />
   ) : mycelium ? (
     <View style={styles.container}>
       <ScrollableScreen
@@ -125,6 +145,9 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               attributeName={strings.generation}
               value={mycelium.generation}
             />
+            {mycelium.room && (
+              <Row attributeName={strings.room} value={mycelium.room.name} />
+            )}
           </View>
           <View style={styles.strainDescriptionContainer}>
             <StyledText typography={AppTypography.H1}>

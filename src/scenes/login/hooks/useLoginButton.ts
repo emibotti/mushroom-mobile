@@ -25,7 +25,7 @@ export const useLoginButton = (
   password: OuterProps['password'],
 ) => {
   const [buttonEnable, setButtonEnable] = useState<Boolean>(false)
-  const [triggerLogin] = useLoginMutation()
+  const [triggerLogin, { isLoading }] = useLoginMutation()
 
   const onPressLogin = () => {
     if (email && password) {
@@ -45,6 +45,7 @@ export const useLoginButton = (
 
   return {
     buttonEnable,
+    isLoading,
     onPressLogin,
   }
 }
