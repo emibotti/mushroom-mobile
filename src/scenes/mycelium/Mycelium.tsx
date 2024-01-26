@@ -135,7 +135,7 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
         <View style={styles.screen}>
           <View style={styles.header}>
             <View>
-              <StyledText typography={AppTypography.H1}>
+              <StyledText typography={AppTypography.H1} numberOfLines={1}>
                 {mycelium.name}
               </StyledText>
               <View style={styles.stageTag}>

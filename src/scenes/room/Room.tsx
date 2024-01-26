@@ -43,7 +43,7 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
     <MyceliumCard
       key={item.id}
       title={item.name}
-      subtitle={item.type}
+      stageType={item.type}
       onPress={() => {
         navigation.navigate(Routes.Mycelium, {
           id: item.id,

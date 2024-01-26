@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
     paddingVertical: 20,
+    zIndex: -1,
   },
   flexible: {
     backgroundColor: Palette.SURFACE_10,
