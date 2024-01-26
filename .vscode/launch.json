@@ -1,0 +1,17 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug iOS Hermes - Experimental",
+      "cwd": "${workspaceFolder}",
+      "type": "reactnativedirect",
+      "request": "launch",
+      "platform": "ios",
+      "runArguments": ["--udid", "4DF35CC3-1B97-448B-9BB9-70D08806B47B"]
+      // "trace": "verbose"
+    }
+  ]
+}

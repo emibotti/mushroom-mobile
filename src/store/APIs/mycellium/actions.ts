@@ -8,7 +8,6 @@ import {
   deserializeMycelium,
   deserializeMyceliumOptions,
   HarvestRequest,
-  HarvestResponse,
   MyceliumModel,
   MyceliumOptions,
   MyceliumRequest,
@@ -50,7 +49,7 @@ export const getMyceliumOptions = (builder: Builder) =>
   })
 
 export const harvestMycelium = (builder: Builder) =>
-  builder.mutation<HarvestResponse, HarvestRequest>({
+  builder.mutation<CreateMyceliumResponse, HarvestRequest>({
     invalidatesTags: (_, __, { room_id, strain_source_id }) => [
       { id: room_id, type: Tags.Rooms },
       { id: strain_source_id, type: Tags.Mycelium },
@@ -60,6 +59,7 @@ export const harvestMycelium = (builder: Builder) =>
       method: HttpMethod.Post,
       url: Endpoints.HarvestMycelium,
     }),
+    transformResponse: deserializeCreatedMyceliaResponse,
   })
 
 export const checkIfWeightIsRequired = (builder: Builder) =>

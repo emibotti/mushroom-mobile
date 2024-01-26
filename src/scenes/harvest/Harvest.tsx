@@ -15,6 +15,7 @@ import {
   useCheckIfWeightIsRequiredQuery,
   useHarvestMyceliumMutation,
 } from 'src/store/APIs/mycellium'
+import { StageResponse } from 'src/store/APIs/mycellium/types'
 import { useGetRoomsQuery } from 'src/store/APIs/rooms'
 import { AppTypography } from 'src/styles/types'
 import { format } from 'util'
@@ -67,10 +68,10 @@ export const Harvest: SceneProps<Routes.Harvest> = ({ navigation, route }) => {
         weight: weight ? Number(weight) : null,
       })
         .unwrap()
-        .then(response => {
-          // TODO: Check if we need to navigate to a harvest "success" screen with QR mail notification
-          navigation.replace(Routes.Mycelium, {
-            id: response.fruit.id,
+        .then(myceliumCreated => {
+          navigation.replace(Routes.AddMyceliumSuccess, {
+            createdMycelia: myceliumCreated.mycelia,
+            type: StageResponse.Fruit,
           })
         })
     }
