@@ -14,7 +14,11 @@ import { styles } from './styles'
 import { useModalSetNavigationOptions } from './useModalNavigationOptions'
 
 export const Inspect: SceneProps<Routes.Inspect> = ({ navigation, route }) => {
-  useModalSetNavigationOptions({ headerTitle: 'Inspect', navigation })
+  useModalSetNavigationOptions({
+    headerTitle: strings.inspectHeader,
+    navigation,
+  })
+
   const { myceliumId } = route.params
 
   const [triggerInspectMycelium, { isLoading }] = useInspectMyceliumMutation()
