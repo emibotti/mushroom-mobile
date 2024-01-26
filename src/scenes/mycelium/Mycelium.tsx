@@ -29,7 +29,7 @@ interface RowProps {
   onPress?: () => void
 }
 
-const stageImagePlaceholder = (stage: StageResponse) => {
+export const stageImagePlaceholder = (stage: StageResponse) => {
   switch (stage) {
     case StageResponse.Culture:
       return CultureImagePlaceholder
@@ -71,21 +71,35 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
 
   const { data: mycelium, isFetching } = useGetMyceliumQuery({ id })
 
+  const onPressInoculationButton = () => {
+    if (mycelium) {
+      navigation.push(
+        mycelium.stage === StageResponse.Bulk
+          ? Routes.Harvest
+          : Routes.AddMycelium,
+        {
+          flush: mycelium.flush,
+          roomId: mycelium?.room?.id,
+          strainSource: {
+            id,
+            name: mycelium.name,
+          },
+        },
+      )
+    }
+  }
+
   useGoBackNavigationOptions({
     headerTransparent: true,
     navigation,
     rightElement: mycelium && (
       <Button
-        title={strings.inoculationButton}
-        onPress={() => {
-          navigation.push(Routes.AddMycelium, {
-            roomId: mycelium?.room?.id,
-            strainSource: {
-              id,
-              name: mycelium.name,
-            },
-          })
-        }}
+        title={
+          mycelium.stage === StageResponse.Bulk
+            ? strings.harvestButton
+            : strings.inoculationButton
+        }
+        onPress={onPressInoculationButton}
         style={styles.inoculationButton}
         mode={ButtonMode.PRIMARY_RECTANGULAR_SOLID}
       />
@@ -155,6 +169,9 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               attributeName={strings.generation}
               value={mycelium.generation}
             />
+            {mycelium.weight && (
+              <Row attributeName={strings.weight} value={mycelium.weight} />
+            )}
             {mycelium.room && (
               <Row attributeName={strings.room} value={mycelium.room.name} />
             )}

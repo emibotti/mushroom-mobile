@@ -3,6 +3,7 @@ import { Routes, StackRoutes } from 'src/navigation/routes'
 import { Stack } from 'src/navigation/types'
 import { AddMycelium } from 'src/scenes/add-mycelium'
 import { AddMyceliumSuccess } from 'src/scenes/add-mycelium/AddMyceliumSuccess'
+import { Harvest } from 'src/scenes/harvest'
 import { Home } from 'src/scenes/home'
 import { Inspect } from 'src/scenes/inspect/Inspect'
 import { Mycelium } from 'src/scenes/mycelium/Mycelium'
@@ -48,6 +49,7 @@ export const AuthenticatedStack: React.FC<{
           animation: 'slide_from_bottom',
         }}
       />
+      <Stack.Screen name={Routes.Harvest} component={Harvest} />
       <Stack.Group
         screenOptions={{
           presentation: 'modal',

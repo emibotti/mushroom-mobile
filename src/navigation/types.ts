@@ -31,6 +31,11 @@ export interface ParamList extends ParamListBase {
   [Routes.Inspect]: {
     myceliumId: string
   }
+  [Routes.Harvest]: {
+    roomId?: string
+    strainSource: EntityLink
+    flush?: number
+  }
 }
 
 export type SceneProps<T extends keyof ParamList> = React.FunctionComponent<

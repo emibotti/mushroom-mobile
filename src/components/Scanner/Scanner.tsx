@@ -35,6 +35,7 @@ export const Scanner: React.FC<ScannerProps> = ({ isVisible, onClose }) => {
       onClose()
       Linking.openURL(data)
     }
+    setScanned(false)
   }
 
   if (hasPermission === null) {

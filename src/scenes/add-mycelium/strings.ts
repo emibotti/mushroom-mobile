@@ -35,6 +35,7 @@ export const strings = new LocalizedStrings({
     quantityLabel: 'Cantidad a producir',
     roomLabel: 'Ambiente destino',
     shelfTimeLabel: 'Tiempo de vida (días)',
+    sourceMycelium: 'Micelio fuente',
     sourceType: 'Tipo de fuente',
     speciesLabel: 'Especie',
     stageLabel: 'Tipo',

@@ -3,6 +3,7 @@ import LocalizedStrings from 'react-native-localization'
 export const strings = new LocalizedStrings({
   en: {
     generation: 'Generation',
+    harvestButton: 'Harvest',
     history: 'History',
     inoculationButton: 'Inoculate',
     inoculationDate: 'Inoculation date',
@@ -13,9 +14,11 @@ export const strings = new LocalizedStrings({
     strainDescription: 'Strain description',
     strainSource: 'Strain source',
     substrate: 'Substrate',
+    weight: 'Weight (g)',
   },
   es: {
     generation: 'Generación',
+    harvestButton: 'Cosechar',
     history: 'Historial',
     inoculationButton: 'Inocular',
     inoculationDate: 'Fecha de inoculación',
@@ -26,5 +29,6 @@ export const strings = new LocalizedStrings({
     strainDescription: 'Características de la cepa',
     strainSource: 'Origen de la cepa',
     substrate: 'Medio de cultivo',
+    weight: 'Peso (g)',
   },
 })

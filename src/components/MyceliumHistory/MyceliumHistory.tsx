@@ -60,6 +60,7 @@ export const MyceliumHistory: React.FC<MyceliumHistoryProps> = ({
   return events ? (
     <View style={styles.container}>
       <FlatList
+        scrollEnabled={false}
         data={events}
         renderItem={renderEvent}
         ListEmptyComponent={
