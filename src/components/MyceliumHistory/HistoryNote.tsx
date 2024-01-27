@@ -52,6 +52,38 @@ export const HistoryNote: React.FC<HistoryNoteProps> = ({ event }) => {
           myceliumId={event.myceliumId}
         />
       )
+    case MyceliumEventType.ArchivedConsumed:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {event.eventType}
+        </StyledText>
+      )
+    case MyceliumEventType.ArchivedContaminated:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {event.eventType}
+        </StyledText>
+      )
+    case MyceliumEventType.ArchivedOther:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {event.eventType}
+        </StyledText>
+      )
+    case MyceliumEventType.ArchivedSold:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {event.eventType}
+        </StyledText>
+      )
     default:
       return (
         <StyledText

@@ -36,6 +36,9 @@ export interface ParamList extends ParamListBase {
     strainSource: EntityLink
     flush?: number
   }
+  [Routes.MyceliumExit]: {
+    myceliumId: string
+  }
 }
 
 export type SceneProps<T extends keyof ParamList> = React.FunctionComponent<

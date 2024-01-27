@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { RadioButton } from 'react-native-paper'
 import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
@@ -8,37 +9,49 @@ import { StyledTextInput } from 'src/components/StyledTextInput'
 import { useModalSetNavigationOptions } from 'src/hooks/useModalNavigationOptions'
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
-import { useInspectMyceliumMutation } from 'src/store/APIs/events'
+import { useArchiveMyceliumMutation } from 'src/store/APIs/mycellium'
+import { ExitTypes } from 'src/store/APIs/mycellium/types'
 
 import { strings } from './strings'
 import { styles } from './styles'
 
-export const Inspect: SceneProps<Routes.Inspect> = ({ navigation, route }) => {
+export const MyceliumExit: SceneProps<Routes.MyceliumExit> = ({
+  navigation,
+  route,
+}) => {
   useModalSetNavigationOptions({
-    headerTitle: strings.inspectHeader,
+    headerTitle: strings.markAsExitHeader,
     navigation,
   })
 
   const { myceliumId } = route.params
 
-  const [triggerInspectMycelium, { isLoading }] = useInspectMyceliumMutation()
+  const [triggerArchiveMycelium, { isLoading }] = useArchiveMyceliumMutation()
 
+  const [exitType, setExitType] = React.useState<ExitTypes>(ExitTypes.Sold)
   const [note, setNote] = useState<string | undefined>(undefined)
 
   const onPressSave = () => {
     if (note) {
-      triggerInspectMycelium({
-        inspection: {
+      triggerArchiveMycelium({
+        myceliumId,
+        reason: {
+          exitType,
           note,
         },
-        myceliumId,
       })
         .unwrap()
-        .then(() => navigation.goBack())
+        .then(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: Routes.Home }],
+          })
+        })
     }
   }
 
-  const disabledSave = !note
+  // TODO: Do we enforce putting a note too?
+  const disabledSave = !exitType
 
   return (
     <KeyboardAwareScrollView
@@ -46,13 +59,27 @@ export const Inspect: SceneProps<Routes.Inspect> = ({ navigation, route }) => {
       contentContainerStyle={styles.flexible}
       bounces={false}>
       <Container style={styles.container}>
+        <RadioButton.Group
+          onValueChange={newValue => setExitType(newValue as ExitTypes)}
+          value={exitType}>
+          <RadioButton.Item label={strings.sold} value={ExitTypes.Sold} />
+          <RadioButton.Item
+            label={strings.contaminated}
+            value={ExitTypes.Contaminated}
+          />
+          <RadioButton.Item
+            label={strings.consumed}
+            value={ExitTypes.Consumed}
+          />
+          <RadioButton.Item label={strings.other} value={ExitTypes.Other} />
+        </RadioButton.Group>
+
         <StyledTextInput
           label={strings.notesLabel}
           onChangeText={setNote}
           value={note}
           multiline
           style={styles.notes}
-          required
         />
       </Container>
       <View style={styles.buttonContainer}>

@@ -7,6 +7,7 @@ import { Harvest } from 'src/scenes/harvest'
 import { Home } from 'src/scenes/home'
 import { Inspect } from 'src/scenes/inspect/Inspect'
 import { Mycelium } from 'src/scenes/mycelium/Mycelium'
+import { MyceliumExit } from 'src/scenes/mycelium-exit/MyceliumExit'
 import { CreateOrganization } from 'src/scenes/new-organization/CreateOrganization'
 import { JoinOrganization } from 'src/scenes/new-organization/JoinOrganization'
 import { OrganizationCreated } from 'src/scenes/new-organization/OrganizationCreated'
@@ -55,6 +56,7 @@ export const AuthenticatedStack: React.FC<{
           presentation: 'modal',
         }}>
         <Stack.Screen name={Routes.Inspect} component={Inspect} />
+        <Stack.Screen name={Routes.MyceliumExit} component={MyceliumExit} />
       </Stack.Group>
     </Stack.Navigator>
   )

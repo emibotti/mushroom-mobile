@@ -18,6 +18,7 @@ export enum Routes {
   AddMyceliumSuccess = 'AddMyceliumSuccess',
   Inspect = 'Inspect',
   Harvest = 'Harvest',
+  MyceliumExit = 'MyceliumExit',
 }
 
 export enum StackRoutes {
