@@ -85,6 +85,22 @@ export const HistoryNote: React.FC<HistoryNoteProps> = ({ event }) => {
           {strings.sold}
         </StyledText>
       )
+    case MyceliumEventType.Ready:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {strings.ready}
+        </StyledText>
+      )
+    case MyceliumEventType.NotReady:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {strings.notReady}
+        </StyledText>
+      )
     default:
       return (
         <StyledText
