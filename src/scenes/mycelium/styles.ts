@@ -32,6 +32,8 @@ export const styles = StyleSheet.create({
   inoculationButton: {
     width: 100,
   },
+  lastRightMenuButton: { marginRight: 5 },
+  rightMenuButton: { marginRight: 15 },
   row: {
     flexDirection: 'row',
   },

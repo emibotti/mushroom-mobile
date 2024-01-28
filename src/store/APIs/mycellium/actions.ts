@@ -2,7 +2,6 @@ import { Builder, Tags } from 'src/store/APIs/types'
 import { format } from 'util'
 
 import { HttpMethod } from '..'
-import { MyceliumEvent } from '../events/types'
 import {
   CreateMyceliumResponse,
   deserializeCreatedMyceliaResponse,
@@ -10,6 +9,9 @@ import {
   deserializeMyceliumOptions,
   HarvestRequest,
   MyceliumArchived,
+  MyceliumArchivedResponse,
+  MyceliumMarkAsReady,
+  MyceliumMarkedAsReadyResponse,
   MyceliumModel,
   MyceliumOptions,
   MyceliumRequest,
@@ -22,6 +24,7 @@ export enum Endpoints {
   GetMyceliumOptions = '/mycelia/options',
   CheckWeightIsRequired = '/mycelia/%s/weight_required',
   ArchiveMycelium = '/mycelia/%s/archive',
+  MarkAsReady = '/mycelia/%s/ready',
 }
 
 export const getMycelium = (builder: Builder) =>
@@ -79,7 +82,7 @@ export const checkIfWeightIsRequired = (builder: Builder) =>
 
 export const archiveMycelium = (builder: Builder) =>
   builder.mutation<
-    MyceliumEvent,
+    MyceliumArchivedResponse,
     { myceliumId: string; reason: MyceliumArchived }
   >({
     invalidatesTags: (_, __, { myceliumId }) => [
@@ -90,7 +93,23 @@ export const archiveMycelium = (builder: Builder) =>
         archived: reason.exitType,
         note: reason.note,
       },
-      method: HttpMethod.Post,
+      method: HttpMethod.Put,
       url: format(Endpoints.ArchiveMycelium, myceliumId),
+    }),
+  })
+
+export const markMyceliumAsReady = (builder: Builder) =>
+  builder.mutation<
+    MyceliumMarkedAsReadyResponse,
+    { myceliumId: string; body: MyceliumMarkAsReady }
+  >({
+    invalidatesTags: (_, __, { myceliumId }) => [
+      { id: myceliumId, type: Tags.Mycelium },
+      { id: myceliumId, type: Tags.Events },
+    ],
+    query: ({ body, myceliumId }) => ({
+      body,
+      method: HttpMethod.Put,
+      url: format(Endpoints.MarkAsReady, myceliumId),
     }),
   })

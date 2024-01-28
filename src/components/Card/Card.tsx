@@ -2,6 +2,8 @@ import React from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { StyledText } from 'src/components/StyledText'
 import { Palette } from 'src/styles/Palette'
+import { screenWidth } from 'src/styles/scale'
+import { CARD_HORIZONTAL_MARGIN } from 'src/styles/Spacing'
 
 interface CardProps {
   content: string
@@ -13,7 +15,9 @@ export const Card: React.FC<CardProps> = ({ content, onPress }) => {
     <Pressable onPress={onPress} style={styles.cardContainer}>
       {({ pressed }) => (
         <View style={[styles.card, pressed && styles.pressedBackground]}>
-          <StyledText style={styles.content}>{content}</StyledText>
+          <StyledText numberOfLines={1} style={styles.content}>
+            {content}
+          </StyledText>
         </View>
       )}
     </Pressable>
@@ -29,6 +33,7 @@ const styles = StyleSheet.create({
     height: 140,
     justifyContent: 'center',
     paddingHorizontal: 70,
+    width: screenWidth - CARD_HORIZONTAL_MARGIN,
   },
   cardContainer: {
     marginBottom: 15,

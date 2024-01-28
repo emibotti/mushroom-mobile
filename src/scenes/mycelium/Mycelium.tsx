@@ -2,6 +2,8 @@ import { useRoute } from '@react-navigation/native'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import ArchiveIcon from 'src/assets/icons/mycelium/archive.svg'
+import NotReadyIcon from 'src/assets/icons/mycelium/notReady.svg'
+import ReadyIcon from 'src/assets/icons/mycelium/ready.svg'
 import BulkImagePlaceholder from 'src/assets/images/bulk_example.png'
 import CultureImagePlaceholder from 'src/assets/images/culture_example.png'
 import FruitImagePlaceholder from 'src/assets/images/fruit_example.jpeg'
@@ -124,6 +126,15 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
     })
   }
 
+  const isReady = mycelium?.ready ?? false
+
+  const navigateToMarkAsReady = () => {
+    navigation.push(Routes.MarkAsReady, {
+      isReadyFromTheBackend: isReady,
+      myceliumId: id,
+    })
+  }
+
   return isFetching ? (
     <LoadingActivityIndicator />
   ) : mycelium ? (
@@ -133,7 +144,6 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
           mycelium.imageUrl
             ? { uri: mycelium.imageUrl }
             : stageImagePlaceholder(mycelium.stage as StageResponse)
-          // TODO: Fix typings
         }
         buttonProps={{
           onPress: navigateToInspectMycelium,
@@ -150,7 +160,14 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.row}>
-              <TouchableOpacity onPress={navigateToArchiveMycelium}>
+              <TouchableOpacity
+                onPress={navigateToMarkAsReady}
+                style={styles.rightMenuButton}>
+                {isReady ? <ReadyIcon /> : <NotReadyIcon />}
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={navigateToArchiveMycelium}
+                style={styles.lastRightMenuButton}>
                 <ArchiveIcon />
               </TouchableOpacity>
             </View>

@@ -6,6 +6,7 @@ import { AddMyceliumSuccess } from 'src/scenes/add-mycelium/AddMyceliumSuccess'
 import { Harvest } from 'src/scenes/harvest'
 import { Home } from 'src/scenes/home'
 import { Inspect } from 'src/scenes/inspect/Inspect'
+import { MarkAsReady } from 'src/scenes/mark-as-ready/MarkAsReady'
 import { Mycelium } from 'src/scenes/mycelium/Mycelium'
 import { MyceliumExit } from 'src/scenes/mycelium-exit/MyceliumExit'
 import { CreateOrganization } from 'src/scenes/new-organization/CreateOrganization'
@@ -57,6 +58,7 @@ export const AuthenticatedStack: React.FC<{
         }}>
         <Stack.Screen name={Routes.Inspect} component={Inspect} />
         <Stack.Screen name={Routes.MyceliumExit} component={MyceliumExit} />
+        <Stack.Screen name={Routes.MarkAsReady} component={MarkAsReady} />
       </Stack.Group>
     </Stack.Navigator>
   )

@@ -4,6 +4,8 @@ import { StyledText } from 'src/components/StyledText'
 import { stageImagePlaceholder } from 'src/scenes/mycelium/Mycelium'
 import { StageResponse } from 'src/store/APIs/mycellium/types'
 import { Palette } from 'src/styles/Palette'
+import { screenWidth } from 'src/styles/scale'
+import { CARD_HORIZONTAL_MARGIN } from 'src/styles/Spacing'
 import { AppTypography } from 'src/styles/types'
 interface MyceliumCardProps {
   title: string
@@ -27,7 +29,10 @@ export const MyceliumCard: React.FC<MyceliumCardProps> = ({
             />
           </View>
           <View style={styles.contentContainer}>
-            <StyledText style={styles.title} typography={AppTypography.H1}>
+            <StyledText
+              style={styles.title}
+              numberOfLines={1}
+              typography={AppTypography.H1}>
               {title}
             </StyledText>
             <StyledText style={styles.subtitle} numberOfLines={2}>
@@ -48,11 +53,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 150,
     padding: 25,
+    width: screenWidth - CARD_HORIZONTAL_MARGIN,
   },
   cardContainer: {
     marginBottom: 15,
   },
   contentContainer: {
+    flex: 1,
     justifyContent: 'center',
     marginLeft: 10,
     textAlign: 'left',
