@@ -11,4 +11,8 @@ export const styles = StyleSheet.create({
     marginHorizontal: 0,
     paddingHorizontal: 0,
   },
+  noMycelium: {
+    flex: 1,
+    paddingVertical: 10,
+  },
 })

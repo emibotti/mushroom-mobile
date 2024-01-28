@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, ListRenderItem } from 'react-native'
+import { FlatList, ListRenderItem, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Card } from 'src/components/Card'
 import { SceneContainer } from 'src/components/SceneContainer'
@@ -8,6 +8,7 @@ import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions
 import { Routes } from 'src/navigation/routes'
 import { SceneProps } from 'src/navigation/types'
 import { useGetRoomsQuery } from 'src/store/APIs/rooms'
+import { Palette } from 'src/styles/Palette'
 
 import { strings } from './strings'
 import { styles } from './styles'
@@ -16,6 +17,12 @@ interface Room {
   name: string
   id: string
 }
+
+const renderEmptyRooms = () => (
+  <View style={styles.noRoomsContainer}>
+    <StyledText>{strings.noRooms}</StyledText>
+  </View>
+)
 
 export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
   useGoBackNavigationOptions({ navigation, title: strings.roomsHeaderTitle })
@@ -40,6 +47,7 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
         ListHeaderComponent={
           <Button
             icon={'plus'}
+            textColor={Palette.INFO_50}
             style={styles.addRoomButton}
             onPress={onPressAddRoom}>
             <StyledText>{strings.addRoom}</StyledText>
@@ -48,12 +56,7 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         data={rooms}
         renderItem={renderRooms}
-        // TODO: Define empty component
-        // ListEmptyComponent={() => (
-        //   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        //     <StyledText>{'No rooms yet'}</StyledText>
-        //   </View>
-        // )}
+        ListEmptyComponent={renderEmptyRooms}
       />
     </SceneContainer>
   )

@@ -50,8 +50,10 @@ export const AddRoom: SceneProps<Routes.AddRoom> = ({ navigation }) => {
               value={name}
               textContentType={'name'}
               returnKeyType={'done'}
+              required
             />
             <StyledTextInput
+              required
               label={strings.humidityLabel}
               value={humidity}
               onChangeText={setHumidity}
@@ -59,6 +61,7 @@ export const AddRoom: SceneProps<Routes.AddRoom> = ({ navigation }) => {
             />
 
             <StyledTextInput
+              required
               label={strings.temperatureLabel}
               value={temperature}
               onChangeText={setTemperature}
@@ -66,6 +69,7 @@ export const AddRoom: SceneProps<Routes.AddRoom> = ({ navigation }) => {
             />
 
             <StyledTextInput
+              required
               label={strings.co2Label}
               value={co2}
               onChangeText={setCo2}

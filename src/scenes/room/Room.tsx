@@ -1,7 +1,7 @@
 import { NavigationProp } from '@react-navigation/native'
 import React from 'react'
-import { Alert, FlatList, ListRenderItem } from 'react-native'
-import { Button, IconButton } from 'react-native-paper'
+import { FlatList, ListRenderItem, View } from 'react-native'
+import { Button } from 'react-native-paper'
 import { Container } from 'src/components/Container'
 import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
 import { MyceliumCard } from 'src/components/MyceliumCard'
@@ -13,7 +13,7 @@ import { ParamList, RouteProp, SceneProps } from 'src/navigation/types'
 import { MyceliumCardType as MyceliumCardType } from 'src/store/APIs/mycellium/types'
 import { useGetRoomQuery } from 'src/store/APIs/rooms'
 import { Palette } from 'src/styles/Palette'
-import { AppTypography } from 'src/styles/types'
+import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { strings } from './strings'
 import { styles } from './styles'
@@ -39,18 +39,6 @@ export const renderMyceliaCards: (
 export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
   useGoBackNavigationOptions({
     navigation,
-    rightElement: (
-      <IconButton
-        icon={'trash-can-outline'}
-        iconColor={Palette.ERROR_50}
-        size={30}
-        onPress={() => {
-          Alert.alert(
-            'No puede borrar el ambiente si tiene micelios existentes',
-          )
-        }}
-      />
-    ),
     title:
       (route as RouteProp<Routes.Room>).params.name ?? strings.roomHeaderTitle,
   })
@@ -84,6 +72,7 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
               </Container>
               <Button
                 icon={'plus'}
+                textColor={Palette.INFO_50}
                 style={styles.agregarMicelioButton}
                 onPress={onPressAddMycelium}>
                 <StyledText>{strings.addMycelium}</StyledText>
@@ -93,6 +82,15 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
           showsVerticalScrollIndicator={false}
           data={room?.mycelia}
           renderItem={renderMyceliaCards(navigation)}
+          ListEmptyComponent={
+            <View style={styles.noMycelium}>
+              <StyledText
+                typography={AppTypography.LABEL_MEDIUM}
+                color={ColorPalette.SURFACE_70}>
+                {strings.noMycelium}
+              </StyledText>
+            </View>
+          }
         />
       )}
     </SceneContainer>

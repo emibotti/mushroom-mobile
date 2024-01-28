@@ -76,7 +76,7 @@ export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
     DashboardTabs.Ready,
   )
 
-  const toggleDashboardFilter = (filter: string) => () => {
+  const toggleDashboardFilter = (filter: DashboardTabs) => () => {
     setDashboardFilterSelected(filter)
   }
 
