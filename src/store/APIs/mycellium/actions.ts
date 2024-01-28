@@ -109,6 +109,7 @@ export const markMyceliumAsReady = (builder: Builder) =>
     invalidatesTags: (_, __, { myceliumId }) => [
       { id: myceliumId, type: Tags.Mycelium },
       { id: myceliumId, type: Tags.Events },
+      { type: Tags.Statistics },
     ],
     query: ({ body, myceliumId }) => ({
       body,

@@ -12,7 +12,6 @@ import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicato
 import { Scanner } from 'src/components/Scanner'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
-import { useDisappearingButtonOnScroll } from 'src/hooks/useDisappearingButtonOnScroll'
 import { Routes } from 'src/navigation/routes'
 import { ParamList, SceneProps } from 'src/navigation/types'
 import { useGetStatisticsQuery } from 'src/store/APIs/mycellium'
@@ -80,8 +79,6 @@ export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
   const toggleDashboardFilter = (filter: string) => () => {
     setDashboardFilterSelected(filter)
   }
-
-  const {} = useDisappearingButtonOnScroll()
 
   return (
     <SceneContainer style={styles.container}>
