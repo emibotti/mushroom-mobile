@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     backgroundColor: '#fff',
     margin: 10,
+    marginBottom: 0,
     padding: 20,
   },
   content: {

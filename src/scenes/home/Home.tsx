@@ -12,6 +12,7 @@ import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicato
 import { Scanner } from 'src/components/Scanner'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
+import { useDisappearingButtonOnScroll } from 'src/hooks/useDisappearingButtonOnScroll'
 import { Routes } from 'src/navigation/routes'
 import { ParamList, SceneProps } from 'src/navigation/types'
 import { useGetStatisticsQuery } from 'src/store/APIs/mycellium'
@@ -20,6 +21,11 @@ import { AppTypography } from 'src/styles/types'
 import { renderMyceliaCards } from '../room/Room'
 import { strings } from './strings'
 import { styles } from './styles'
+
+enum DashboardTabs {
+  Ready = 'ready',
+  InProgress = 'inProgress',
+}
 
 const buildHeaderLeft = () => (
   <View style={styles.headerLeft}>
@@ -67,12 +73,15 @@ export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
 
   const { isLoading, data: statistics } = useGetStatisticsQuery()
 
-  const [dashboardFilterSelected, setDashboardFilterSelected] =
-    useState('ready')
+  const [dashboardFilterSelected, setDashboardFilterSelected] = useState(
+    DashboardTabs.Ready,
+  )
 
   const toggleDashboardFilter = (filter: string) => () => {
     setDashboardFilterSelected(filter)
   }
+
+  const {} = useDisappearingButtonOnScroll()
 
   return (
     <SceneContainer style={styles.container}>
@@ -83,29 +92,33 @@ export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
         ) : (
           <>
             <View style={styles.dashboardCardsContainer}>
-              <Pressable onPress={toggleDashboardFilter('ready')}>
+              <Pressable onPress={toggleDashboardFilter(DashboardTabs.Ready)}>
                 <DashboardCard
-                  selected={dashboardFilterSelected === 'ready'}
+                  selected={dashboardFilterSelected === DashboardTabs.Ready}
                   title={strings.readyFilter}
                   count={statistics?.ready.count ?? 0}
                   iconName="package-variant-closed"
                   iconColor="#8B4513"
                 />
               </Pressable>
-              <Pressable onPress={toggleDashboardFilter('inProgress')}>
+              <Pressable
+                onPress={toggleDashboardFilter(DashboardTabs.InProgress)}>
                 <DashboardCard
-                  selected={dashboardFilterSelected === 'inProgress'}
+                  selected={
+                    dashboardFilterSelected === DashboardTabs.InProgress
+                  }
                   title={strings.inProgressFilter}
                   count={statistics?.inProgress.count ?? 0}
-                  iconName="alert-circle-outline"
+                  iconName="progress-clock"
                   iconColor="#FF4500"
                 />
               </Pressable>
             </View>
             <View style={styles.itemsContainer}>
               <FlatList
+                contentContainerStyle={styles.items}
                 data={
-                  dashboardFilterSelected === 'ready'
+                  dashboardFilterSelected === DashboardTabs.Ready
                     ? statistics?.ready.mycelia
                     : statistics?.inProgress.mycelia
                 }
@@ -114,7 +127,11 @@ export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={
                   <Container>
-                    <StyledText>{strings.noInProgress}</StyledText>
+                    <StyledText>
+                      {dashboardFilterSelected === DashboardTabs.Ready
+                        ? strings.noReady
+                        : strings.noInProgress}
+                    </StyledText>
                   </Container>
                 }
               />

@@ -8,18 +8,20 @@ export const styles = StyleSheet.create({
   },
   dashboardCardsContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
   },
   dashboardContainer: {
     marginTop: 10,
   },
   headerLeft: {
     marginLeft: 15,
-    marginTop: 20,
+    marginTop: 40,
   },
   headerRight: {
     marginRight: 15,
     marginTop: 20,
+  },
+  items: {
+    paddingTop: 10,
   },
   itemsContainer: {
     alignItems: 'center',

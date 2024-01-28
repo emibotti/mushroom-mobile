@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: Palette.SURFACE_10,
     borderColor: Palette.SURFACE_70,
     borderRadius: 30,
+    borderWidth: 0.3,
     flexDirection: 'row',
     height: 150,
     padding: 25,
