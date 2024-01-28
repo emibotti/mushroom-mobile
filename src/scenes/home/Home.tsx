@@ -3,16 +3,21 @@ import {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
-import { View } from 'react-native'
+import { FlatList, Pressable, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
+import { Container } from 'src/components/Container'
+import { DashboardCard } from 'src/components/DashboardCard'
 import { FabMenu } from 'src/components/FabMenu'
+import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
 import { Scanner } from 'src/components/Scanner'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { Routes } from 'src/navigation/routes'
 import { ParamList, SceneProps } from 'src/navigation/types'
+import { useGetStatisticsQuery } from 'src/store/APIs/mycellium'
 import { AppTypography } from 'src/styles/types'
 
+import { renderMyceliaCards } from '../room/Room'
 import { strings } from './strings'
 import { styles } from './styles'
 
@@ -60,10 +65,63 @@ export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
     navigation.navigate(screenName)
   }
 
+  const { isLoading, data: statistics } = useGetStatisticsQuery()
+
+  const [dashboardFilterSelected, setDashboardFilterSelected] =
+    useState('ready')
+
+  const toggleDashboardFilter = (filter: string) => () => {
+    setDashboardFilterSelected(filter)
+  }
+
   return (
     <SceneContainer style={styles.container}>
       <Scanner isVisible={isModalVisible} onClose={handleCloseModal} />
-      <StyledText>Welcome to the Mushroom app!</StyledText>
+      <Container style={styles.dashboardContainer}>
+        {isLoading ? (
+          <LoadingActivityIndicator />
+        ) : (
+          <>
+            <View style={styles.dashboardCardsContainer}>
+              <Pressable onPress={toggleDashboardFilter('ready')}>
+                <DashboardCard
+                  selected={dashboardFilterSelected === 'ready'}
+                  title={strings.readyFilter}
+                  count={statistics?.ready.count ?? 0}
+                  iconName="package-variant-closed"
+                  iconColor="#8B4513"
+                />
+              </Pressable>
+              <Pressable onPress={toggleDashboardFilter('inProgress')}>
+                <DashboardCard
+                  selected={dashboardFilterSelected === 'inProgress'}
+                  title={strings.inProgressFilter}
+                  count={statistics?.inProgress.count ?? 0}
+                  iconName="alert-circle-outline"
+                  iconColor="#FF4500"
+                />
+              </Pressable>
+            </View>
+            <View style={styles.itemsContainer}>
+              <FlatList
+                data={
+                  dashboardFilterSelected === 'ready'
+                    ? statistics?.ready.mycelia
+                    : statistics?.inProgress.mycelia
+                }
+                renderItem={renderMyceliaCards(navigation)}
+                keyExtractor={item => item.id}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={
+                  <Container>
+                    <StyledText>{strings.noInProgress}</StyledText>
+                  </Container>
+                }
+              />
+            </View>
+          </>
+        )}
+      </Container>
       <FabMenu
         fabs={[
           { icon: 'home', onPress: handleOnPressNavigate(Routes.Home) },

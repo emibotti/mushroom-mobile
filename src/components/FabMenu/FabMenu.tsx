@@ -29,13 +29,24 @@ export const FabMenu: React.FC<FabMenuProps> = ({ fabs }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    alignSelf: 'center',
     backgroundColor: 'white',
+    borderColor: 'gray',
     borderRadius: 30,
     bottom: 50,
+    elevation: 7,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 30,
     paddingVertical: 5,
     position: 'absolute',
+    shadowColor: '#000',
+    shadowOffset: {
+      height: 3,
+      width: 0,
+    },
+    shadowOpacity: 0.29,
+
+    shadowRadius: 4.65,
   },
 })

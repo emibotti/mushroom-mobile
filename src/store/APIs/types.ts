@@ -33,6 +33,7 @@ export enum Tags {
   Mycelium = 'Mycelium',
   MyceliumOptions = 'MyceliumOptions',
   Events = 'Events',
+  Statistics = 'Statistics',
 }
 
 export type Builder = EndpointBuilder<BaseQueryFnType, Tags, ReducerPath>

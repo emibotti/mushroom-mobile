@@ -1,3 +1,4 @@
+import { NavigationProp } from '@react-navigation/native'
 import React from 'react'
 import { Alert, FlatList, ListRenderItem } from 'react-native'
 import { Button, IconButton } from 'react-native-paper'
@@ -8,14 +9,32 @@ import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
 import { Routes } from 'src/navigation/routes'
-import { RouteProp, SceneProps } from 'src/navigation/types'
-import { MyceliumCard as MyceliumCardType } from 'src/store/APIs/mycellium/types'
+import { ParamList, RouteProp, SceneProps } from 'src/navigation/types'
+import { MyceliumCardType as MyceliumCardType } from 'src/store/APIs/mycellium/types'
 import { useGetRoomQuery } from 'src/store/APIs/rooms'
 import { Palette } from 'src/styles/Palette'
 import { AppTypography } from 'src/styles/types'
 
 import { strings } from './strings'
 import { styles } from './styles'
+
+export const renderMyceliaCards: (
+  navigation: NavigationProp<ParamList, Routes>,
+) => ListRenderItem<MyceliumCardType> =
+  navigation =>
+  ({ item }) =>
+    (
+      <MyceliumCard
+        key={item.id}
+        title={item.name}
+        stageType={item.type}
+        onPress={() => {
+          navigation.navigate(Routes.Mycelium, {
+            id: item.id,
+          })
+        }}
+      />
+    )
 
 export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
   useGoBackNavigationOptions({
@@ -38,19 +57,6 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
 
   const roomId = route.params.id
   const { data: room, isLoading } = useGetRoomQuery({ id: roomId })
-
-  const renderMyceliums: ListRenderItem<MyceliumCardType> = ({ item }) => (
-    <MyceliumCard
-      key={item.id}
-      title={item.name}
-      stageType={item.type}
-      onPress={() => {
-        navigation.navigate(Routes.Mycelium, {
-          id: item.id,
-        })
-      }}
-    />
-  )
 
   const onPressAddMycelium = () =>
     navigation.navigate(Routes.AddMycelium, {
@@ -86,7 +92,7 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
           }
           showsVerticalScrollIndicator={false}
           data={room?.mycelia}
-          renderItem={renderMyceliums}
+          renderItem={renderMyceliaCards(navigation)}
         />
       )}
     </SceneContainer>

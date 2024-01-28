@@ -48,8 +48,8 @@ export const MyceliumCard: React.FC<MyceliumCardProps> = ({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: Palette.SURFACE_10,
+    borderColor: Palette.SURFACE_70,
     borderRadius: 30,
-    borderWidth: 1,
     flexDirection: 'row',
     height: 150,
     padding: 25,

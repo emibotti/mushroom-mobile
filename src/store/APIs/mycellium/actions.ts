@@ -5,9 +5,11 @@ import { HttpMethod } from '..'
 import {
   CreateMyceliumResponse,
   deserializeCreatedMyceliaResponse,
+  deserializeMyceliaStatistics,
   deserializeMycelium,
   deserializeMyceliumOptions,
   HarvestRequest,
+  MyceliaStatistics,
   MyceliumArchived,
   MyceliumArchivedResponse,
   MyceliumMarkAsReady,
@@ -25,6 +27,7 @@ export enum Endpoints {
   CheckWeightIsRequired = '/mycelia/%s/weight_required',
   ArchiveMycelium = '/mycelia/%s/archive',
   MarkAsReady = '/mycelia/%s/ready',
+  Statistics = '/mycelia/statistics',
 }
 
 export const getMycelium = (builder: Builder) =>
@@ -112,4 +115,11 @@ export const markMyceliumAsReady = (builder: Builder) =>
       method: HttpMethod.Put,
       url: format(Endpoints.MarkAsReady, myceliumId),
     }),
+  })
+
+export const getStatistics = (builder: Builder) =>
+  builder.query<MyceliaStatistics, void>({
+    providesTags: () => [{ type: Tags.Statistics }],
+    query: () => Endpoints.Statistics,
+    transformResponse: deserializeMyceliaStatistics,
   })
