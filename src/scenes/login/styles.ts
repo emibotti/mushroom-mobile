@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
   logoBackground: {
     alignItems: 'center',
     borderRadius: 100,
-    height: 380,
+    height: 360,
   },
   screenBackground: {
     bottom: 0,

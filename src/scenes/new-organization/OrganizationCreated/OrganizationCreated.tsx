@@ -71,7 +71,7 @@ export const OrganizationCreated: SceneProps<Routes.OrganizationCreated> = ({
               <Button
                 title={strings.ready}
                 onPress={onPressImReady}
-                mode={ButtonMode.LINK}
+                mode={ButtonMode.PRIMARY_GRADIENT}
                 style={styles.linkButton}
               />
             </Container>

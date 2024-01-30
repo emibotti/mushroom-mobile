@@ -1,6 +1,6 @@
 import { NavigationProp } from '@react-navigation/native'
 import React from 'react'
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Container } from 'src/components/Container'
 import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
@@ -83,13 +83,13 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
           data={room?.mycelia}
           renderItem={renderMyceliaCards(navigation)}
           ListEmptyComponent={
-            <View style={styles.noMycelium}>
+            <Container style={styles.noMycelium}>
               <StyledText
                 typography={AppTypography.LABEL_MEDIUM}
                 color={ColorPalette.SURFACE_70}>
                 {strings.noMycelium}
               </StyledText>
-            </View>
+            </Container>
           }
         />
       )}

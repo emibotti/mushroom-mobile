@@ -41,6 +41,7 @@ export const createMycelium = (builder: Builder) =>
   builder.mutation<CreateMyceliumResponse, MyceliumRequest>({
     invalidatesTags: (_, __, { room_id }) => [
       { id: room_id, type: Tags.Rooms },
+      { type: Tags.Statistics },
     ],
     query: mycelium => ({
       body: mycelium,
@@ -90,6 +91,8 @@ export const archiveMycelium = (builder: Builder) =>
   >({
     invalidatesTags: (_, __, { myceliumId }) => [
       { id: myceliumId, type: Tags.Events },
+      { id: myceliumId, type: Tags.Mycelium },
+      { type: Tags.Statistics },
     ],
     query: ({ reason, myceliumId }) => ({
       body: {

@@ -1,7 +1,8 @@
 import React from 'react'
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Card } from 'src/components/Card'
+import { Container } from 'src/components/Container'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
@@ -19,9 +20,9 @@ interface Room {
 }
 
 const renderEmptyRooms = () => (
-  <View style={styles.noRoomsContainer}>
+  <Container style={styles.noRoomsContainer}>
     <StyledText>{strings.noRooms}</StyledText>
-  </View>
+  </Container>
 )
 
 export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {

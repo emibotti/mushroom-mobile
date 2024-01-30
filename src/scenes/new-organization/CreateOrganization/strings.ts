@@ -11,7 +11,7 @@ export const strings = new LocalizedStrings({
   },
   es: {
     createOrganizationButton: 'Crear organización',
-    logoutButton: 'Logout',
+    logoutButton: 'Cerrar sesión',
     organizationLabel: 'Nombre',
 
     screenHeader: 'Crea tu organizacion',

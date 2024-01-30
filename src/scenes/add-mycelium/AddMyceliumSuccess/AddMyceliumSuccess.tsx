@@ -25,10 +25,7 @@ export const AddMyceliumSuccess: SceneProps<Routes.AddMyceliumSuccess> = ({
   const myceliaCreatedText = `${createdMycelia.length} ${type.toLowerCase()}s`
 
   const onPressContinue = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: Routes.Home }],
-    })
+    navigation.popToTop()
   }
 
   return (

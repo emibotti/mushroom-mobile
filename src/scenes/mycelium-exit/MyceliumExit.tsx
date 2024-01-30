@@ -41,10 +41,7 @@ export const MyceliumExit: SceneProps<Routes.MyceliumExit> = ({
     })
       .unwrap()
       .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: Routes.Home }],
-        })
+        navigation.popToTop()
       })
   }
 
