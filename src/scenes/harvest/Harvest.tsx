@@ -92,7 +92,7 @@ export const Harvest: SceneProps<Routes.Harvest> = ({ navigation, route }) => {
                 style={styles.strainSourceInformation}
                 typography={AppTypography.LABEL_MEDIUM}>{`${format(
                 strings.strainSourceInformation,
-                flush,
+                flush + 1,
               )} ${strainSource?.name}.`}</StyledText>
             )}
 
