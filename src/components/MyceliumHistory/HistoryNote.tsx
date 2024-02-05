@@ -9,6 +9,7 @@ import { AppTypography, ColorPalette } from 'src/styles/types'
 
 import { StyledText } from '../StyledText'
 import { MyceliumTransition } from './MyceliumTransition'
+import { strings } from './strings'
 
 export interface HistoryNoteProps {
   event: MyceliumEvent
@@ -51,6 +52,38 @@ export const HistoryNote: React.FC<HistoryNoteProps> = ({ event }) => {
           right={`[${generalStrings.stageFruit}]`}
           myceliumId={event.myceliumId}
         />
+      )
+    case MyceliumEventType.ArchivedConsumed:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {strings.consumed}
+        </StyledText>
+      )
+    case MyceliumEventType.ArchivedContaminated:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {strings.contaminated}
+        </StyledText>
+      )
+    case MyceliumEventType.ArchivedOther:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {strings.other}
+        </StyledText>
+      )
+    case MyceliumEventType.ArchivedSold:
+      return (
+        <StyledText
+          typography={AppTypography.LABEL_MEDIUM}
+          color={ColorPalette.SURFACE_70}>
+          {strings.sold}
+        </StyledText>
       )
     default:
       return (

@@ -226,3 +226,15 @@ export const deserializeMyceliumOptions = (
 export const deserializeCreatedMyceliaResponse = (
   data: CreateMyceliumResponse,
 ): CreateMyceliumResponse => data
+
+export enum ExitTypes {
+  Sold = 'sold',
+  Contaminated = 'contaminated',
+  Consumed = 'consumed',
+  Other = 'other',
+}
+
+export interface MyceliumArchived {
+  exitType: ExitTypes
+  note: string
+}

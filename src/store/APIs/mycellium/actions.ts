@@ -2,12 +2,14 @@ import { Builder, Tags } from 'src/store/APIs/types'
 import { format } from 'util'
 
 import { HttpMethod } from '..'
+import { MyceliumEvent } from '../events/types'
 import {
   CreateMyceliumResponse,
   deserializeCreatedMyceliaResponse,
   deserializeMycelium,
   deserializeMyceliumOptions,
   HarvestRequest,
+  MyceliumArchived,
   MyceliumModel,
   MyceliumOptions,
   MyceliumRequest,
@@ -19,6 +21,7 @@ export enum Endpoints {
   HarvestMycelium = '/mycelia/harvest',
   GetMyceliumOptions = '/mycelia/options',
   CheckWeightIsRequired = '/mycelia/%s/weight_required',
+  ArchiveMycelium = '/mycelia/%s/archive',
 }
 
 export const getMycelium = (builder: Builder) =>
@@ -72,4 +75,22 @@ export const checkIfWeightIsRequired = (builder: Builder) =>
     ],
     query: ({ strain_source_id }) =>
       format(Endpoints.CheckWeightIsRequired, strain_source_id),
+  })
+
+export const archiveMycelium = (builder: Builder) =>
+  builder.mutation<
+    MyceliumEvent,
+    { myceliumId: string; reason: MyceliumArchived }
+  >({
+    invalidatesTags: (_, __, { myceliumId }) => [
+      { id: myceliumId, type: Tags.Events },
+    ],
+    query: ({ reason, myceliumId }) => ({
+      body: {
+        archived: reason.exitType,
+        note: reason.note,
+      },
+      method: HttpMethod.Post,
+      url: format(Endpoints.ArchiveMycelium, myceliumId),
+    }),
   })

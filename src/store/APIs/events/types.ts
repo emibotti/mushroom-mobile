@@ -8,6 +8,10 @@ export enum MyceliumEventType {
   TransitionToFruit = 'to_fruit',
   RoomChange = 'room_change',
   Unknown = 'unknown',
+  ArchivedSold = 'sold',
+  ArchivedContaminated = 'contaminated',
+  ArchivedConsumed = 'consumed',
+  ArchivedOther = 'other',
 }
 
 export interface MyceliumEventResponse {
@@ -48,6 +52,14 @@ export const deserializeEventType = (
       return MyceliumEventType.TransitionToFruit
     case 'room_change':
       return MyceliumEventType.RoomChange
+    case 'sold':
+      return MyceliumEventType.ArchivedSold
+    case 'contaminated':
+      return MyceliumEventType.ArchivedContaminated
+    case 'consumed':
+      return MyceliumEventType.ArchivedConsumed
+    case 'other':
+      return MyceliumEventType.ArchivedOther
     default:
       return MyceliumEventType.Unknown
   }

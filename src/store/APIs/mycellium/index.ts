@@ -1,6 +1,7 @@
 import { baseApi } from 'src/store/APIs'
 
 import {
+  archiveMycelium,
   checkIfWeightIsRequired,
   createMycelium,
   getMycelium,
@@ -10,6 +11,7 @@ import {
 
 export const myceliaApi = baseApi.injectEndpoints({
   endpoints: builder => ({
+    archiveMycelium: archiveMycelium(builder),
     checkIfWeightIsRequired: checkIfWeightIsRequired(builder),
     createMycelium: createMycelium(builder),
     getMycelium: getMycelium(builder),
@@ -25,4 +27,5 @@ export const {
   useGetMyceliumOptionsQuery,
   useHarvestMyceliumMutation,
   useCheckIfWeightIsRequiredQuery,
+  useArchiveMyceliumMutation,
 } = myceliaApi

@@ -1,6 +1,7 @@
 import { useRoute } from '@react-navigation/native'
 import React from 'react'
-import { View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
+import ArchiveIcon from 'src/assets/icons/mycelium/archive.svg'
 import BulkImagePlaceholder from 'src/assets/images/bulk_example.png'
 import CultureImagePlaceholder from 'src/assets/images/culture_example.png'
 import FruitImagePlaceholder from 'src/assets/images/fruit_example.jpeg'
@@ -117,6 +118,12 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
     })
   }
 
+  const navigateToArchiveMycelium = () => {
+    navigation.push(Routes.MyceliumExit, {
+      myceliumId: id,
+    })
+  }
+
   return isFetching ? (
     <LoadingActivityIndicator />
   ) : mycelium ? (
@@ -141,6 +148,11 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
               <View style={styles.stageTag}>
                 <StyledText style={styles.stage}>{mycelium.stage}</StyledText>
               </View>
+            </View>
+            <View style={styles.row}>
+              <TouchableOpacity onPress={navigateToArchiveMycelium}>
+                <ArchiveIcon />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.attributesContainer}>
