@@ -7,3 +7,6 @@ export const dateConverter = (rawDate: string) =>
 
 export const optionalDateConverter = (rawDate: string | null) =>
   rawDate ? dateConverter(rawDate) : undefined
+
+export const abbreviatedDateConverter = (rawDate: string) =>
+  DateTime.fromISO(rawDate).setLocale(currentLanguage).toFormat('D')

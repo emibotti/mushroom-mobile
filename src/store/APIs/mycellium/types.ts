@@ -169,6 +169,7 @@ export interface MyceliumRequest {
   prefix: string
   quantity: number
   room_id: string
+  note: string | null
 }
 
 export interface MyceliumOptionItemResponse {

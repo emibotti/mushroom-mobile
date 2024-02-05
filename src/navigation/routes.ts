@@ -16,6 +16,7 @@ export enum Routes {
   AddRoom = 'AddRoom',
   AddMycelium = 'AddMycelium',
   AddMyceliumSuccess = 'AddMyceliumSuccess',
+  Inspect = 'Inspect',
 }
 
 export enum StackRoutes {

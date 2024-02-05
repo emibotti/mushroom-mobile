@@ -53,7 +53,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
     title: strainSource ? strings.inoculationHeader : strings.newMyceliumHeader,
   })
 
-  const [prefix, setPrefix] = useState('')
+  const [prefix, setPrefix] = useState(strainSource?.name)
   const [provider, setProvider] = useState('')
   const [description, setDescription] = useState('')
   const [weight, setWeight] = useState('')
@@ -95,6 +95,7 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
         external_provider: provider,
         generation: generation ? Number(generation) : null,
         image_url: null,
+        note: notes,
         prefix,
         quantity: Number(quantity),
         room_id: room,

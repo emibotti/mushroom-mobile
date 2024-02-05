@@ -28,6 +28,9 @@ export interface ParamList extends ParamListBase {
     createdMycelia: EntityLink[]
     type: string
   }
+  [Routes.Inspect]: {
+    myceliumId: string
+  }
 }
 
 export type SceneProps<T extends keyof ParamList> = React.FunctionComponent<

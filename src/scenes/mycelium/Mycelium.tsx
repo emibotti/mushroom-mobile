@@ -9,6 +9,7 @@ import { Button } from 'src/components/Button'
 import { ButtonMode } from 'src/components/Button/types'
 import { Container } from 'src/components/Container'
 import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
+import { MyceliumHistory } from 'src/components/MyceliumHistory/MyceliumHistory'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { ScrollableScreen } from 'src/components/ScrollableScreen/ScrollableScreen'
 import { StyledText } from 'src/components/StyledText'
@@ -96,6 +97,12 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
       id: myceliumToNavigate,
     })
 
+  const navigateToInspectMycelium = () => {
+    navigation.push(Routes.Inspect, {
+      myceliumId: id,
+    })
+  }
+
   return isFetching ? (
     <LoadingActivityIndicator />
   ) : mycelium ? (
@@ -107,7 +114,10 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
             : stageImagePlaceholder(mycelium.stage as StageResponse)
           // TODO: Fix typings
         }
-        buttonProps={{ title: strings.inspectButtonLabel }}>
+        buttonProps={{
+          onPress: navigateToInspectMycelium,
+          title: strings.inspectButtonLabel,
+        }}>
         <View style={styles.screen}>
           <View style={styles.header}>
             <View>
@@ -164,6 +174,7 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
             <StyledText typography={AppTypography.H1}>
               {strings.history}
             </StyledText>
+            <MyceliumHistory myceliumId={id} />
           </View>
         </View>
       </ScrollableScreen>
