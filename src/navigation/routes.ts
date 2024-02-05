@@ -19,6 +19,7 @@ export enum Routes {
   Inspect = 'Inspect',
   Harvest = 'Harvest',
   MyceliumExit = 'MyceliumExit',
+  MarkAsReady = 'MarkAsReady',
 }
 
 export enum StackRoutes {

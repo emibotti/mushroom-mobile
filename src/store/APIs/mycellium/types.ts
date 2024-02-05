@@ -68,6 +68,8 @@ export interface MyceliumResponse {
   updated_at: string | null
   room: EntityLink | null
   flush: number | null
+  ready: boolean
+  archived: string | null
 }
 
 export interface MyceliumModel {
@@ -90,6 +92,8 @@ export interface MyceliumModel {
   updatedAt?: string
   room?: EntityLink
   flush?: number
+  archived?: ExitTypes
+  ready: boolean
 }
 
 export interface CreateMyceliumResponse {
@@ -121,6 +125,21 @@ export const buildStage = (stageResponse: StageResponse) => {
   }
 }
 
+export const buildArchived = (archived: string): ExitTypes => {
+  switch (archived) {
+    case ExitTypes.Sold:
+      return ExitTypes.Sold
+    case ExitTypes.Contaminated:
+      return ExitTypes.Contaminated
+    case ExitTypes.Consumed:
+      return ExitTypes.Consumed
+    case ExitTypes.Other:
+      return ExitTypes.Other
+    default:
+      return ExitTypes.Other
+  }
+}
+
 export const stage = {
   [StageResponse.Culture]: generalStrings.stageCulture,
   [StageResponse.Spawn]: generalStrings.stageSpawn,
@@ -130,6 +149,7 @@ export const stage = {
 
 export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
   return {
+    archived: data.archived ? buildArchived(data.archived) : undefined,
     container: data.container,
     createdAt: optionalDateConverter(data.created_at),
     externalProvider: data.external_provider ?? undefined,
@@ -138,9 +158,14 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
     id: data.id,
     imageUrl: data.image_url,
     inoculationDate: optionalDateConverter(data.inoculation_date),
+
     name: data.name,
+
+    ready: data.ready,
+
     // TODO: Create an Entity deserializer for `room` and `strainSource`?
     room: data.room ?? undefined,
+
     shelfTime: data.shelf_time,
 
     species: data.species,
@@ -236,5 +261,19 @@ export enum ExitTypes {
 
 export interface MyceliumArchived {
   exitType: ExitTypes
-  note: string
+  note?: string
+}
+
+export interface MyceliumArchivedResponse {
+  mycelium: EntityLink
+  message: string
+}
+
+export interface MyceliumMarkAsReady {
+  ready: boolean
+  note?: string
+}
+
+export interface MyceliumMarkedAsReadyResponse {
+  ready: boolean
 }

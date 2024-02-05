@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native'
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -21,3 +22,5 @@ export const normalizedDimensions = (
     width: normalizedWidth(width) * scale,
   }
 }
+
+export const screenWidth = Dimensions.get('screen').width

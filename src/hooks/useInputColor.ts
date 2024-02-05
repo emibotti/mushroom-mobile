@@ -14,14 +14,14 @@ export const useInputColor = (validated?: boolean) => {
   const inputTheme: InputTheme = useMemo(
     () => ({
       errorColor: Palette.ERROR_50,
-      focusedColor: Palette.SECONDARY_50,
+      focusedColor: Palette.INFO_50,
       inputStyle: {},
       restingColor: Palette.SURFACE_50,
       theme: {
         colors: {
           error: Palette.ERROR_50,
-          placeholder: validated ? Palette.SUCCESS_50 : Palette.SECONDARY_30,
-          primary: validated ? Palette.SUCCESS_50 : Palette.SECONDARY_30,
+          placeholder: validated ? Palette.SUCCESS_50 : Palette.INFO_30,
+          primary: validated ? Palette.SUCCESS_50 : Palette.INFO_30,
         },
       },
     }),

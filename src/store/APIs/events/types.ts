@@ -12,6 +12,8 @@ export enum MyceliumEventType {
   ArchivedContaminated = 'contaminated',
   ArchivedConsumed = 'consumed',
   ArchivedOther = 'other',
+  Ready = 'ready',
+  NotReady = 'not_ready',
 }
 
 export interface MyceliumEventResponse {
@@ -60,6 +62,10 @@ export const deserializeEventType = (
       return MyceliumEventType.ArchivedConsumed
     case 'other':
       return MyceliumEventType.ArchivedOther
+    case 'ready':
+      return MyceliumEventType.Ready
+    case 'not_ready':
+      return MyceliumEventType.NotReady
     default:
       return MyceliumEventType.Unknown
   }

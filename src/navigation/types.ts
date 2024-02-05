@@ -39,6 +39,10 @@ export interface ParamList extends ParamListBase {
   [Routes.MyceliumExit]: {
     myceliumId: string
   }
+  [Routes.MarkAsReady]: {
+    myceliumId: string
+    isReadyFromTheBackend: boolean
+  }
 }
 
 export type SceneProps<T extends keyof ParamList> = React.FunctionComponent<

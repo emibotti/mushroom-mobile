@@ -7,6 +7,7 @@ import {
   getMycelium,
   getMyceliumOptions,
   harvestMycelium,
+  markMyceliumAsReady,
 } from './actions'
 
 export const myceliaApi = baseApi.injectEndpoints({
@@ -17,6 +18,7 @@ export const myceliaApi = baseApi.injectEndpoints({
     getMycelium: getMycelium(builder),
     getMyceliumOptions: getMyceliumOptions(builder),
     harvestMycelium: harvestMycelium(builder),
+    markMyceliumAsReady: markMyceliumAsReady(builder),
   }),
   overrideExisting: true,
 })
@@ -28,4 +30,5 @@ export const {
   useHarvestMyceliumMutation,
   useCheckIfWeightIsRequiredQuery,
   useArchiveMyceliumMutation,
+  useMarkMyceliumAsReadyMutation,
 } = myceliaApi
