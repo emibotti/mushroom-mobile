@@ -11,11 +11,14 @@ const handleUrlPress = (url: string) => {
   }
 }
 
+const renderUrl = (matchString: string) => matchString.toLowerCase()
+
 const URL_REGEX =
-  /[-a-zA-Z0-9@:/%_+~#=]{1,256}\.[a-zA-Z]{1,256}(\b)*?(\.){0,1}([-a-zA-Z0-9()@:%_+~#?&//=]*)(\b)*?(\.){0,1}([-a-zA-Z0-9()@:%_+~#?&//=]*)/
+  /\b((https?:\/\/)?(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,})(?:[/\w.-]*)*\/?(?:\?[a-z0-9=&%-_.~+]*[#/\w.-]*)?)\b/gi
 
 export const urlParsing: ParseShape = {
   onPress: handleUrlPress,
   pattern: URL_REGEX,
+  renderText: renderUrl,
   style: styles.url,
 }

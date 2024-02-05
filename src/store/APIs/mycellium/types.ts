@@ -67,6 +67,7 @@ export interface MyceliumResponse {
   created_at: string | null
   updated_at: string | null
   room: EntityLink | null
+  flush: number | null
 }
 
 export interface MyceliumModel {
@@ -85,11 +86,10 @@ export interface MyceliumModel {
   shelfTime: number
   imageUrl: string
   weight: number
-  // TODO: Is it needed?
-  // prefix: string
   createdAt?: string
   updatedAt?: string
   room?: EntityLink
+  flush?: number
 }
 
 export interface CreateMyceliumResponse {
@@ -133,6 +133,7 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
     container: data.container,
     createdAt: optionalDateConverter(data.created_at),
     externalProvider: data.external_provider ?? undefined,
+    flush: data.flush ?? undefined,
     generation: buildGeneration(data.generation),
     id: data.id,
     imageUrl: data.image_url,
@@ -141,6 +142,7 @@ export const deserializeMycelium = (data: MyceliumResponse): MyceliumModel => {
     // TODO: Create an Entity deserializer for `room` and `strainSource`?
     room: data.room ?? undefined,
     shelfTime: data.shelf_time,
+
     species: data.species,
     // TODO: Check if it comes a string instead of a number
     stage: data.type ? stage[data.type] : 'Unknown',
@@ -170,6 +172,17 @@ export interface MyceliumRequest {
   quantity: number
   room_id: string
   note: string | null
+}
+
+export interface HarvestRequest {
+  strain_source_id: string
+  weight: number | null
+  room_id: string
+  note: string | null
+}
+
+export interface HarvestResponse {
+  fruit: EntityLink
 }
 
 export interface MyceliumOptionItemResponse {
@@ -209,3 +222,7 @@ export const deserializeMyceliumOptions = (
   speciesOptions: deserializeMyceliumOptionItems(data.species),
   substrateOptions: deserializeMyceliumOptionItems(data.substrates),
 })
+
+export const deserializeCreatedMyceliaResponse = (
+  data: CreateMyceliumResponse,
+): CreateMyceliumResponse => data

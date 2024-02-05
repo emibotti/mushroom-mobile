@@ -4,8 +4,10 @@ import { format } from 'util'
 import { HttpMethod } from '..'
 import {
   CreateMyceliumResponse,
+  deserializeCreatedMyceliaResponse,
   deserializeMycelium,
   deserializeMyceliumOptions,
+  HarvestRequest,
   MyceliumModel,
   MyceliumOptions,
   MyceliumRequest,
@@ -14,7 +16,9 @@ import {
 export enum Endpoints {
   GetMycelium = '/mycelia/%s',
   CreateMycelium = '/mycelia',
+  HarvestMycelium = '/mycelia/harvest',
   GetMyceliumOptions = '/mycelia/options',
+  CheckWeightIsRequired = '/mycelia/%s/weight_required',
 }
 
 export const getMycelium = (builder: Builder) =>
@@ -34,11 +38,7 @@ export const createMycelium = (builder: Builder) =>
       method: HttpMethod.Post,
       url: Endpoints.CreateMycelium,
     }),
-    // TODO: Check this transformer
-    transformResponse: (response: CreateMyceliumResponse) => ({
-      message: response.message,
-      mycelia: response.mycelia,
-    }),
+    transformResponse: deserializeCreatedMyceliaResponse,
   })
 
 export const getMyceliumOptions = (builder: Builder) =>
@@ -46,4 +46,30 @@ export const getMyceliumOptions = (builder: Builder) =>
     providesTags: () => [{ type: Tags.MyceliumOptions }],
     query: () => Endpoints.GetMyceliumOptions,
     transformResponse: deserializeMyceliumOptions,
+  })
+
+export const harvestMycelium = (builder: Builder) =>
+  builder.mutation<CreateMyceliumResponse, HarvestRequest>({
+    invalidatesTags: (_, __, { room_id, strain_source_id }) => [
+      { id: room_id, type: Tags.Rooms },
+      { id: strain_source_id, type: Tags.Mycelium },
+    ],
+    query: mycelium => ({
+      body: mycelium,
+      method: HttpMethod.Post,
+      url: Endpoints.HarvestMycelium,
+    }),
+    transformResponse: deserializeCreatedMyceliaResponse,
+  })
+
+export const checkIfWeightIsRequired = (builder: Builder) =>
+  builder.query<
+    { result: boolean; message: string },
+    { strain_source_id: string }
+  >({
+    providesTags: (_, __, { strain_source_id }) => [
+      { id: strain_source_id, type: Tags.Mycelium },
+    ],
+    query: ({ strain_source_id }) =>
+      format(Endpoints.CheckWeightIsRequired, strain_source_id),
   })
