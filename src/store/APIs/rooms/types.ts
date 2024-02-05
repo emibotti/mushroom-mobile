@@ -1,7 +1,7 @@
 import {
   myceliaCardDeserializer,
-  MyceliumCard,
   MyceliumCardResponse,
+  MyceliumCardType,
 } from '../mycellium/types'
 
 export enum Endpoints {
@@ -50,7 +50,7 @@ export interface Room {
   temperature: number
   co2: number
   notes?: string
-  mycelia: MyceliumCard[]
+  mycelia: MyceliumCardType[]
 }
 
 export const roomCardDeserializer = (data: RoomCardResponse): RoomCard => ({

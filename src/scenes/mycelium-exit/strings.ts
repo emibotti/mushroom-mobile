@@ -4,7 +4,7 @@ export const strings = new LocalizedStrings({
   en: {
     consumed: 'Consumed',
     contaminated: 'Contaminated',
-    markAsExitHeader: 'Mark mycelium exit',
+    markAsExitHeader: 'Exit reason',
     notesLabel: 'Notes',
     other: 'Other',
     saveButton: 'Save',
@@ -13,7 +13,7 @@ export const strings = new LocalizedStrings({
   es: {
     consumed: 'Consumido',
     contaminated: 'Contaminado',
-    markAsExitHeader: 'Marcar salida de micelio',
+    markAsExitHeader: 'Razón de salida',
     notesLabel: 'Notas',
     other: 'Otro',
     saveButton: 'Guardar',

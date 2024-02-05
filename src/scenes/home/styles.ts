@@ -1,17 +1,29 @@
 import { StyleSheet } from 'react-native'
+import { normalizedHeight } from 'src/styles/scale'
 
 export const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     flex: 1,
-    justifyContent: 'center',
+    paddingTop: normalizedHeight(14),
+  },
+  dashboardCardsContainer: {
+    flexDirection: 'row',
+  },
+  dashboardContainer: {
+    marginTop: 10,
   },
   headerLeft: {
     marginLeft: 15,
-    marginTop: 20,
+    marginTop: 40,
   },
   headerRight: {
     marginRight: 15,
     marginTop: 20,
+  },
+  items: {
+    paddingTop: 10,
+  },
+  itemsContainer: {
+    alignItems: 'center',
   },
 })

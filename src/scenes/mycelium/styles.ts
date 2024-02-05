@@ -55,6 +55,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Palette.INFO_50,
     borderRadius: 20,
     marginVertical: 5,
+    maxWidth: 100,
     padding: 5,
   },
   strainDescription: {

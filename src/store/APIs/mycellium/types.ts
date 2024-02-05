@@ -27,7 +27,7 @@ export interface MyceliumCardResponse {
   type: StageResponse
 }
 
-export interface MyceliumCard {
+export interface MyceliumCardType {
   id: string
   image_url: string | undefined
   name: string
@@ -37,7 +37,7 @@ export interface MyceliumCard {
 
 export const myceliumCardDeserializer = (
   data: MyceliumCardResponse,
-): MyceliumCard => ({
+): MyceliumCardType => ({
   id: data.id,
   image_url: data.image_url ?? undefined,
   name: data.name,
@@ -47,7 +47,7 @@ export const myceliumCardDeserializer = (
 
 export const myceliaCardDeserializer = (
   data: MyceliumCardResponse[],
-): MyceliumCard[] => data.map(myceliumCardDeserializer)
+): MyceliumCardType[] => data.map(myceliumCardDeserializer)
 
 export interface MyceliumResponse {
   id: number
@@ -277,3 +277,37 @@ export interface MyceliumMarkAsReady {
 export interface MyceliumMarkedAsReadyResponse {
   ready: boolean
 }
+
+export interface MyceliaFilterResponse {
+  mycelia: MyceliumCardResponse[]
+  count: number
+}
+
+export interface MyceliaFilter {
+  mycelia: MyceliumCardType[]
+  count: number
+}
+
+export interface MyceliaStatisticsResponse {
+  in_progress: MyceliaFilterResponse
+  ready: MyceliaFilterResponse
+}
+
+export interface MyceliaStatistics {
+  inProgress: MyceliaFilter
+  ready: MyceliaFilter
+}
+
+export const deserializeMyceliaFilter = (
+  data: MyceliaFilterResponse,
+): MyceliaFilter => ({
+  count: data.count,
+  mycelia: myceliaCardDeserializer(data.mycelia),
+})
+
+export const deserializeMyceliaStatistics = (
+  data: MyceliaStatisticsResponse,
+): MyceliaStatistics => ({
+  inProgress: deserializeMyceliaFilter(data.in_progress),
+  ready: deserializeMyceliaFilter(data.ready),
+})

@@ -28,18 +28,19 @@ const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
     backgroundColor: Palette.SURFACE_10,
+    borderColor: Palette.SURFACE_70,
     borderRadius: 30,
-    borderWidth: 1,
-    height: 140,
+    borderWidth: 0.3,
+    height: 150,
     justifyContent: 'center',
-    paddingHorizontal: 70,
+    padding: 25,
     width: screenWidth - CARD_HORIZONTAL_MARGIN,
   },
   cardContainer: {
     marginBottom: 15,
   },
   content: {
-    fontSize: 20,
+    fontSize: 23,
   },
   pressedBackground: {
     backgroundColor: '#EEEEEE',

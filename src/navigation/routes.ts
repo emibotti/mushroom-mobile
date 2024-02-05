@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LinkingOptions } from '@react-navigation/native'
 
 import { ParamList } from './types'

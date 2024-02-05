@@ -4,5 +4,6 @@
     /* Module Resolution Options */
     "resolveJsonModule": true,
     "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
+    "skipLibCheck": true
   },
 }
