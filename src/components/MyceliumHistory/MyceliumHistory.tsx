@@ -42,7 +42,7 @@ const renderEvent: ListRenderItem<MyceliumEvent> = ({ item: event }) => (
           style={styles.authorName}
           typography={AppTypography.LABEL_MEDIUM}
           color={ColorPalette.SURFACE_70}>
-          {event.authorName || 'Unknown'}
+          {event.authorName || strings.unknownAuthor}
         </StyledText>
       </View>
     </View>

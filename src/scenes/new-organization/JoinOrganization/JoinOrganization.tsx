@@ -28,7 +28,7 @@ export const JoinOrganization: SceneProps<Routes.JoinOrganization> = ({
   const onPressWantToCreate = () =>
     navigation.navigate(Routes.CreateOrganization)
 
-  const [triggerJoinOrganization] = useJoinOrganizationMutation()
+  const [triggerJoinOrganization, { isLoading }] = useJoinOrganizationMutation()
 
   const onPressJoinOrganization = () => {
     if (organizationCode) {
@@ -72,7 +72,7 @@ export const JoinOrganization: SceneProps<Routes.JoinOrganization> = ({
               <Container>
                 <Button
                   title={strings.joinOrganizationButton}
-                  disabled={!organizationCode}
+                  disabled={!organizationCode || isLoading}
                   onPress={onPressJoinOrganization}
                   mode={ButtonMode.PRIMARY_SOLID}
                 />
@@ -81,6 +81,7 @@ export const JoinOrganization: SceneProps<Routes.JoinOrganization> = ({
                   onPress={onPressWantToCreate}
                   mode={ButtonMode.LINK}
                   style={styles.linkButton}
+                  disabled={isLoading}
                 />
               </Container>
             </View>

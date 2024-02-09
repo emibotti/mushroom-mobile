@@ -67,9 +67,9 @@ export const logout = (builder: Builder) =>
 
 export const register = (builder: Builder) =>
   builder.mutation<AuthResponse, AuthUserRequest>({
-    query: ({ email, password }) => ({
+    query: ({ email, password, name }) => ({
       body: {
-        user: { email, password },
+        user: { email, name, password },
       } as AuthRequest,
       method: HttpMethod.Post,
       url: Endpoints.Register,

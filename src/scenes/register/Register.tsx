@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Button } from 'src/components/Button'
@@ -42,6 +42,13 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
 
   const { email, setEmail, validEmail, checkEmail } = useEmail()
 
+  const [name, setName] = useState('')
+  const [validName, setValidName] = useState<boolean>(true)
+
+  const checkName = useCallback(() => {
+    setValidName(!!name && name.length > 0)
+  }, [name])
+
   const onPressLogin = () => navigation.navigate(Routes.Login)
 
   // TODO: Handle errors (maybe modal, maybe show in screen)
@@ -53,9 +60,11 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
       validEmail &&
       password &&
       validPassword &&
-      validConfirmPassword
+      validConfirmPassword &&
+      validName &&
+      name
     ) {
-      triggerRegister({ email, password })
+      triggerRegister({ email, name, password })
     }
   }
 
@@ -66,7 +75,7 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
       bounces={false}>
       <SceneContainer style={styles.container} edges={['top']}>
         <Container style={styles.flexible}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.titleContainer}>
               <StyledText
                 typography={AppTypography.H1}
@@ -75,6 +84,16 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
               </StyledText>
             </View>
             <View>
+              <StyledTextInput
+                label={'Nombre'}
+                onChangeText={setName}
+                value={name}
+                onBlur={checkName}
+                validValue={validName}
+                textContentType={'name'}
+                autoCorrect={false}
+                returnKeyType={'done'}
+              />
               <StyledTextInput
                 label={strings.emailLabel}
                 onChangeText={setEmail}
@@ -110,7 +129,11 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
                 <Button
                   title={strings.registerButton}
                   disabled={
-                    !validPassword || !validated || !validEmail || !email
+                    !validPassword ||
+                    !validated ||
+                    !validEmail ||
+                    !email ||
+                    !validName
                   }
                   onPress={onPressRegister}
                   mode={ButtonMode.PRIMARY_SOLID}

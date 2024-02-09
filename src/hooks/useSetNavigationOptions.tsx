@@ -12,6 +12,7 @@ export const useSetNavigationOptions = (navigation: NavigationProp<Routes>) => {
       // TODO: Check this
       // headerStyle: headerStyle,
       headerTintColor: Palette.TRANSPARENT,
+      headerTitle: '',
       headerTransparent: true,
     }
     navigation.setOptions(options)

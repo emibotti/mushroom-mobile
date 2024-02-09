@@ -3,6 +3,7 @@ import { FlatList, ListRenderItem } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Card } from 'src/components/Card'
 import { Container } from 'src/components/Container'
+import { LoadingActivityIndicator } from 'src/components/LoadingActivityIndicator'
 import { SceneContainer } from 'src/components/SceneContainer'
 import { StyledText } from 'src/components/StyledText'
 import { useGoBackNavigationOptions } from 'src/hooks/useGoBackNavigationOptions'
@@ -28,7 +29,7 @@ const renderEmptyRooms = () => (
 export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
   useGoBackNavigationOptions({ navigation, title: strings.roomsHeaderTitle })
 
-  const { data: rooms } = useGetRoomsQuery()
+  const { data: rooms, isLoading } = useGetRoomsQuery()
 
   const onPressAddRoom = () => navigation.navigate(Routes.AddRoom)
   const onPressCard = (id: string, name: string) => () =>
@@ -44,21 +45,25 @@ export const Rooms: SceneProps<Routes.Rooms> = ({ navigation }) => {
 
   return (
     <SceneContainer style={styles.container}>
-      <FlatList
-        ListHeaderComponent={
-          <Button
-            icon={'plus'}
-            textColor={Palette.INFO_50}
-            style={styles.addRoomButton}
-            onPress={onPressAddRoom}>
-            <StyledText>{strings.addRoom}</StyledText>
-          </Button>
-        }
-        showsVerticalScrollIndicator={false}
-        data={rooms}
-        renderItem={renderRooms}
-        ListEmptyComponent={renderEmptyRooms}
-      />
+      {isLoading ? (
+        <LoadingActivityIndicator />
+      ) : (
+        <FlatList
+          ListHeaderComponent={
+            <Button
+              icon={'plus'}
+              textColor={Palette.INFO_50}
+              style={styles.addRoomButton}
+              onPress={onPressAddRoom}>
+              <StyledText>{strings.addRoom}</StyledText>
+            </Button>
+          }
+          showsVerticalScrollIndicator={false}
+          data={rooms}
+          renderItem={renderRooms}
+          ListEmptyComponent={renderEmptyRooms}
+        />
+      )}
     </SceneContainer>
   )
 }
