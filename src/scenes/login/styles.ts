@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: Palette.SURFACE_10,
-    flex: 1,
+    flexGrow: 1,
   },
   eyeContainer: {
     bottom: 57,

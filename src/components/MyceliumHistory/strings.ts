@@ -9,6 +9,7 @@ export const strings = new LocalizedStrings({
     other: '[Other]',
     ready: '[Ready]',
     sold: '[Sold]',
+    unknownAuthor: 'Unknown',
   },
   es: {
     consumed: '[Consumido]',
@@ -18,5 +19,6 @@ export const strings = new LocalizedStrings({
     other: '[Otro]',
     ready: '[Listo]',
     sold: '[Vendido]',
+    unknownAuthor: 'Desconocido',
   },
 })

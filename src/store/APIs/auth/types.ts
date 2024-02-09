@@ -13,6 +13,7 @@ export type Builder = EndpointBuilder<BaseQueryFnType, 'Auth', 'authApi'>
 export interface AuthUserRequest {
   email: string
   password: string
+  name: string
 }
 
 // TODO: Check if it is the best option to generalize this..
