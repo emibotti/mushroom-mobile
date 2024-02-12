@@ -123,6 +123,8 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
 
   const disabledButton = !validValues
 
+  const [openId, setOpenId] = useState<string | null>(null)
+
   return myceliumOptions ? (
     <KeyboardAwareScrollView
       accessible={false}
@@ -144,7 +146,11 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
               value={prefix}
               required
             />
+
             <DropdownPicker
+              id="stage"
+              openId={openId}
+              setOpenId={setOpenId}
               outsideLabel={strings.stageLabel}
               value={type}
               items={stagesOptions}
@@ -154,6 +160,9 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
 
             {!strainSource && (
               <DropdownPicker
+                id="species"
+                openId={openId}
+                setOpenId={setOpenId}
                 outsideLabel={strings.speciesLabel}
                 value={species}
                 items={myceliumOptions.speciesOptions}
@@ -173,6 +182,9 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
 
             {!strainSource && (
               <DropdownPicker
+                id="generation"
+                openId={openId}
+                setOpenId={setOpenId}
                 outsideLabel={strings.generationLabel}
                 value={generation}
                 items={generationOptions}
@@ -182,6 +194,9 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
             )}
 
             <DropdownPicker
+              id="substrate"
+              openId={openId}
+              setOpenId={setOpenId}
               outsideLabel={strings.substrateLabel}
               value={substrate}
               items={myceliumOptions.substrateOptions}
@@ -190,6 +205,9 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
             />
 
             <DropdownPicker
+              id="container"
+              openId={openId}
+              setOpenId={setOpenId}
               outsideLabel={strings.containerLabel}
               value={container}
               items={myceliumOptions.containerOptions}
@@ -237,6 +255,9 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
             />
 
             <DropdownPicker
+              id="room"
+              openId={openId}
+              setOpenId={setOpenId}
               outsideLabel={strings.roomLabel}
               value={room}
               items={roomsAvailable}
