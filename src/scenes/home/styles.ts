@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   dashboardContainer: {
+    alignItems: 'center',
     marginTop: 10,
   },
   header: {
