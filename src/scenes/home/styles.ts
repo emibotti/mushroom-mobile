@@ -4,7 +4,6 @@ import { normalizedHeight } from 'src/styles/scale'
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: normalizedHeight(14),
   },
   dashboardCardsContainer: {
     flexDirection: 'row',
@@ -12,15 +11,22 @@ export const styles = StyleSheet.create({
   dashboardContainer: {
     marginTop: 10,
   },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 25,
+    paddingRight: 10,
+    paddingTop: 30,
+  },
   headerLeft: {
-    marginLeft: 15,
-    marginTop: 40,
+    marginTop: 38,
   },
   headerRight: {
-    marginRight: 15,
-    marginTop: 20,
+    marginTop: 40,
   },
   items: {
+    paddingBottom: normalizedHeight(50),
     paddingTop: 10,
   },
   itemsContainer: {

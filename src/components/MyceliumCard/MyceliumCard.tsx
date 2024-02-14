@@ -32,7 +32,7 @@ export const MyceliumCard: React.FC<MyceliumCardProps> = ({
             <StyledText
               style={styles.title}
               numberOfLines={1}
-              typography={AppTypography.H1}>
+              typography={AppTypography.H2}>
               {title}
             </StyledText>
             <StyledText style={styles.subtitle} numberOfLines={2}>

@@ -12,6 +12,7 @@ export type TextCustomProps = {
   typography?: AppTypography
   color?: ColorPalette
   children: React.ReactNode
+  parsedEnabled?: boolean
 } & TextProps &
   ParsedTextProps
 
@@ -22,6 +23,7 @@ export const StyledText: React.FC<TextCustomProps> = props => {
     typography = AppTypography.BODY_MEDIUM,
     style,
     maxFontSizeMultiplier,
+    parsedEnabled = false,
   } = props
   const themedColor = color ? Palette[color] : Palette.SURFACE_90
 
@@ -38,7 +40,7 @@ export const StyledText: React.FC<TextCustomProps> = props => {
       {...props}
       style={[mergedStyle, style]}
       accessible={true}
-      parse={parse}
+      parse={parsedEnabled ? parse : undefined}
       maxFontSizeMultiplier={maxFontSizeMultiplier ?? MAX_FONT_MULTIPLIER}>
       {children}
     </ParsedText>

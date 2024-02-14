@@ -26,32 +26,31 @@ enum DashboardTabs {
   InProgress = 'inProgress',
 }
 
-const buildHeaderLeft = () => (
-  <View style={styles.headerLeft}>
-    <StyledText typography={AppTypography.H1}>{strings.homeHeader}</StyledText>
-  </View>
-)
-
-const buildHeaderRight =
+const buildHeader =
   (navigation: NativeStackNavigationProp<ParamList, Routes.Home, undefined>) =>
   () =>
     (
-      <IconButton
-        hitSlop={50}
-        icon={'account-circle'}
-        size={50}
-        style={styles.headerRight}
-        onPress={() => navigation.navigate(Routes.Profile)}
-      />
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <StyledText typography={AppTypography.H1}>
+            {strings.homeHeader}
+          </StyledText>
+        </View>
+        <IconButton
+          hitSlop={50}
+          icon={'account-circle'}
+          size={50}
+          style={styles.headerRight}
+          onPress={() => navigation.navigate(Routes.Profile)}
+        />
+      </View>
     )
 
 export const Home: SceneProps<Routes.Home> = ({ navigation }) => {
   useLayoutEffect(() => {
     const options: NativeStackNavigationOptions = {
-      headerLeft: buildHeaderLeft,
-      headerRight: buildHeaderRight(navigation),
-      headerTitle: '',
-      headerTransparent: true,
+      header: buildHeader(navigation),
+      headerTransparent: false,
     }
     navigation.setOptions(options)
   }, [navigation])
