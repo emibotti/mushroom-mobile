@@ -1,4 +1,5 @@
 import { BarCodeScanner } from 'expo-barcode-scanner'
+import { Camera } from 'expo-camera'
 import React, { useEffect, useState } from 'react'
 import {
   Linking,
@@ -11,6 +12,8 @@ import CloseIcon from 'src/assets/icons/closable.svg'
 import { StyledText } from 'src/components/StyledText'
 import { APP_PREFIX } from 'src/navigation/routes'
 
+import { strings } from './strings'
+
 export interface ScannerProps {
   isVisible: boolean
   onClose: () => void
@@ -22,7 +25,7 @@ export const Scanner: React.FC<ScannerProps> = ({ isVisible, onClose }) => {
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync()
+      const { status } = await Camera.requestCameraPermissionsAsync()
       setHasPermission(status === 'granted')
     }
 
@@ -39,19 +42,23 @@ export const Scanner: React.FC<ScannerProps> = ({ isVisible, onClose }) => {
   }
 
   if (hasPermission === null) {
-    return <StyledText>Requesting for camera permission</StyledText>
+    return <StyledText>{strings.requestingCameraPermission}</StyledText>
   }
   if (hasPermission === false) {
-    return <StyledText>No access to camera</StyledText>
+    return <StyledText>{strings.noCameraPermission}</StyledText>
   }
 
   return (
     <Modal visible={isVisible} animationType="slide" transparent={false}>
       <View style={styles.container}>
-        <BarCodeScanner
+        <Camera
           style={styles.camera}
-          barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+          barCodeScannerSettings={{
+            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+          }}
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          useCamera2Api={false}
+          ratio={'16:9'}
         />
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <CloseIcon fill={'white'} />

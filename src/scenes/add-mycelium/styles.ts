@@ -7,9 +7,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
-  flexible: {
+  scrollView: {
     backgroundColor: Palette.SURFACE_10,
-    flex: 1,
   },
   strainSourceInformation: {
     marginBottom: 10,

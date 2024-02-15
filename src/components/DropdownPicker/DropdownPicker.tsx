@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useCallback } from 'react'
+import { View } from 'react-native'
 import DropDownPicker, {
   DropDownPickerProps,
   ItemType,
@@ -18,6 +19,9 @@ type Props = {
   onSelectItem?: (item: ItemType<string>) => void
   setValue: React.Dispatch<React.SetStateAction<string | null>>
   value: string | null
+  id: string
+  openId: string | null
+  setOpenId: React.Dispatch<React.SetStateAction<string | null>>
 } & Omit<
   DropDownPickerProps<string>,
   | 'open'
@@ -35,7 +39,12 @@ export const DropdownPicker = ({
   required = false,
   ...props
 }: Props) => {
-  const [open, setOpen] = useState(false)
+  const setOpen = useCallback((open: boolean) => {
+    props.setOpenId(open ? props.id : null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const open = props.id === props.openId
 
   const outsideLabelColor = props.disabled
     ? ColorPalette.SURFACE_50
@@ -44,7 +53,8 @@ export const DropdownPicker = ({
   const requiredValue = required ? '*' : ''
 
   return (
-    <>
+    // eslint-disable-next-line react-native/no-inline-styles
+    <View style={{ zIndex: open ? 9000 : 0 }}>
       {outsideLabel && (
         <StyledText
           style={styles.outsideLabel}
@@ -58,13 +68,13 @@ export const DropdownPicker = ({
         disabledStyle={styles.disabledStyle}
         placeholder={strings.dropdownPlaceholder}
         showArrowIcon={!props.disabled}
-        zIndex={open ? 1 : 0}
         // eslint-disable-next-line react-native/no-inline-styles
         style={[styles.dropdown, { marginTop: outsideLabel ? 0 : 10 }]}
         {...props}
         open={open}
+        // @ts-ignore
         setOpen={setOpen}
       />
-    </>
+    </View>
   )
 }

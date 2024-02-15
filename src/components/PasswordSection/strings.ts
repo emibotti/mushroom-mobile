@@ -16,7 +16,7 @@ export const strings = new LocalizedStrings({
     passwordLabel: 'Contraseña',
     passwordNeutral: 'Ambas contraseñas deben coincidir',
     passwordPlaceholder: 'Ingresa tu contraseña',
-    passwordsDontMatch: 'Las constraseñas no coinciden',
-    passwordsMatch: 'Las constraseñas coinciden!',
+    passwordsDontMatch: 'Las contraseñas no coinciden',
+    passwordsMatch: 'Las contraseñas coinciden!',
   },
 })

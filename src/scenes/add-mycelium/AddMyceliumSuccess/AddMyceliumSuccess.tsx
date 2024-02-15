@@ -53,6 +53,7 @@ export const AddMyceliumSuccess: SceneProps<Routes.AddMyceliumSuccess> = ({
                       id: mycelium.id,
                     })
                   }
+                  key={mycelium.id}
                   mode={ButtonMode.LINK}
                   title={mycelium.name}
                 />

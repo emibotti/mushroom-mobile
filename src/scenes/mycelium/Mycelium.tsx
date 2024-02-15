@@ -212,6 +212,7 @@ export const Mycelium: SceneProps<Routes.Mycelium> = ({ navigation }) => {
             <StyledText
               style={styles.strainDescription}
               typography={AppTypography.BODY_MEDIUM}
+              parsedEnabled
               color={ColorPalette.SURFACE_70}>
               {mycelium.strainDescription}
             </StyledText>
