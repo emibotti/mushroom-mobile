@@ -60,13 +60,13 @@ export const Room: SceneProps<Routes.Room> = ({ navigation, route }) => {
           ListHeaderComponent={
             <>
               <Container>
-                <StyledText typography={AppTypography.BODY_LARGE}>
+                <StyledText typography={AppTypography.BODY_LARGE} parsedEnabled>
                   {`<b>${strings.temperature}:</b> ${room?.temperature}`}
                 </StyledText>
-                <StyledText typography={AppTypography.BODY_LARGE}>
+                <StyledText typography={AppTypography.BODY_LARGE} parsedEnabled>
                   {`<b>${strings.humidity}:</b> ${room?.humidity}`}
                 </StyledText>
-                <StyledText typography={AppTypography.BODY_LARGE}>
+                <StyledText typography={AppTypography.BODY_LARGE} parsedEnabled>
                   {`<b>${strings.co2}:</b> ${room?.co2}`}
                 </StyledText>
               </Container>

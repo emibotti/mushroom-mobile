@@ -9,7 +9,7 @@
     "start": "react-native start",
     "test": "jest",
     "prepare": "husky install",
-    "postinstall": "husky install",
+    "postinstall": "husky install && patch-package",
     "types-check": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
@@ -19,7 +19,10 @@
     "@reduxjs/toolkit": "1.9.5",
     "expo": "^48.0.0",
     "expo-barcode-scanner": "12.3.2",
+    "expo-camera": "~13.2.1",
     "luxon": "3.3.0",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "react": "18.2.0",
     "react-native": "0.71.3",
     "react-native-dropdown-picker": "5.4.6",

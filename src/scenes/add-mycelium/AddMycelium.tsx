@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { ItemType } from 'react-native-dropdown-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Button } from 'src/components/Button'
@@ -127,155 +127,152 @@ export const AddMycelium: SceneProps<Routes.AddMycelium> = ({
 
   return myceliumOptions ? (
     <KeyboardAwareScrollView
+      extraHeight={300}
       accessible={false}
-      contentContainerStyle={styles.flexible}
+      contentContainerStyle={styles.scrollView}
       bounces={false}>
-      <View style={styles.flexible}>
-        <ScrollView>
-          <Container style={styles.textInputsContainer}>
-            {strainSource && (
-              <StyledText
-                style={styles.strainSourceInformation}
-                typography={
-                  AppTypography.LABEL_MEDIUM
-                }>{`${strings.strainSourceInformation} ${strainSource?.name}.`}</StyledText>
-            )}
-            <StyledTextInput
-              label={strings.prefixLabel}
-              onChangeText={setPrefix}
-              value={prefix}
-              required
-            />
+      <Container style={styles.textInputsContainer}>
+        {strainSource && (
+          <StyledText
+            style={styles.strainSourceInformation}
+            typography={
+              AppTypography.LABEL_MEDIUM
+            }>{`${strings.strainSourceInformation} ${strainSource?.name}.`}</StyledText>
+        )}
+        <StyledTextInput
+          label={strings.prefixLabel}
+          onChangeText={setPrefix}
+          value={prefix}
+          required
+        />
 
-            <DropdownPicker
-              id="stage"
-              openId={openId}
-              setOpenId={setOpenId}
-              outsideLabel={strings.stageLabel}
-              value={type}
-              items={stagesOptions}
-              setValue={setType}
-              required
-            />
+        <DropdownPicker
+          id="stage"
+          openId={openId}
+          setOpenId={setOpenId}
+          outsideLabel={strings.stageLabel}
+          value={type}
+          items={stagesOptions}
+          setValue={setType}
+          required
+        />
 
-            {!strainSource && (
-              <DropdownPicker
-                id="species"
-                openId={openId}
-                setOpenId={setOpenId}
-                outsideLabel={strings.speciesLabel}
-                value={species}
-                items={myceliumOptions.speciesOptions}
-                setValue={setSpecies}
-                required
-              />
-            )}
+        {!strainSource && (
+          <DropdownPicker
+            id="species"
+            openId={openId}
+            setOpenId={setOpenId}
+            outsideLabel={strings.speciesLabel}
+            value={species}
+            items={myceliumOptions.speciesOptions}
+            setValue={setSpecies}
+            required
+          />
+        )}
 
-            {!strainSource && (
-              <StyledTextInput
-                label={strings.providerLabel}
-                onChangeText={setProvider}
-                value={provider}
-                textContentType={'name'}
-              />
-            )}
+        {!strainSource && (
+          <StyledTextInput
+            label={strings.providerLabel}
+            onChangeText={setProvider}
+            value={provider}
+            textContentType={'name'}
+          />
+        )}
 
-            {!strainSource && (
-              <DropdownPicker
-                id="generation"
-                openId={openId}
-                setOpenId={setOpenId}
-                outsideLabel={strings.generationLabel}
-                value={generation}
-                items={generationOptions}
-                setValue={setGeneration}
-                required
-              />
-            )}
+        {!strainSource && (
+          <DropdownPicker
+            id="generation"
+            openId={openId}
+            setOpenId={setOpenId}
+            outsideLabel={strings.generationLabel}
+            value={generation}
+            items={generationOptions}
+            setValue={setGeneration}
+            required
+          />
+        )}
 
-            <DropdownPicker
-              id="substrate"
-              openId={openId}
-              setOpenId={setOpenId}
-              outsideLabel={strings.substrateLabel}
-              value={substrate}
-              items={myceliumOptions.substrateOptions}
-              setValue={setSubstrate}
-              required
-            />
+        <DropdownPicker
+          id="substrate"
+          openId={openId}
+          setOpenId={setOpenId}
+          outsideLabel={strings.substrateLabel}
+          value={substrate}
+          items={myceliumOptions.substrateOptions}
+          setValue={setSubstrate}
+          required
+        />
 
-            <DropdownPicker
-              id="container"
-              openId={openId}
-              setOpenId={setOpenId}
-              outsideLabel={strings.containerLabel}
-              value={container}
-              items={myceliumOptions.containerOptions}
-              setValue={setContainer}
-              required
-            />
+        <DropdownPicker
+          id="container"
+          openId={openId}
+          setOpenId={setOpenId}
+          outsideLabel={strings.containerLabel}
+          value={container}
+          items={myceliumOptions.containerOptions}
+          setValue={setContainer}
+          required
+        />
 
-            <StyledTextInput
-              label={strings.weightLabel}
-              value={weight}
-              onChangeText={setWeight}
-              keyboardType="numeric"
-            />
+        <StyledTextInput
+          label={strings.weightLabel}
+          value={weight}
+          onChangeText={setWeight}
+          keyboardType="numeric"
+        />
 
-            <StyledTextInput
-              label={strings.shelfTimeLabel}
-              value={shelfTime}
-              onChangeText={setShelfTime}
-              keyboardType="numeric"
-            />
+        <StyledTextInput
+          label={strings.shelfTimeLabel}
+          value={shelfTime}
+          onChangeText={setShelfTime}
+          keyboardType="numeric"
+        />
 
-            <StyledTextInput
-              label={strings.quantityLabel}
-              value={quantity}
-              onChangeText={setQuantity}
-              keyboardType="numeric"
-            />
+        <StyledTextInput
+          label={strings.quantityLabel}
+          value={quantity}
+          onChangeText={setQuantity}
+          keyboardType="numeric"
+        />
 
-            {!strainSource && (
-              <StyledTextInput
-                label={strings.descriptionLabel}
-                value={description}
-                onChangeText={setDescription}
-                multiline={true}
-                numberOfLines={4}
-              />
-            )}
+        {!strainSource && (
+          <StyledTextInput
+            label={strings.descriptionLabel}
+            value={description}
+            onChangeText={setDescription}
+            multiline={true}
+            numberOfLines={4}
+          />
+        )}
 
-            <StyledTextInput
-              label={strings.notesLabel}
-              value={notes}
-              onChangeText={setNotes}
-              multiline={true}
-              numberOfLines={4}
-            />
+        <StyledTextInput
+          label={strings.notesLabel}
+          value={notes}
+          onChangeText={setNotes}
+          multiline={true}
+          numberOfLines={4}
+        />
 
-            <DropdownPicker
-              id="room"
-              openId={openId}
-              setOpenId={setOpenId}
-              outsideLabel={strings.roomLabel}
-              value={room}
-              items={roomsAvailable}
-              setValue={setRoom}
-              required
-            />
-          </Container>
-          <View style={styles.buttonContainer}>
-            <Container>
-              <Button
-                title={strings.createMyceliumButton}
-                disabled={disabledButton || isLoading}
-                onPress={onPressCreateRoom}
-                mode={ButtonMode.PRIMARY_SOLID}
-              />
-            </Container>
-          </View>
-        </ScrollView>
+        <DropdownPicker
+          id="room"
+          openId={openId}
+          setOpenId={setOpenId}
+          outsideLabel={strings.roomLabel}
+          value={room}
+          items={roomsAvailable}
+          setValue={setRoom}
+          required
+        />
+      </Container>
+      <View style={styles.buttonContainer}>
+        <Container>
+          <Button
+            title={strings.createMyceliumButton}
+            disabled={disabledButton || isLoading}
+            onPress={onPressCreateRoom}
+            mode={ButtonMode.PRIMARY_SOLID}
+          />
+        </Container>
       </View>
     </KeyboardAwareScrollView>
   ) : (

@@ -1,0 +1,25 @@
+diff --git a/node_modules/react-native-dropdown-picker/src/components/Picker.js b/node_modules/react-native-dropdown-picker/src/components/Picker.js
+index e3fb93b..91bcfa4 100644
+--- a/node_modules/react-native-dropdown-picker/src/components/Picker.js
++++ b/node_modules/react-native-dropdown-picker/src/components/Picker.js
+@@ -7,17 +7,17 @@ import React, {
+     memo,
+     Fragment,
+ } from 'react';
+-
++import { FlatList, ScrollView } from 'react-native-gesture-handler';
+ import {
+     View,
+     SafeAreaView,
+     TouchableOpacity,
+     Text,
+     Image,
+-    FlatList,
++    // FlatList,
+     TextInput,
+     Dimensions,
+-    ScrollView,
++    // ScrollView,
+     Modal,
+     ActivityIndicator,
+     BackHandler,
