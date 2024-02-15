@@ -62,6 +62,8 @@ export const harvestMycelium = (builder: Builder) =>
   builder.mutation<CreateMyceliumResponse, HarvestRequest>({
     invalidatesTags: (_, __, { room_id, strain_source_id }) => [
       { id: room_id, type: Tags.Rooms },
+      { id: strain_source_id, type: Tags.Events },
+      { type: Tags.Statistics },
       { id: strain_source_id, type: Tags.Mycelium },
     ],
     query: mycelium => ({

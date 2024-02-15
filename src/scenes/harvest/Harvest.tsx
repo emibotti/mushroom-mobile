@@ -79,6 +79,8 @@ export const Harvest: SceneProps<Routes.Harvest> = ({ navigation, route }) => {
 
   const disabledButton = !validValues
 
+  const [openId, setOpenId] = useState<string | null>(null)
+
   return (
     <KeyboardAwareScrollView
       accessible={false}
@@ -120,6 +122,9 @@ export const Harvest: SceneProps<Routes.Harvest> = ({ navigation, route }) => {
             />
 
             <DropdownPicker
+              id="room"
+              openId={openId}
+              setOpenId={setOpenId}
               outsideLabel={strings.roomLabel}
               value={room}
               items={roomsAvailable}

@@ -52,21 +52,25 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
   const onPressLogin = () => navigation.navigate(Routes.Login)
 
   // TODO: Handle errors (maybe modal, maybe show in screen)
-  const [triggerRegister] = useRegisterMutation()
+  const [triggerRegister, { isLoading }] = useRegisterMutation()
+
+  const validInputs =
+    email &&
+    validEmail &&
+    password &&
+    validPassword &&
+    validConfirmPassword &&
+    validName &&
+    name &&
+    validated
 
   const onPressRegister = () => {
-    if (
-      email &&
-      validEmail &&
-      password &&
-      validPassword &&
-      validConfirmPassword &&
-      validName &&
-      name
-    ) {
+    if (validInputs) {
       triggerRegister({ email, name, password })
     }
   }
+
+  const disabledRegisterButton = !validInputs || isLoading
 
   return (
     <KeyboardAwareScrollView
@@ -128,13 +132,7 @@ export const Register: SceneProps<Routes.Register> = ({ navigation }) => {
               <Container>
                 <Button
                   title={strings.registerButton}
-                  disabled={
-                    !validPassword ||
-                    !validated ||
-                    !validEmail ||
-                    !email ||
-                    !validName
-                  }
+                  disabled={disabledRegisterButton}
                   onPress={onPressRegister}
                   mode={ButtonMode.PRIMARY_SOLID}
                 />
